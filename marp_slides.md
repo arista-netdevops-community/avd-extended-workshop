@@ -25,7 +25,7 @@ _paginate: false
 
 ```Intro into Ansible, Ansible AVD, Git and VSCode for new and existing AVD users```
 
-![bg left](img/to-be-added.jpg)
+![bg left fit](img/avd-logo.webp)
 
 ---
 
