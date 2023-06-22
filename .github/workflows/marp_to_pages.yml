@@ -15,14 +15,14 @@ jobs:
         run: mkdir build && cp -R img build/img
 
       - name: Build HTML from marp_slides.md
-        uses: docker://marpteam/marp-cli:v1.7.0
+        uses: docker://marpteam/marp-cli:v3.0.2
         with:
           args: marp_slides.md -o build/index.html
         env:
           MARP_USER: root:root
 
       - name: Build PDF from marp_slides.md
-        uses: docker://marpteam/marp-cli:v1.7.0
+        uses: docker://marpteam/marp-cli:v3.0.2
         with:
           args: marp_slides.md -o build/avd_extended_workshop.pdf
         env:
