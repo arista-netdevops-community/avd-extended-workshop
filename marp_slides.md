@@ -29,7 +29,7 @@ _paginate: false
 
 ---
 
-# Test Slide
+# What is this Workshop about?
 
 <!-- Add footer starting from this slide -->
 <!--
@@ -38,12 +38,18 @@ footer: 'Arista Ansible AVD Extended Workshop'
 
 <style scoped>section {font-size: 14px;}</style>
 
-> TEST
+- Git basics
+- VSCode basics
+- Ansible basics
+- Containers basics and using container to build Ansible AVD environment
+- Building simple L3LS network with Ansible AVD
 
-Just a test slide.
+This workshop is using Arista Test Drive Single DC topology. Please ask your Arista SE to create a topology for you or build your own lab using the topology on the right side.
+
+![bg right](img/atd-topo.png)
 
 ---
 
-# One more test slide
+# What is covered in this Workshop?
 
 abc
