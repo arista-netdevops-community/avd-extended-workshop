@@ -46,7 +46,7 @@ footer: 'Arista Ansible AVD Extended Workshop'
 
 This workshop is using Arista Test Drive Single DC topology. Please ask your Arista SE to create a topology for you or build your own lab using the topology on the right side.
 
-![bg right](img/atd-topo.png)
+![bg right fit](img/atd-topo.png)
 
 ---
 
