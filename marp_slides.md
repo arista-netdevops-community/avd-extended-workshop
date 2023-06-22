@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: gaia
+theme: default
 class: invert
 author: Petr Ankudinov
 size: 16:9
