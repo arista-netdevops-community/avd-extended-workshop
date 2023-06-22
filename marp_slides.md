@@ -27,6 +27,8 @@ _paginate: false
 
 ![bg left fit](img/avd-logo.webp)
 
+<!-- backgroundImage: "linear-gradient(to bottom, #1e3744, #301B29)" -->
+
 ---
 
 # What is this Workshop about?
