@@ -1,0 +1,22 @@
+{
+    "cSpell.words": [
+        "marp",
+        "marpit",
+        "mathjax"
+    ],
+    "markdownlint.config": {
+        "default": true,
+        // allow multiple H1s for Marp
+        "MD025": false,
+        "MD033": {
+            "allowed_elements": [
+                "div",
+                "span",
+                "style",
+                "br",
+                "sup"
+            ]
+        }
+    },
+    "markdown.marp.enableHtml": true
+}
