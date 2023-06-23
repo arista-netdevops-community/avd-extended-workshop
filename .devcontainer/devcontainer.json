@@ -5,6 +5,10 @@
 	"build": {
         "dockerfile": "Dockerfile"
     },
+    "containerEnv": {
+        "_AVD_VERSION": "4.1.0",
+        "_CLAB_VERSION": "0.37.1"
+    },
     "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:1": {
