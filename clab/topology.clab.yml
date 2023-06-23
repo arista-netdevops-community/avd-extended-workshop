@@ -1,0 +1,29 @@
+name: simple-avd-lab
+
+mgmt:
+  network: custom_mgmt
+  ipv4_subnet: 192.168.123.0/24
+
+topology:
+  kinds:
+    ceos:
+      enforce-startup-config: true
+      image: ceos-lab:latest
+  defaults:
+    kind: ceos
+    startup-config: init-configs/ceos-init.cfg
+  nodes:
+    S01:
+      mgmt_ipv4: 192.168.123.11
+    S02:
+      mgmt_ipv4: 192.168.123.12
+    L01:
+      mgmt_ipv4: 192.168.123.101
+    L02:
+      mgmt_ipv4: 192.168.123.102
+
+  links:
+  - endpoints: ["L01:eth1", "S01:eth1"]
+  - endpoints: ["L01:eth2", "S02:eth1"]
+  - endpoints: ["L02:eth1", "S01:eth2"]
+  - endpoints: ["L02:eth2", "S02:eth2"]

@@ -1,0 +1,17 @@
+---
+all:
+  children:
+    AVD_FABRIC:
+      children:
+        SPINES:
+          hosts:
+            S01:
+              ansible_host: 192.168.123.11
+            S02:
+              ansible_host: 192.168.123.12
+        LEAVES:
+          hosts:
+            L01:
+              ansible_host: 192.168.123.101
+            L02:
+              ansible_host: 192.168.123.102

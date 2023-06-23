@@ -2,9 +2,25 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
 	"name": "avd_extended_workshop",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:0-3.9-bullseye",
+	"build": {
+        "dockerfile": "Dockerfile"
+    },
     "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {
+            "version": "latest"
+        },
+        // add sshd to support gh cli codespace cp
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        }
+    },
+    // increase host requirements to match cLab size
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "8gb",
+        "storage": "32gb"
+    },
     "customizations": {
         "vscode": {
             "extensions": [

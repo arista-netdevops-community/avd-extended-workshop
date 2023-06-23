@@ -18,5 +18,9 @@
             ]
         }
     },
-    "markdown.marp.enableHtml": true
+    "markdown.marp.enableHtml": true,
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json": "file:///Users/pa/Documents/VSCode/github/simple-avd-repo/avd_inventory/playbooks/deploy.yml",
+        "https://raw.githubusercontent.com/srl-labs/containerlab/main/schemas/clab.schema.json": "file:///Users/pa/Documents/VSCode/github/simple-avd-repo/clab/topology.clab.yml"
+    }
 }
