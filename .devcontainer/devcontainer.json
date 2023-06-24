@@ -3,11 +3,11 @@
 {
 	"name": "avd_extended_workshop",
 	"build": {
-        "dockerfile": "Dockerfile"
-    },
-    "containerEnv": {
-        "_AVD_VERSION": "4.1.0",
-        "_CLAB_VERSION": "0.37.1"
+        "dockerfile": "Dockerfile",
+	"args": {
+	    "_AVD_VERSION": "4.1.0",
+            "_CLAB_VERSION": "0.37.1"
+	}
     },
     "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
     "features": {
