@@ -52,6 +52,16 @@ This workshop is using Arista Test Drive Single DC topology. Please ask your Ari
 
 ---
 
-# What is covered in this Workshop?
+# What is NOT covered in this Workshop?
 
-abc
+<style scoped>section {font-size: 24px;}</style>
+
+- This workshop is not a deep dive into each and every topic. It is covering some advanced concepts, but you may need additional documentation and training to understand every topic in details.  
+  For additional information please refer to the following resources:
+  - [Ansible AVD Documentation](https://avd.arista.com/)
+  - [VSCode Documentation](https://code.visualstudio.com/docs)
+  - [Git Documentation](https://git-scm.com/doc) - Pro Git book is a good start
+  - Container Trainings by [@jpetazzo](https://github.com/jpetazzo):
+    - [Github repository](https://github.com/jpetazzo/container.training)
+    - [Training materials](https://container.training/)
+- We are not going to use Arista CloudVision Portal (CVP) in this workshop. It provides a lot of advantages, but is not essential to understand the concepts covered in this workshop.
