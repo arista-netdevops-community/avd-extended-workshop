@@ -10,3 +10,6 @@ name_servers:
   - 8.8.8.8
 
 dns_domain: atd.lab
+
+eos_cli: |-
+  username arista privilege 15 role network-admin secret arista
