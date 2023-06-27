@@ -3,9 +3,14 @@ marp: true
 theme: default
 class: invert
 author: Petr Ankudinov
+# size 16:9 1280px 720px
 size: 16:9
 paginate: true
 math: mathjax
+style: |
+    img[alt~="left-align"] {
+      float: left;
+    }
 # style: |
 #     :root {
 #         background: #004643;
@@ -84,11 +89,14 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 # References
 
+<style scoped>section {font-size: 24px;}</style>
+
 - If you are not using ATD, the functionality of this repository will rely on many amazing open source projects:
   - [ContainerLab](https://containerlab.srlinux.dev/)
   - [VSCode](https://code.visualstudio.com/)
   - [DevContainers](https://code.visualstudio.com/docs/remote/containers)
   - [Marp](https://marp.app/)
+  - [Excalidraw VSCode](https://github.com/excalidraw/excalidraw-vscode)
 - This repository is also relying on following free/commercial Github features:
   - [Github Actions](https://github.com/features/actions)
   - [Github Pages](https://pages.github.com/)
@@ -100,3 +108,14 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 - We could use a script to setup required Ansible collections and tools in Arista Test Drive environment, but it's a good opportunity to discuss what are the requirements but installing them manually.
 - For details please check [AVD documentation](https://avd.arista.com/) `Installation > Collection Installation` section.
+
+---
+
+# Typical Ansible AVD Automation Workflow
+
+<style scoped>ul {font-size: 24px; margin-left: 50%;}</style>
+
+<!-- ![bg right:50% fit](excalidraw/provisioning-building-blocks.png) -->
+
+![w:500 left-align](excalidraw/provisioning-building-blocks.png) - Collect user input from various data sources and aggregate in a single source of truth.
+test
