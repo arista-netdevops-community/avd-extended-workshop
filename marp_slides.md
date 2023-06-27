@@ -8,8 +8,8 @@ size: 16:9
 paginate: true
 math: mathjax
 style: |
-    img[alt~="left-align"] {
-      float: left;
+    img[alt~="custom"] {
+      float: right;
     }
 # style: |
 #     :root {
@@ -113,12 +113,14 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 # Typical Ansible AVD Automation Workflow
 
-<style scoped>ul {font-size: 24px; margin-left: 50%;}</style>
-<style>section > img {display: inline; float: right; align-self: flex-start;}</style>
+<!-- transition: clockwise -->
+
+<style scoped>ul {font-size: 24px; margin-left: 50%;}</style> -->
+<style scoped>p {align-self: flex-start; display: inline;}</style>
 
 <!-- ![bg right:50% fit](excalidraw/provisioning-building-blocks.png) -->
 
-![w:500](excalidraw/provisioning-building-blocks.png)
+![w:500 custom](excalidraw/provisioning-building-blocks.png)
 
 - Collect user input from various data sources and aggregate in a single source of truth.
 test
