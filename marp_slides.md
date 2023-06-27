@@ -114,7 +114,7 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 # Typical Ansible AVD Automation Workflow
 
 <style scoped>ul {font-size: 24px; margin-left: 50%;}</style>
-<style scoped>p {display: inline;}</style>
+<style>section > img {display: inline; float: right; align-self: flex-start;}</style>
 
 <!-- ![bg right:50% fit](excalidraw/provisioning-building-blocks.png) -->
 
