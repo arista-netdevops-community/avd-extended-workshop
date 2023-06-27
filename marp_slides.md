@@ -93,3 +93,10 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
   - [Github Actions](https://github.com/features/actions)
   - [Github Pages](https://pages.github.com/)
   - [Github Codespaces](https://github.com/features/codespaces)
+
+---
+
+# How to setup Ansible AVD in Arista Test Drive environment?
+
+- We could use a script to setup required Ansible collections and tools in Arista Test Drive environment, but it's a good opportunity to discuss what are the requirements but installing them manually.
+- For details please check [AVD documentation](https://avd.arista.com/) `Installation > Collection Installation` section.

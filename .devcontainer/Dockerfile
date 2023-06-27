@@ -17,6 +17,7 @@ RUN apt-get update \
     sshpass \
     curl \
     iputils-ping \
+    htop \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
