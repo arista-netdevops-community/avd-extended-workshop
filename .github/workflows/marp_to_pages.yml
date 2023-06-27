@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Copy images 🖼️
-        run: mkdir build && cp -R img build/img
+        run: mkdir build && cp -R img build/img && cp excalidraw/*.png build/excalidraw
 
       - name: Build HTML from marp_slides.md 🔨
         uses: docker://marpteam/marp-cli:v3.0.2
