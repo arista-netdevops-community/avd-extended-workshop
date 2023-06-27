@@ -11,6 +11,11 @@ style: |
     img[alt~="custom"] {
       float: right;
     }
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
 # style: |
 #     :root {
 #         background: #004643;
@@ -113,14 +118,20 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 # Typical Ansible AVD Automation Workflow
 
-<!-- transition: clockwise -->
+<style scoped>section {font-size: 22px;}</style>
 
-<style scoped>ul {font-size: 24px; margin-left: 50%;}</style> -->
-<style scoped>p {align-self: flex-start; display: inline;}</style>
+<div class="columns">
+<div>
 
-<!-- ![bg right:50% fit](excalidraw/provisioning-building-blocks.png) -->
+- Collect user input from various data sources and aggregate in a single source of truth. For ex. git repository.
+- Generate low level variables from abstracted input data using sophisticated fabric logic
+- Parse Jinja2 templates to produce plain text configs
+- Push plain text configs via CloudVision Portal as change-control "proxy" or directly to devices via eAPI.
 
-![w:500 custom](excalidraw/provisioning-building-blocks.png)
+</div>
+<div>
 
-- Collect user input from various data sources and aggregate in a single source of truth.
-test
+![ ](excalidraw/provisioning-building-blocks.png)
+
+</div>
+</div>
