@@ -117,5 +117,7 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 <!-- ![bg right:50% fit](excalidraw/provisioning-building-blocks.png) -->
 
-![w:500 left-align](excalidraw/provisioning-building-blocks.png) - Collect user input from various data sources and aggregate in a single source of truth.
+![w:500 left-align](excalidraw/provisioning-building-blocks.png)
+
+- Collect user input from various data sources and aggregate in a single source of truth.
 test
