@@ -26,7 +26,7 @@ jobs:
       - name: Build PDF from marp_slides.md 🔨
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args:  --html marp_slides.md -o build/avd_extended_workshop.pdf
+          args:  --html --allow-local-files marp_slides.md -o build/avd_extended_workshop.pdf
         env:
           MARP_USER: root:root
 
