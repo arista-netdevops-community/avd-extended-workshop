@@ -19,14 +19,14 @@ jobs:
       - name: Build HTML from marp_slides.md 🔨
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args: marp_slides.md -o build/index.html --html
+          args:  --html marp_slides.md -o build/index.html
         env:
           MARP_USER: root:root
 
       - name: Build PDF from marp_slides.md 🔨
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args: marp_slides.md -o build/avd_extended_workshop.pdf --html
+          args:  --html marp_slides.md -o build/avd_extended_workshop.pdf
         env:
           MARP_USER: root:root
 
