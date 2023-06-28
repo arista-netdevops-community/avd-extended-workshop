@@ -146,3 +146,12 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
   > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
 - **Fun Fact**:
   > [Git was created](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git) by Linus Torvalds in 2005 to develop Linux kernel.
+
+---
+
+# What is GitHub?
+
+![bg right fit](img/github-mark-white.png)
+
+- GitHub is a Git repository hosting platform.
+- Allows to coordinate multiple local copies of the same repository and more.
