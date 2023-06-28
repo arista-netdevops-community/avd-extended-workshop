@@ -140,6 +140,9 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 # What is Git?
 
-<style scoped>section {font-size: 22px;}</style>
+![bg right fit](img/Git-Logo-1788C.png)
 
-- Git is a distributed version control system (DVCS) that keeps track of changes to a project's source code and enables multiple developers to work on it at the same time.
+- **In Short**:
+  > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
+- **Fun Fact**:
+  > [Git was created](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git) by Linus Torvalds in 2005 to develop Linux kernel.
