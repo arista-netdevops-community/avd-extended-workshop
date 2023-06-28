@@ -135,3 +135,11 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 </div>
 </div>
+
+---
+
+# What is Git?
+
+<style scoped>section {font-size: 22px;}</style>
+
+- Git is a distributed version control system (DVCS) that keeps track of changes to a project's source code and enables multiple developers to work on it at the same time.
