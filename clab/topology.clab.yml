@@ -25,10 +25,13 @@ topology:
       mgmt_ipv4: 192.168.0.14
     leaf4:
       mgmt_ipv4: 192.168.0.15
-    host1:
-      mgmt_ipv4: 192.168.0.16
-    host2:
-      mgmt_ipv4: 192.168.0.17
+    # hosts will not be part of the clab topology on github codespaces
+    # that will allow the lab to run on 4-core machine
+    # but this can be changed if the lab is deployed on a machine with more cores
+    # host1:
+    #   mgmt_ipv4: 192.168.0.16
+    # host2:
+    #   mgmt_ipv4: 192.168.0.17
 
   links:
   # spine to spine
@@ -49,11 +52,14 @@ topology:
   - endpoints: ["leaf3:eth1", "leaf4:eth1"]
   - endpoints: ["leaf3:eth6", "leaf4:eth6"]
   # leaf to host
-  - endpoints: ["leaf1:eth4", "host1:eth1"]
-  - endpoints: ["leaf1:eth5", "host1:eth3"]
-  - endpoints: ["leaf2:eth4", "host1:eth2"]
-  - endpoints: ["leaf2:eth5", "host1:eth4"]
-  - endpoints: ["leaf3:eth4", "host2:eth1"]
-  - endpoints: ["leaf3:eth5", "host2:eth3"]
-  - endpoints: ["leaf4:eth4", "host2:eth2"]
-  - endpoints: ["leaf4:eth5", "host2:eth4"]
+  # hosts will not be part of the clab topology on github codespaces
+  # that will allow the lab to run on 4-core machine
+  # but this can be changed if the lab is deployed on a machine with more cores
+  # - endpoints: ["leaf1:eth4", "host1:eth1"]
+  # - endpoints: ["leaf1:eth5", "host1:eth3"]
+  # - endpoints: ["leaf2:eth4", "host1:eth2"]
+  # - endpoints: ["leaf2:eth5", "host1:eth4"]
+  # - endpoints: ["leaf3:eth4", "host2:eth1"]
+  # - endpoints: ["leaf3:eth5", "host2:eth3"]
+  # - endpoints: ["leaf4:eth4", "host2:eth2"]
+  # - endpoints: ["leaf4:eth5", "host2:eth4"]
