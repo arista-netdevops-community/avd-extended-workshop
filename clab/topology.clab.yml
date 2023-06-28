@@ -21,13 +21,17 @@ topology:
       mgmt_ipv4: 192.168.0.12
     leaf2:
       mgmt_ipv4: 192.168.0.13
-    leaf3:
-      mgmt_ipv4: 192.168.0.14
-    leaf4:
-      mgmt_ipv4: 192.168.0.15
-    # hosts will not be part of the clab topology on github codespaces
-    # that will allow the lab to run on 4-core machine
-    # but this can be changed if the lab is deployed on a machine with more cores
+    # part of ATD lab topology is disabled
+    # to minimize resource requirements on gihub codespaces
+    # following devices are disabled:
+    #   leaf3, leaf4, host1, host2
+    # uncomment the lines below to enable them
+    # if the lab is running on a machine with enough resources or in ATD
+    # ---------------------------------------------------------------
+    # leaf3:
+    #   mgmt_ipv4: 192.168.0.14
+    # leaf4:
+    #   mgmt_ipv4: 192.168.0.15
     # host1:
     #   mgmt_ipv4: 192.168.0.16
     # host2:
@@ -51,10 +55,14 @@ topology:
   - endpoints: ["leaf1:eth6", "leaf2:eth6"]
   - endpoints: ["leaf3:eth1", "leaf4:eth1"]
   - endpoints: ["leaf3:eth6", "leaf4:eth6"]
+  # part of ATD lab topology is disabled
+  # to minimize resource requirements on gihub codespaces
+  # following devices are disabled:
+  #   leaf3, leaf4, host1, host2
+  # uncomment the lines below to enable them
+  # if the lab is running on a machine with enough resources or in ATD
+  # ---------------------------------------------------------------
   # leaf to host
-  # hosts will not be part of the clab topology on github codespaces
-  # that will allow the lab to run on 4-core machine
-  # but this can be changed if the lab is deployed on a machine with more cores
   # - endpoints: ["leaf1:eth4", "host1:eth1"]
   # - endpoints: ["leaf1:eth5", "host1:eth3"]
   # - endpoints: ["leaf2:eth4", "host1:eth2"]
