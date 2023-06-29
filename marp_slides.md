@@ -50,15 +50,21 @@ footer: 'Arista Ansible AVD Extended Workshop'
 
 <style scoped>section {font-size: 14px;}</style>
 
+Topics:
+
 - Git basics
 - VSCode basics
 - Ansible basics
 - Containers basics and using container to build Ansible AVD environment
 - Building simple L3LS network with Ansible AVD
 
-This workshop is using Arista Test Drive Single DC topology (drawing on the right side).
+Structure:
 
-![bg right fit](img/atd-topo.png)
+- This workshop is split into 3 sections. Each section takes around 2 hours to complete. That can be done as a full day workshop or split into 3 separate sessions.
+- Make a break when you see a slide with a coffee cup ☕️
+- Ask questions at any time!
+
+![bg right](img/pexels-suzy-hazelwood-1226398.jpg)
 
 ---
 
@@ -92,9 +98,22 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
 
 ---
 
+# Lab Topology
+
+<style scoped>section {font-size: 22px;}</style>
+
+- This workshop is using Arista Test Drive Single DC topology.
+- To match minimize resources and fit default Codespaces 4-core machine, the topology was reduced by removing leaf3, leaf4, host1 and host2.
+- Feel free to adjust Ansible inventory and group variables if you are using ATD lab and would prefer to activate them all. But it's not essential for this workshop.
+- CVP is not used as it's not required for this workshop.
+
+![bg right fit](img/atd-topo.png)
+
+---
+
 # References
 
-<style scoped>section {font-size: 24px;}</style>
+<style scoped>section {font-size: 22px;}</style>
 
 - If you are not using ATD, the functionality of this repository will rely on many amazing open source projects:
   - [ContainerLab](https://containerlab.srlinux.dev/)
@@ -106,6 +125,7 @@ This workshop is using Arista Test Drive Single DC topology (drawing on the righ
   - [Github Actions](https://github.com/features/actions)
   - [Github Pages](https://pages.github.com/)
   - [Github Codespaces](https://github.com/features/codespaces)
+- All photos are taken from [Pexels](https://www.pexels.com/) and [Unsplash](https://unsplash.com/). Excellent free stock photos resources. It's not possible to reference every author individually, but their work is highly appreciated.
 
 ---
 
