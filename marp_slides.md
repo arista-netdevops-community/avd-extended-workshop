@@ -87,6 +87,17 @@ Structure:
 
 ---
 
+# Requirements
+
+<style scoped>section {font-size: 24px;}</style>
+
+- You **MUST** have a Github account❗
+  Register [here](https://github.com/join).
+
+![bg left](img/pexels-towfiqu-barbhuiya-11412596.jpg)
+
+---
+
 # How to use this Workshop?
 
 <style scoped>section {font-size: 24px;}</style>
