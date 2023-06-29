@@ -16,13 +16,18 @@ style: |
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
+    footer {
+      font-family: Brush Script MT;
+      font-size: 14px;
+    }
+    section::after {
+      font-family: Brush Script MT;
+      font-size: 14px;
+    }
 # style: |
 #     :root {
 #         background: #004643;
 #         color: #abd1c6
-#     }
-#     footer {
-#         font-size: 12px;
 #     }
 ---
 
@@ -32,6 +37,12 @@ style: |
 <!--
 _paginate: false
 -->
+
+<style scoped>
+code {
+  font-family: "Bradley Hand", cursive;
+}
+</style>
 
 ```Intro into Ansible, Ansible AVD, Git and VSCode for new and existing AVD users```
 
@@ -45,7 +56,7 @@ _paginate: false
 
 <!-- Add footer starting from this slide -->
 <!--
-footer: 'Arista Ansible AVD Extended Workshop'
+footer: 'Arista Ansible AVD Extended Workshop, 2023'
 -->
 
 <style scoped>section {font-size: 14px;}</style>
