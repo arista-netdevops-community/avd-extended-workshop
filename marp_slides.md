@@ -7,8 +7,11 @@ author: Petr Ankudinov
 size: 16:9
 paginate: true
 math: mathjax
-backgroundImage: "linear-gradient(to bottom, #1e3744, #301B29)"
+# backgroundImage: "linear-gradient(to bottom, #1e3744, #301B29)"
 style: |
+    :root {
+      background: linear-gradient(to bottom, #1e3744, #301B29);
+    }
     img[alt~="custom"] {
       float: right;
     }
@@ -129,9 +132,12 @@ Structure:
 
 # How to Setup ATD Environment
 
-![bg right](img/pexels-pixabay-159591.jpg)
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
 
-<style scoped>ul {font-size: 12px;}</style>
+![bg left](img/pexels-pixabay-159591.jpg)
 
 > - skip practice this section if you are using Codespaces
 > - still read the slides as they explain AVD installation process
