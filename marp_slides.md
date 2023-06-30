@@ -144,6 +144,72 @@ ul {font-size: 12px;}
 
 ---
 
+# Open Programmability IDE
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg vertical right width:640px](img/atd-access-lab-topology.png)
+![bg right width:640px](img/atd-click-programmability-ide.jpg)
+![bg right width:640px](img/atd-coder-password.png)
+
+- Use the lab token provided by Arista representative to access the lab environment.
+- Check the status of the lab environment. If it's `Shutdown` - click `Start` button.
+- Click `Programmability IDE` button to open VSCode in the browser:
+  - To access `Programmability IDE` use the password listed on the starting Web page.
+  - The VSCode functionality in the Web browser is provided by [ATD Code server container](https://github.com/aristanetworks/atd-public/blob/nested-release/nested-labvm/atd-docker/coder/Dockerfile)
+- Click `Yes, I trust the authors` button to continue. 🕵️
+- Open new terminal in VSCode: `Top Left Corner (3 parallel lines) > Terminal > New Terminal`
+
+---
+
+# Install Ansible AVD
+
+<style scoped>section {font-size: 20px;}</style>
+
+```bash
+# 1. Clone your copy of this repository
+git clone <your-copy-of-this-repository>
+
+# 2. Update package index files
+sudo apt-get update
+
+# 3. Install iputils as life is hard without ping
+sudo apt-get install -y --no-install-recommends iputils-ping
+
+# 4. Add .local/bin in home folder to PATH
+export PATH=$PATH:/home/coder/.local/bin
+
+# 5. Upgrade pip and install Ansible core
+#    If you get errors, ignore. This bug will be fixed soon.
+pip install --upgrade pip
+pip3 install "ansible-core>=2.13.1,<2.14.0"
+
+# 6. Install Arista AVD collection
+ansible-galaxy collection install arista.avd:==4.1.0
+
+# 7. Install AVD collection requirements
+pip3 install -r /home/coder/.ansible/collections/ansible_collections/arista/avd/requirements.txt
+```
+
+For additional details check Arista Ansible AVD [Collection installation docs](https://avd.arista.com/4.1/docs/installation/collection-installation.html).
+
+---
+
+# Ansible Installation Warnings
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right](img/pexels-danne-555709.jpg)
+
+- Double check that the path to Ansible collection is correct. Normally it is expected to be in `/home/coder/.ansible/`
+- You `PATH` environment variable must be set correctly!
+- Never install Ansible as root user!
+- Watch out for environments with a long history, conflicting Python installations etc.
+- Containers make it simple! Use containers! 🐳
+  > The Codespaces environment is based on a container with all requirements installed.
+
+---
+
 # References
 
 <style scoped>section {font-size: 22px;}</style>
