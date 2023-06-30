@@ -7,6 +7,7 @@ author: Petr Ankudinov
 size: 16:9
 paginate: true
 math: mathjax
+backgroundImage: "linear-gradient(to bottom, #1e3744, #301B29)"
 style: |
     img[alt~="custom"] {
       float: right;
@@ -24,11 +25,6 @@ style: |
       font-family: Brush Script MT;
       font-size: 14px;
     }
-# style: |
-#     :root {
-#         background: #004643;
-#         color: #abd1c6
-#     }
 ---
 
 # AVD Extended Workshop
@@ -47,8 +43,6 @@ code {
 ```Intro into Ansible, Ansible AVD, Git and VSCode for new and existing AVD users```
 
 ![bg left fit](img/avd-logo.webp)
-
-<!-- backgroundImage: "linear-gradient(to bottom, #1e3744, #301B29)" -->
 
 ---
 
@@ -130,6 +124,17 @@ Structure:
 - CVP is not used as it's not required for this workshop.
 
 ![bg right fit](img/atd-topo.png)
+
+---
+
+# How to Setup ATD Environment
+
+![bg right](img/pexels-pixabay-159591.jpg)
+
+<style scoped>ul {font-size: 12px;}</style>
+
+> - skip practice this section if you are using Codespaces
+> - still read the slides as they explain AVD installation process
 
 ---
 
