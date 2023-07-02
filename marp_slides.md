@@ -441,3 +441,16 @@ leaf2                      : ok=2    changed=2    unreachable=0    failed=0    s
 spine1                     : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 spine2                     : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
+
+---
+
+# Useful eAPI Troubleshooting Trick
+
+If you are facing any issues when to push configs or collect any data using eAPI, test access with the following command:
+
+```bash
+curl --user <login>:<password> --data "show version" --insecure https://<switch-mgmt-ip>:443/command-api --verbose
+```
+
+Try it now! 🔨
+With `--verbose` it can tell you a lot.
