@@ -274,27 +274,25 @@ ul {font-size: 12px;}
 <style scoped>section {font-size: 20px;}</style>
 
 ```bash
-# 1. Clone your copy of this repository
-git clone <your-copy-of-this-repository>
 
-# 2. Update package index files
+# 1. Update package index files
 sudo apt-get update
 
-# 3. Install iputils as life is hard without ping
+# 2. Install iputils as life is hard without ping
 sudo apt-get install -y --no-install-recommends iputils-ping
 
-# 4. Add .local/bin in home folder to PATH
+# 3. Add .local/bin in home folder to PATH
 export PATH=$PATH:/home/coder/.local/bin
 
-# 5. Upgrade pip and install Ansible core
+# 4. Upgrade pip and install Ansible core
 #    If you get errors, ignore. This bug will be fixed soon.
 pip install --upgrade pip
 pip3 install "ansible-core>=2.13.1,<2.14.0"
 
-# 6. Install Arista AVD collection
+# 5. Install Arista AVD collection
 ansible-galaxy collection install arista.avd:==4.1.0
 
-# 7. Install AVD collection requirements
+# 6. Install AVD collection requirements
 pip3 install -r /home/coder/.ansible/collections/ansible_collections/arista/avd/requirements.txt
 ```
 
@@ -314,6 +312,28 @@ For additional details check Arista Ansible AVD [Collection installation docs](h
 - Watch out for environments with a long history, conflicting Python installations etc.
 - Containers make it simple! Use containers! 🐳
   > The Codespaces environment is based on a container with all requirements installed.
+
+---
+
+# Setup Ansible AVD Repository
+
+<style scoped>section {font-size: 20px;}</style>
+
+```bash
+# 1. install yq to adjust AVD yaml files - https://github.com/mikefarah/yq
+#    you can certainly edit yaml files manually, but there would be no fun 👎
+export VERSION="v4.34.1" BINARY="yq_linux_amd64"
+sudo wget https://github.com/mikefarah/yq/releases/download/$VERSION/$BINARY -O /usr/bin/yq \
+    && sudo chmod +x /usr/bin/yq
+# 2. Clone your copy of this repository
+cd labfiles
+git clone <your-copy-of-this-repository>
+# 3. switch to the repository directory
+cd avd-extended-workshop  # or another name you defined for your copy of this repository
+#    you should see the following prompt
+➜  avd-extended-workshop git:(main)
+# 4. 
+```
 
 ---
 
