@@ -587,7 +587,7 @@ INFO[0000] Parsing & checking topology file: topology.clab.yml
 
 ---
 
-# Run First AVD Playbooks
+# Run AVD Playbooks
 
 <style scoped>
 section {background: linear-gradient(to bottom, #000000, #434343);}
@@ -690,3 +690,22 @@ curl --user <login>:<password> --data "show version" --insecure https://<switch-
 
 Try it now! 🔨
 With `--verbose` it can tell you a lot.
+
+---
+
+# Make Some Changes in AVD Repository
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 1.6`
+
+> - Change underlay routing protocol
+> - Add new tenant
+> - Filter VLANs
+> - Connect endpoints
+> - Validate the network
