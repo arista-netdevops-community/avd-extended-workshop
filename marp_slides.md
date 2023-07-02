@@ -630,7 +630,10 @@ ul {font-size: 12px;}
 
 ```bash
 # 1. switch to AVD inventory directory
+#    on ATD:
 cd ~/project/labfiles/avd-extended-workshop/avd_inventory
+#    on Codespaces:
+cd /workspaces/avd-extended-workshop/avd_inventory
 # 2. run ansible-playbook to generate configs
 #    wait until the playbook will finish execution and check the configs in avd_inventory/intended/configs
 ansible-playbook playbooks/atd-fabric-build.yml
