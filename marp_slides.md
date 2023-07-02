@@ -332,7 +332,10 @@ git clone <your-copy-of-this-repository>
 cd avd-extended-workshop  # or another name you defined for your copy of this repository
 #    you should see the following prompt
 ➜  avd-extended-workshop git:(main)
-# 4. 
+# 4. update ansible.cfg to match ATD container user
+cp extras/ansible-avd.cfg avd_inventory/ansible.cfg
+# 5. set Ansible password to your AVD environment password
+yq -i '.all.vars.ansible_password = "<your-password>"' avd_inventory/inventory.yml
 ```
 
 ---
