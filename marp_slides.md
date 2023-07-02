@@ -340,9 +340,9 @@ sudo wget https://github.com/mikefarah/yq/releases/download/$VERSION/$BINARY -O 
     && sudo chmod +x /usr/bin/yq
 # 2. Clone your copy of this repository
 cd labfiles
-git clone <your-copy-of-this-repository>
+git clone https://github.com/<gh-handle>/<your-copy-of-this-repository>.git avd-extended-workshop
 # 3. switch to the repository directory
-cd avd-extended-workshop  # or another name you defined for your copy of this repository
+cd avd-extended-workshop
 # 4. confirm that you are working with the `main` branch
 #    if not, type following command to change the branch
 git checkout main
@@ -364,7 +364,7 @@ yq -i '.all.vars.ansible_password = "<your-password>"' avd_inventory/inventory.y
 
 - Click VSCode `Source Control` icon in the left panel.
 - Click `+` button to stage all changes. Alternatively you can accept VSCode suggestion to do that automatically every time by selecting `Always` option.
-- Enter commit message in the `Message` field.
+- Enter a *meaningful* commit message in the `Message` field.
 - Click `Commit` button.
 
 ---
