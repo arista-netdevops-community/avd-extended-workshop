@@ -133,7 +133,7 @@ ul {font-size: 12px;}
 
 ![bg left](img/pexels-pixabay-159591.jpg)
 
-`Section 1`
+`Section 1.1`
 
 > - The bird view on the tools we are going to use in this workshop.
 > - No details, they will come in a later sections. Just and overview.
@@ -169,7 +169,7 @@ ul {font-size: 12px;}
 
 ![bg left](img/pexels-pixabay-159591.jpg)
 
-`Section 2`
+`Section 1.2`
 
 > - How to get your lab environment up and running
 
@@ -250,7 +250,7 @@ ul {font-size: 12px;}
 
 ![bg left](img/pexels-pixabay-159591.jpg)
 
-`Section 3`
+`Section 1.3`
 
 > - skip practice this section if you are using Codespaces
 > - still read the slides as they explain AVD installation process
@@ -366,6 +366,52 @@ yq -i '.all.vars.ansible_password = "<your-password>"' avd_inventory/inventory.y
 - Click `+` button to stage all changes. Alternatively you can accept VSCode suggestion to do that automatically every time by selecting `Always` option.
 - Enter a *meaningful* commit message in the `Message` field.
 - Click `Commit` button.
+
+---
+
+# Prepare Github Codespaces Environment
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 1.4`
+
+> - you can skip this section if you are using ATD lab
+> - still read the slides as they explain how to use Codespaces
+
+---
+
+# Before You Create Codespaces Environment
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/github-billing.png)
+
+- Codespaces is a paid feature. Please check [Github Codespaces pricing](https://docs.github.com/en/billing/managing-billing-for-github-codespaces/about-billing-for-github-codespaces)
+- It has a free tier for personal accounts:
+  - 120 core-hours per month -> will be 30 hours on a 4-core machine
+  - 15 GB storage per month -> this will be a bottleneck for the workshop container image
+- The free tier is enough to complete this workshop, but don't forget to delete the Codespaces environment after the workshop.
+- Check `your account > Settings > Billing and plans > Spending limits` to make sure that if you exceed the limit, there will be no charges. The default limit of `0.00` will avoid any extra expenses.
+
+---
+
+# Run First AVD Playbooks
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 1.5`
+
+> - Just build an EVPN network with Ansible AVD and enjoy the result!
 
 ---
 
