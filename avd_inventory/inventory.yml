@@ -50,7 +50,8 @@ all:
 
   vars:
     ansible_user: arista
-    ansible_password: arista # Update password with lab credentials if running in ATD environment
+    # Update password with lab credentials if running in ATD environment
+    ansible_password: arista
     ansible_network_os: arista.eos.eos
     # Configure privilege escalation
     ansible_become: true
