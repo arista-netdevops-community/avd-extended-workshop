@@ -400,6 +400,38 @@ ul {font-size: 12px;}
 
 ---
 
+# Start a Codespace
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right](img/start-codespaces.jpg)
+
+- Click `Code` button in the top right corner of the Github page.
+- Click `Create codespace on main` button.
+- Wait until the codespace environment is created.
+- Once codespace container is ready the VSCode will open automatically in your browser.
+
+> WARNING❕:
+>
+> - Check `paid for by` field and make sure that you are using your personal account. If you are using a company account, you may be charged for the Codespaces usage. Also double-check previous slide and make sure that you understand the costs and limits.
+> - Do not use pre-builds. They consume storage across regions and can quickly exceed the free tier limit.
+
+---
+
+# Open Existing Codespace
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/codespaces-open-in.jpg)
+
+- Once the Codespace is created, you can open it again by clicking `Code` button in the top right corner of the Github page and clicking 3 dots next to codespace name.
+- Alternatively you can open it from the [Github Codespaces page](https://github.com/codespaces)
+- If you have VSCode installed locally, pick `Open in Visual Studio Code` option. Otherwise use `Open in browser` option. The codespace container will always run remotely.
+
+> WARNING❕: Do not forget to delete the Codespace after the workshop.
+
+---
+
 # Run First AVD Playbooks
 
 <style scoped>
