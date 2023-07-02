@@ -570,6 +570,7 @@ gh codespace cp <path-to-ceos-image> -c <your-codespace-name> remote:/workspaces
 - Open VSCode terminal and run the following command to import cEOS-lab image: `docker import .gitignored/<ceos-image-name> ceos-lab:latest`
 - Start cLab topology: `make start`
 - To stop the lab use `make stop` at any time.
+- If codespace is deactivated by timeout - redeploy the lab.
 
 ```bash
 @ankudinov ➜ /workspaces/temp-repo (main) $ sudo clab inspect -t clab/topology.clab.yml 
