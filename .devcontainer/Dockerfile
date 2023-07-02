@@ -25,6 +25,7 @@ RUN apt-get update \
 # switch user to vscode otherwise Ansible will be installed as root
 USER vscode
 ENV PATH=$PATH:/home/vscode/.local/bin
+ENV ANSIBLE_CONFIG="/workspaces/temp-repo/avd_inventory/ansible.cfg"
 # install Ansible AVD collection
 RUN pip3 install "ansible-core>=2.13.1,<2.14.0" \
     && ansible-galaxy collection install arista.avd:==${_AVD_VERSION} \
