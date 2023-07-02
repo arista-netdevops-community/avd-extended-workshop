@@ -485,6 +485,107 @@ arista.eos        6.0.1
 
 ---
 
+# Uploading cEOS Image
+
+<style scoped>section {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- The cEOS image is not included in the Codespaces container and must be uploaded manually.
+- 1st, download the image from [Arista Software Download Center](https://www.arista.com/en/support/software-download). Go to cEOS-lab section and download the image. Latest 4.29 image is recommended.
+- To upload the image to the Codespaces container [GitHub CLI](https://cli.github.com/) must be used:
+  - To install GitHub CLI go to: `https://cli.github.com/`
+  - Check [GH CLI installation instructions](https://github.com/cli/cli#installation) for additional details.
+- GitHub CLI allows you to control your Github account from the command line. Including Github Codespaces.
+
+</div>
+<div>
+
+```zsh
+╭─pa@pa ~
+╰─$ gh codespace --help
+Connect to and manage codespaces
+
+USAGE
+  gh codespace [flags]
+
+AVAILABLE COMMANDS
+  code:        Open a codespace in Visual Studio Code
+  cp:          Copy files between local and remote file systems
+  create:      Create a codespace
+  delete:      Delete codespaces
+  edit:        Edit a codespace
+  jupyter:     Open a codespace in JupyterLab
+  list:        List codespaces
+  logs:        Access codespace logs
+  ports:       List ports in a codespace
+  rebuild:     Rebuild a codespace
+  ssh:         SSH into a codespace
+  stop:        Stop a running codespace
+  view:        View details about a codespace
+
+INHERITED FLAGS
+  --help   Show help for command
+
+LEARN MORE
+  Use 'gh <command> <subcommand> --help' for more information about a command.
+  Read the manual at https://cli.github.com/manual
+```
+
+</div>
+</div>
+
+---
+
+# Configure GitHub CLI
+
+```bash
+# 1. Follow https://github.com/cli/cli#installation instructions to install GH CLI
+# 2. Authenticate with GH CLI
+gh auth login
+#    Select `GitHub.com` option and pick `Login with a web browser`
+#    Follow the instructions to login to your Github account
+# 3. Authenticate with Codespaces
+gh auth refresh -h github.com -s codespace
+# follow the instructions
+# 4. Check that you can access Codespaces
+gh codespace list
+# 5. Confirm that you can SSH to your codespace
+gh codespace ssh
+#    Pick the codespace you want to connect to
+# 6. While connected to the codespace via SSH create a directory to upload cEOS image
+#    The directory name must be listed in .gitignore to avoid committing the image to the repository
+<your-codespace-in-ssh> (main) $ mkdir .gitignored
+# 7. Exit SSH session
+<your-codespace-in-ssh> (main) $ exit
+# 8. Upload cEOS image to the Codespaces container
+gh codespace cp <path-to-ceos-image> -c <your-codespace-name> remote:/workspaces/avd-extended-workshop/.gitignored
+```
+
+---
+
+# Import cEOS Image and Start cLab Topology
+
+- Open VSCode terminal and run the following command to import cEOS-lab image: `docker import .gitignored/<ceos-image-name> ceos-lab:latest`
+- Start cLab topology: `make start`
+- To stop the lab use `make stop` at any time.
+
+```bash
+@ankudinov ➜ /workspaces/temp-repo (main) $ sudo clab inspect -t clab/topology.clab.yml 
+INFO[0000] Parsing & checking topology file: topology.clab.yml 
++---+----------------------------+--------------+-----------------+------+---------+-----------------+--------------+
+| # |            Name            | Container ID |      Image      | Kind |  State  |  IPv4 Address   | IPv6 Address |
++---+----------------------------+--------------+-----------------+------+---------+-----------------+--------------+
+| 1 | clab-simple-avd-lab-leaf1  | dc2a660f739b | ceos-lab:latest | ceos | running | 192.168.0.12/24 | N/A          |
+| 2 | clab-simple-avd-lab-leaf2  | 08768ea19617 | ceos-lab:latest | ceos | running | 192.168.0.13/24 | N/A          |
+| 3 | clab-simple-avd-lab-spine1 | 79bf7978a336 | ceos-lab:latest | ceos | running | 192.168.0.10/24 | N/A          |
+| 4 | clab-simple-avd-lab-spine2 | 45855e4687d6 | ceos-lab:latest | ceos | running | 192.168.0.11/24 | N/A          |
++---+----------------------------+--------------+-----------------+------+---------+-----------------+--------------+
+```
+
+---
+
 # Run First AVD Playbooks
 
 <style scoped>
