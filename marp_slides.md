@@ -130,6 +130,35 @@ Structure:
 
 ---
 
+# Before We Start
+
+<style scoped>section {font-size: 24px;}</style>
+
+![bg vertical right fit](img/import-github-repository.png)
+![bg right width 640](img/pexels-realtoughcandycom-11035544.jpg)
+
+- Create a copy of this repository on your Github account. That will allow you to make any changes without impacting the original repository.
+- Alternatively you can fork this repository, but in this case you must **NOT** (❕) open any pull requests to the original repository.
+- To make a copy of the repository click ➕ button in the top right corner of the Github page and select `Import repository` option.
+
+---
+
+# Github Repository Import, Step 2
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/import-github-repository-step-2.png)
+
+- Enter the following URL in `Your Old Repository's Clone URL` field:
+  - `https://github.com/arista-netdevops-community/avd-extended-workshop`
+- Use your own account in `Owner` field and `avd-extended-workshop` or another name in the `Repository Name` field.
+- Create `Public` repository. That will simplify interaction with this repo and allow use of Github free features.
+- Wait until the import is completed.
+- All set! 🎉
+- Your clone will now be referenced as `<your-copy-of-this-repository>` in this workshop.
+
+---
+
 # How to Setup ATD Environment
 
 <style scoped>
