@@ -340,6 +340,19 @@ yq -i '.all.vars.ansible_password = "<your-password>"' avd_inventory/inventory.y
 
 ---
 
+# Commit Changes to Git
+
+<style scoped>section {font-size: 26px;}</style>
+
+![bg right fit](img/commit-atd-passwd-changes.png)
+
+- Click VSCode `Source Control` icon in the left panel.
+- Click `+` button to stage all changes. Alternatively you can accept VSCode suggestion to do that automatically every time by selecting `Always` option.
+- Enter commit message in the `Message` field.
+- Click `Commit` button.
+
+---
+
 # Typical Ansible AVD Automation Workflow
 
 <style scoped>section {font-size: 22px;}</style>
