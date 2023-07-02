@@ -388,3 +388,56 @@ yq -i '.all.vars.ansible_password = "<your-password>"' avd_inventory/inventory.y
 
 </div>
 </div>
+
+---
+
+# Run Ansible AVD Playbooks
+
+<style scoped>section {font-size: 20px;}</style>
+
+```bash
+# 1. switch to AVD inventory directory
+cd ~/project/labfiles/avd-extended-workshop/avd_inventory
+# 2. run ansible-playbook to generate configs
+#    wait until the playbook will finish execution and check the configs in avd_inventory/intended/configs
+ansible-playbook playbooks/atd-fabric-build.yml
+# 3. run ansible-playbook to push configs to devices
+ansible-playbook playbooks/atd-fabric-provision-eapi.yml
+# 4. Done! 🎉 Click on on any lab switch and check `show bgp evpn summary`
+```
+
+Playbook execution example:
+
+```zsh
+➜  avd_inventory git:(main) ✗ ansible-playbook playbooks/atd-fabric-provision-eapi.yml 
+
+PLAY [Deploy Configs] ***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [arista.avd.eos_config_deploy_eapi : Verify Requirements] **********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+AVD version 4.1.0
+Use -v for details.
+ok: [spine1 -> localhost]
+
+TASK [arista.avd.eos_config_deploy_eapi : Create required output directories if not present] ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+changed: [spine1 -> localhost] => (item=/home/coder/project/labfiles/avd-extended-workshop/avd_inventory/config_backup)
+ok: [spine1 -> localhost] => (item=/home/coder/project/labfiles/avd-extended-workshop/avd_inventory/config_backup)
+
+TASK [arista.avd.eos_config_deploy_eapi : Replace configuration with intended configuration] ****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+[WARNING]: To ensure idempotency and correct diff the input configuration lines should be similar to how they appear if present in the running configuration on device including the indentation
+changed: [spine1]
+changed: [spine2]
+changed: [leaf1]
+changed: [leaf2]
+
+RUNNING HANDLER [arista.avd.eos_config_deploy_eapi : Backup running config] *********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+changed: [spine1]
+changed: [spine2]
+changed: [leaf1]
+changed: [leaf2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+leaf1                      : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+leaf2                      : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+spine1                     : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+spine2                     : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
