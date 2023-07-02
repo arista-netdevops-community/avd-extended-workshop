@@ -106,6 +106,71 @@ Structure:
 
 ---
 
+# References
+
+<style scoped>section {font-size: 22px;}</style>
+
+- If you are not using ATD, the functionality of this repository will rely on many amazing open source projects:
+  - [ContainerLab](https://containerlab.srlinux.dev/)
+  - [VSCode](https://code.visualstudio.com/)
+  - [DevContainers](https://code.visualstudio.com/docs/remote/containers)
+  - [Marp](https://marp.app/)
+  - [Excalidraw VSCode](https://github.com/excalidraw/excalidraw-vscode)
+- This repository is also relying on following free/commercial Github features:
+  - [Github Actions](https://github.com/features/actions)
+  - [Github Pages](https://pages.github.com/)
+  - [Github Codespaces](https://github.com/features/codespaces)
+- All photos are taken from [Pexels](https://www.pexels.com/) and [Unsplash](https://unsplash.com/). Excellent free stock photos resources. It's not possible to reference every author individually, but their work is highly appreciated.
+
+---
+
+# Introducing The Tools
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+> - The bird view on the tools we are going to use in this workshop.
+> - No details, they will come in a later sections. Just and overview.
+
+---
+
+# What is Git?
+
+![bg right fit](img/Git-Logo-1788C.png)
+
+- **In Short**:
+  > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
+- **Fun Fact**:
+  > [Git was created](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git) by Linus Torvalds in 2005 to develop Linux kernel.
+
+---
+
+# What is GitHub?
+
+![bg right fit](img/github-mark-white.png)
+
+- GitHub is a Git repository hosting platform.
+- Allows to coordinate multiple local copies of the same repository and more.
+
+---
+
+# Before We Start
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+> - How to get your lab environment up and running
+
+---
+
 # How to use this Workshop?
 
 <style scoped>section {font-size: 24px;}</style>
@@ -130,7 +195,7 @@ Structure:
 
 ---
 
-# Before We Start
+# Github Repository Import
 
 <style scoped>section {font-size: 24px;}</style>
 
@@ -170,6 +235,13 @@ ul {font-size: 12px;}
 
 > - skip practice this section if you are using Codespaces
 > - still read the slides as they explain AVD installation process
+
+---
+
+# How to setup Ansible AVD in Arista Test Drive environment?
+
+- We could use a script to setup required Ansible collections and tools in Arista Test Drive environment, but it's a good opportunity to discuss what are the requirements but installing them manually.
+- For details please check [AVD documentation](https://avd.arista.com/) `Installation > Collection Installation` section.
 
 ---
 
@@ -239,31 +311,6 @@ For additional details check Arista Ansible AVD [Collection installation docs](h
 
 ---
 
-# References
-
-<style scoped>section {font-size: 22px;}</style>
-
-- If you are not using ATD, the functionality of this repository will rely on many amazing open source projects:
-  - [ContainerLab](https://containerlab.srlinux.dev/)
-  - [VSCode](https://code.visualstudio.com/)
-  - [DevContainers](https://code.visualstudio.com/docs/remote/containers)
-  - [Marp](https://marp.app/)
-  - [Excalidraw VSCode](https://github.com/excalidraw/excalidraw-vscode)
-- This repository is also relying on following free/commercial Github features:
-  - [Github Actions](https://github.com/features/actions)
-  - [Github Pages](https://pages.github.com/)
-  - [Github Codespaces](https://github.com/features/codespaces)
-- All photos are taken from [Pexels](https://www.pexels.com/) and [Unsplash](https://unsplash.com/). Excellent free stock photos resources. It's not possible to reference every author individually, but their work is highly appreciated.
-
----
-
-# How to setup Ansible AVD in Arista Test Drive environment?
-
-- We could use a script to setup required Ansible collections and tools in Arista Test Drive environment, but it's a good opportunity to discuss what are the requirements but installing them manually.
-- For details please check [AVD documentation](https://avd.arista.com/) `Installation > Collection Installation` section.
-
----
-
 # Typical Ansible AVD Automation Workflow
 
 <style scoped>section {font-size: 22px;}</style>
@@ -283,23 +330,3 @@ For additional details check Arista Ansible AVD [Collection installation docs](h
 
 </div>
 </div>
-
----
-
-# What is Git?
-
-![bg right fit](img/Git-Logo-1788C.png)
-
-- **In Short**:
-  > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
-- **Fun Fact**:
-  > [Git was created](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git) by Linus Torvalds in 2005 to develop Linux kernel.
-
----
-
-# What is GitHub?
-
-![bg right fit](img/github-mark-white.png)
-
-- GitHub is a Git repository hosting platform.
-- Allows to coordinate multiple local copies of the same repository and more.
