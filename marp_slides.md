@@ -432,6 +432,59 @@ ul {font-size: 12px;}
 
 ---
 
+# Using Codespaces Container
+
+<style scoped>section {font-size: 22px;}</style>
+
+<div class="columns">
+<div>
+
+- Codespaces container is ready to use.
+- All required tools and dependencies are already installed. Check `ansible-galaxy collection list` output to confirm.
+- Nevertheless:
+  - The ContainerLab topology must be started and stopped manually.
+  - cLab requires cEOS image to be uploaded first.
+
+</div>
+<div>
+
+```zsh
+👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.
+
+🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)
+
+📝 Edit away, then run your build command to see your code running in the browser.
+@ankudinov ➜ /workspaces/temp-repo (main) $ ansible-galaxy collection list
+
+# /home/vscode/.ansible/collections/ansible_collections
+Collection        Version
+----------------- -------
+ansible.netcommon 5.1.1  
+ansible.utils     2.10.3 
+arista.avd        4.1.0  
+arista.cvp        3.6.1  
+arista.eos        6.0.1 
+@ankudinov ➜ /workspaces/temp-repo (main) $ clab version
+
+                           _                   _       _     
+                 _        (_)                 | |     | |    
+ ____ ___  ____ | |_  ____ _ ____   ____  ____| | ____| | _  
+/ ___) _ \|  _ \|  _)/ _  | |  _ \ / _  )/ ___) |/ _  | || \ 
+( (__| |_|| | | | |_( ( | | | | | ( (/ /| |   | ( ( | | |_) )
+\____)___/|_| |_|\___)_||_|_|_| |_|\____)_|   |_|\_||_|____/ 
+
+    version: 0.37.1
+     commit: 570cd7af
+       date: 2023-02-24T11:35:35Z
+     source: https://github.com/srl-labs/containerlab
+ rel. notes: https://containerlab.dev/rn/0.37/#0371
+```
+
+</div>
+</div>
+
+---
+
 # Run First AVD Playbooks
 
 <style scoped>
