@@ -223,8 +223,21 @@ ul {font-size: 12px;}
 - Use your own account in `Owner` field and `avd-extended-workshop` or another name in the `Repository Name` field.
 - Create `Public` repository. That will simplify interaction with this repo and allow use of Github free features.
 - Wait until the import is completed.
-- All set! 🎉
 - Your clone will now be referenced as `<your-copy-of-this-repository>` in this workshop.
+
+---
+
+# Github Repository Import, Step 3
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/import-github-change-default-branch.png)
+
+- Confirm that `main` is the default Git branch after the import.
+- Click `Settings` tab in the top right corner of the Github page.
+- Click `General` on the left panel.
+- Scroll down to `Default branch` section, click `Switch to another branch` button and select `main` branch.
+- All set! 🎉
 
 ---
 
