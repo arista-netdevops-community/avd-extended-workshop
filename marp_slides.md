@@ -133,6 +133,8 @@ ul {font-size: 12px;}
 
 ![bg left](img/pexels-pixabay-159591.jpg)
 
+`Section 1`
+
 > - The bird view on the tools we are going to use in this workshop.
 > - No details, they will come in a later sections. Just and overview.
 
@@ -166,6 +168,8 @@ ul {font-size: 12px;}
 </style>
 
 ![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2`
 
 > - How to get your lab environment up and running
 
@@ -232,6 +236,8 @@ ul {font-size: 12px;}
 </style>
 
 ![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3`
 
 > - skip practice this section if you are using Codespaces
 > - still read the slides as they explain AVD installation process
