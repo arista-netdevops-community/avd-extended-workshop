@@ -600,6 +600,14 @@ INFO[0000] Parsing & checking topology file: topology.clab.yml
 
 ---
 
+# Coffee Break ☕️
+
+![bg left](img/pexels-valeriia-miller-3020919.jpg)
+
+`5 min`
+
+---
+
 # Run AVD Playbooks
 
 <style scoped>
