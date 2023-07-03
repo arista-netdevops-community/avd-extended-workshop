@@ -783,3 +783,27 @@ tenants:
 
 </div>
 </div>
+
+---
+
+# Filter VLANs Deployed
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Currently all VLANs listed in `AVD_TENANTS_NETWORKS.yml` are deployed on the switches even if there are no client-facing interfaces configured for those VLANs.
+- To filter out unused VLANs, open `avd_inventory/group_vars/ATD_FABRIC.yml` and uncomment the following line:
+
+  ```yaml
+  l3leaf:
+    defaults:
+      # ... other defaults
+      # keep all the lines above unchanged
+      # ...
+      filter:
+        only_vlans_in_use: true
+  ```
+
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
