@@ -737,3 +737,49 @@ ul {font-size: 12px;}
 - Click `Source Control` icon on the left panel and check the diffs.
 - Commit you change with a meaningful commit message.
 - (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+---
+
+# Add New Tenant
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 14px;}</style>
+
+<div class="columns">
+<div>
+
+- The `Tenant` in AVD is an abstraction combining a set of VRFs, VLANs and SVIs to be created on a set of switches.
+- Open `avd_inventory/group_vars/ATD_TENANTS_NETWORKS.yml` and uncomment the lines related to `Tenant_B`
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- This will generate required EVPN configs for the new VRF, VLANs and SVIs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+</div>
+<div>
+
+```yaml
+tenants:
+  # Tenant_A data will be present above Tenant_B
+  # keep it unchanged
+  - name: Tenant_B
+    mac_vrf_vni_base: 20000
+    vrfs:
+      - name: Tenant_B_OP_Zone
+        vrf_vni: 20
+        svis:
+          - id: 210
+            name: Tenant_B_OP_Zone_1
+            tags: ['opzone']
+            profile: WITH_NO_MTU
+            ip_address_virtual: 10.2.10.1/24
+          - id: 211
+            name: Tenant_B_OP_Zone_2
+            tags: ['opzone']
+            profile: GENERIC_FULL
+            ip_address_virtual: 10.2.11.1/24
+```
+
+</div>
+</div>
