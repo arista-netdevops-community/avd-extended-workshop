@@ -252,7 +252,7 @@ ul {font-size: 12px;}
 
 `Section 1.3`
 
-> - skip practice this section if you are using Codespaces
+> - skip hands on in this section if you are using Codespaces
 > - still read the slides as they explain AVD installation process
 
 ---
