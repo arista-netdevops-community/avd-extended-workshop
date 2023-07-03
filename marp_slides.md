@@ -815,3 +815,30 @@ tenants:
 - Click `Source Control` icon on the left panel and check the diffs.
 - Commit you change with a meaningful commit message.
 - (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+---
+
+# Change The Port Configuration
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 14px;}</style>
+
+<div class="columns">
+<div>
+
+- Currently ports to `host1` are configured as access ports in VLAN110.
+- Let's change that to a trunk with VLANs 110 and 160 allowed.
+- Open `avd_inventory/group_vars/ATD_SERVERS.yml` and add a new port profile. The updated configuration is shown on the right.
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+</div>
+<div>
+
+```diff
+```
+
+</div>
+</div>
