@@ -58,21 +58,25 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
 
 <style scoped>section {font-size: 14px;}</style>
 
-Topics:
-
-- Git basics
-- VSCode basics
-- Ansible basics
-- Containers basics and using container to build Ansible AVD environment
-- Building simple L3LS network with Ansible AVD
-
-Structure:
+![bg right](img/pexels-suzy-hazelwood-1226398.jpg)
 
 - This workshop is split into 3 sections. Each section takes around 2 hours to complete. That can be done as a full day workshop or split into 3 separate sessions.
+- Topics:
+
+  > - Section 1 - Intro:
+  >   - Introducing the Tools
+  >   - Before We Start - get lab environment up and running
+  >   - How to setup Ansible AVD in Arista Test Drive environment
+  >   - Prepare Github Codespaces Environment
+  >   - Run AVD Playbooks
+  >   - Make Some Changes in AVD Repository
+  > - Section 2 - Ansible and Git 101:
+  >   - `Under construction`
+  > - Section 3 - Common AVD provisioning cases:
+  >   - `Under construction`
+
 - Make a break when you see a slide with a coffee cup ☕️
 - Ask questions at any time!
-
-![bg right](img/pexels-suzy-hazelwood-1226398.jpg)
 
 ---
 
