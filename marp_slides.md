@@ -58,21 +58,25 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
 
 <style scoped>section {font-size: 14px;}</style>
 
-Topics:
-
-- Git basics
-- VSCode basics
-- Ansible basics
-- Containers basics and using container to build Ansible AVD environment
-- Building simple L3LS network with Ansible AVD
-
-Structure:
+![bg right](img/pexels-suzy-hazelwood-1226398.jpg)
 
 - This workshop is split into 3 sections. Each section takes around 2 hours to complete. That can be done as a full day workshop or split into 3 separate sessions.
+- Topics:
+
+  > - Section 1 - Intro:
+  >   - Introducing the Tools
+  >   - Before We Start - get lab environment up and running
+  >   - How to setup Ansible AVD in Arista Test Drive environment
+  >   - Prepare Github Codespaces Environment
+  >   - Run AVD Playbooks
+  >   - Make Some Changes in AVD Repository
+  > - Section 2 - Ansible and Git 101:
+  >   - `Under construction`
+  > - Section 3 - Common AVD provisioning cases:
+  >   - `Under construction`
+
 - Make a break when you see a slide with a coffee cup ☕️
 - Ask questions at any time!
-
-![bg right](img/pexels-suzy-hazelwood-1226398.jpg)
 
 ---
 
@@ -157,6 +161,18 @@ ul {font-size: 12px;}
 
 - GitHub is a Git repository hosting platform.
 - Allows to coordinate multiple local copies of the same repository and more.
+
+---
+
+# VSCode
+
+<style scoped>section {font-size: 24px;}</style>
+
+![bg right fit](img/code-stable.png)
+
+- Visual Studio Code is an extensible source-code editor developed by Microsoft and free to use.
+- This will be our main tool to work with Ansible AVD and interact with Git repositories in the workshop and production.
+- We are not going to cover VSCode installation and customization in this workshop. Check [VSCode documentation](https://code.visualstudio.com/docs) for details.
 
 ---
 
@@ -623,6 +639,20 @@ ul {font-size: 12px;}
 
 ---
 
+# What is Ansible AVD?
+
+<style scoped>section {font-size: 22px;}</style>
+
+- AVD stands for Arista Validated Design
+- Documentation is available at [avd.arista.com](https://avd.arista.com/)
+- Historically it is based on the [EVPN Deployment Guide](https://www.arista.com/custom_data/downloads/?f=/support/download/DesignGuides/EVPN_Deployment_Guide.pdf), but now it's much more advanced and developing fast.
+- Ansible AVD repository is available here: [github.com/aristanetworks/ansible-avd](https://github.com/aristanetworks/ansible-avd)
+- The Ansible AVD collection is relying on:
+  - [EOS foundational modules](https://galaxy.ansible.com/arista/eos) maintained by RedHat: `ansible-galaxy collection install arista.eos`
+  - [Ansible CVP modules](https://github.com/aristanetworks/ansible-cvp) to interact with CloudVision Portal when required
+
+---
+
 # Typical Ansible AVD Automation Workflow
 
 <style scoped>section {font-size: 22px;}</style>
@@ -642,6 +672,21 @@ ul {font-size: 12px;}
 
 </div>
 </div>
+
+---
+
+# AVD Collection Structure
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/avd_roles_dark.svg)
+
+- Ansible AVD consists of the following key roles:
+  - `eos_designs` - an set of modules to produce low level variables from abstracted input data using sophisticated fabric logic
+  - `eos_cli_config_gen` - generate Arista EOS cli configuration from a set of templates and variables produced by `eos_designs` role
+  - `eos_validate_state` - validate operational state of Arista EOS devices
+  - `cvp_configlet_upload` - upload configlets to CloudVision Portal
+  - `eos_configlet_deploy_cvp` - deploy configlets to Arista EOS devices via CloudVision Portal
 
 ---
 
