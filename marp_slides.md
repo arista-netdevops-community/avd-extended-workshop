@@ -722,3 +722,18 @@ ul {font-size: 12px;}
 > - Filter VLANs
 > - Connect endpoints
 > - Validate the network
+
+---
+
+# Change Underlay Routing Protocol to OSPF
+
+- Go to `avd_inventory/group_vars/ATD_FABRIC.yml` and uncomment following line:
+
+  ```yaml
+  underlay_routing_protocol: ospf
+  ```
+
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
