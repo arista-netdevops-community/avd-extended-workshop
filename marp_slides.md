@@ -587,6 +587,19 @@ INFO[0000] Parsing & checking topology file: topology.clab.yml
 
 ---
 
+# Use The Local VSCode and Dev Container
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/architecture-containers.png)
+
+- It's possible to run exactly the same container locally on a machine with Docker installed and use local VSCode Remote Containers feature to connect to it.
+- Obviously there are no charges for this option. It's completely free, except the electricity bill.
+- It is not covered in this workshop for one single reason: there are too many different environments and it's impossible to cover them all.
+- Check [VSCode Dev Containers documentation](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+
+---
+
 # Run AVD Playbooks
 
 <style scoped>
