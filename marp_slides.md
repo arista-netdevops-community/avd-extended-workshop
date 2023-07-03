@@ -164,6 +164,18 @@ ul {font-size: 12px;}
 
 ---
 
+# VSCode
+
+<style scoped>section {font-size: 24px;}</style>
+
+![bg right fit](img/code-stable.png)
+
+- Visual Studio Code is an extensible source-code editor developed by Microsoft and free to use.
+- This will be our main tool to work with Ansible AVD and interact with Git repositories in the workshop and production.
+- We are not going to cover VSCode installation and customization in this workshop. Check [VSCode documentation](https://code.visualstudio.com/docs) for details.
+
+---
+
 # Before We Start
 
 <style scoped>
