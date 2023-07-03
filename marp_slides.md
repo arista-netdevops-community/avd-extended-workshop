@@ -828,7 +828,7 @@ tenants:
 
 - Currently ports to `host1` are configured as access ports in VLAN110.
 - Let's change that to a trunk with VLANs 110 and 160 allowed.
-- Open `avd_inventory/group_vars/ATD_SERVERS.yml` and add a new port profile. The updated configuration is shown on the right.
+- Open `avd_inventory/group_vars/ATD_SERVERS.yml` and add a new port profile. The change is shown on the right.
 - Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
 - Click `Source Control` icon on the left panel and check the diffs.
 - Commit you change with a meaningful commit message.
@@ -838,6 +838,31 @@ tenants:
 <div>
 
 ```diff
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ git diff
+diff --git a/avd_inventory/group_vars/ATD_SERVERS.yml b/avd_inventory/group_vars/ATD_SERVERS.yml
+index 6bc1f49..00a6625 100644
+--- a/avd_inventory/group_vars/ATD_SERVERS.yml
++++ b/avd_inventory/group_vars/ATD_SERVERS.yml
+@@ -3,6 +3,9 @@ port_profiles:
+   - profile: TENANT_A
+     mode: access
+     vlans: "110"
++  - profile: TENANT_A_TRUNK
++    mode: trunk
++    vlans: "110, 160"
+ 
+ 
+ servers:
+@@ -12,7 +15,7 @@ servers:
+       - endpoint_ports: [Eth1, Eth2, Eth3, Eth4]
+         switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
+         switches: [leaf1,leaf1, leaf2, leaf2]
+-        profile: TENANT_A
++        profile: TENANT_A_TRUNK
+         port_channel:
+           description: PortChannel
+           mode: active
+(END)
 ```
 
 </div>
