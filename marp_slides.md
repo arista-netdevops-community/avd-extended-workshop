@@ -587,6 +587,27 @@ INFO[0000] Parsing & checking topology file: topology.clab.yml
 
 ---
 
+# Use The Local VSCode and Dev Container
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/architecture-containers.png)
+
+- It's possible to run exactly the same container locally on a machine with Docker installed and use local VSCode Remote Containers feature to connect to it.
+- Obviously there are no charges for this option. It's completely free, except the electricity bill.
+- It is not covered in this workshop for one single reason: there are too many different environments and it's impossible to cover them all.
+- Check [VSCode Dev Containers documentation](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+
+---
+
+# Coffee Break ☕️
+
+![bg left](img/pexels-valeriia-miller-3020919.jpg)
+
+`5 min`
+
+---
+
 # Run AVD Playbooks
 
 <style scoped>
@@ -709,3 +730,177 @@ ul {font-size: 12px;}
 > - Filter VLANs
 > - Connect endpoints
 > - Validate the network
+
+---
+
+# Change Underlay Routing Protocol to OSPF
+
+- Go to `avd_inventory/group_vars/ATD_FABRIC.yml` and uncomment following line:
+
+  ```yaml
+  underlay_routing_protocol: ospf
+  ```
+
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+---
+
+# Add New Tenant
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 14px;}</style>
+
+<div class="columns">
+<div>
+
+- The `Tenant` in AVD is an abstraction combining a set of VRFs, VLANs and SVIs to be created on a set of switches.
+- Open `avd_inventory/group_vars/ATD_TENANTS_NETWORKS.yml` and uncomment the lines related to `Tenant_B`
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- This will generate required EVPN configs for the new VRF, VLANs and SVIs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+</div>
+<div>
+
+```yaml
+tenants:
+  # Tenant_A data will be present above Tenant_B
+  # keep it unchanged
+  - name: Tenant_B
+    mac_vrf_vni_base: 20000
+    vrfs:
+      - name: Tenant_B_OP_Zone
+        vrf_vni: 20
+        svis:
+          - id: 210
+            name: Tenant_B_OP_Zone_1
+            tags: ['opzone']
+            profile: WITH_NO_MTU
+            ip_address_virtual: 10.2.10.1/24
+          - id: 211
+            name: Tenant_B_OP_Zone_2
+            tags: ['opzone']
+            profile: GENERIC_FULL
+            ip_address_virtual: 10.2.11.1/24
+```
+
+</div>
+</div>
+
+---
+
+# Filter VLANs Deployed
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Currently all VLANs listed in `AVD_TENANTS_NETWORKS.yml` are deployed on the switches even if there are no client-facing interfaces configured for those VLANs.
+- To filter out unused VLANs, open `avd_inventory/group_vars/ATD_FABRIC.yml` and uncomment the following line:
+
+  ```yaml
+  l3leaf:
+    defaults:
+      # ... other defaults
+      # keep all the lines above unchanged
+      # ...
+      filter:
+        only_vlans_in_use: true
+  ```
+
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+---
+
+# Change The Port Configuration
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 14px;}</style>
+
+<div class="columns">
+<div>
+
+- Currently ports to `host1` are configured as access ports in VLAN110.
+- Let's change that to a trunk with VLANs 110 and 160 allowed.
+- Open `avd_inventory/group_vars/ATD_SERVERS.yml` and add a new port profile. The change is shown on the right.
+- Run `ansible-playbook playbooks/atd-fabric-build.yml` to generate new configs.
+- Click `Source Control` icon on the left panel and check the diffs.
+- Commit you change with a meaningful commit message.
+- (Optional): Run `ansible-playbook playbooks/atd-fabric-provision-eapi.yml` to push the new configs to the lab switches.
+
+</div>
+<div>
+
+```diff
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ git diff
+diff --git a/avd_inventory/group_vars/ATD_SERVERS.yml b/avd_inventory/group_vars/ATD_SERVERS.yml
+index 6bc1f49..00a6625 100644
+--- a/avd_inventory/group_vars/ATD_SERVERS.yml
++++ b/avd_inventory/group_vars/ATD_SERVERS.yml
+@@ -3,6 +3,9 @@ port_profiles:
+   - profile: TENANT_A
+     mode: access
+     vlans: "110"
++  - profile: TENANT_A_TRUNK
++    mode: trunk
++    vlans: "110, 160"
+ 
+ 
+ servers:
+@@ -12,7 +15,7 @@ servers:
+       - endpoint_ports: [Eth1, Eth2, Eth3, Eth4]
+         switch_ports: [Ethernet4, Ethernet5, Ethernet4, Ethernet5]
+         switches: [leaf1,leaf1, leaf2, leaf2]
+-        profile: TENANT_A
++        profile: TENANT_A_TRUNK
+         port_channel:
+           description: PortChannel
+           mode: active
+(END)
+```
+
+</div>
+</div>
+
+---
+
+# Validate The Network
+
+<style scoped>section {font-size: 24px;}</style>
+
+- To confirm that network state is correct use AVD network validation role.
+- 1st, make sure that you have generated the latest configs and pushed them to the switches:
+
+  ```bash
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ansible-playbook playbooks/atd-fabric-provision-eapi.yml
+  ```
+
+- Run the following command to validate the network state:
+
+  ```bash
+  ansible-playbook playbooks/atd-validate-state.yml
+  ```
+
+- The validate role has some limitations that are quite critical when building a CI pipeline. But there is some work in progress. For example, check [ANTA library](https://github.com/arista-netdevops-community/anta) for an alternative solution.
+
+---
+
+# End of Section 1
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
+
+> - To-be-continued
