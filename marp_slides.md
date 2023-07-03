@@ -867,3 +867,40 @@ index 6bc1f49..00a6625 100644
 
 </div>
 </div>
+
+---
+
+# Validate The Network
+
+<style scoped>section {font-size: 24px;}</style>
+
+- To confirm that network state is correct use AVD network validation role.
+- 1st, make sure that you have generated the latest configs and pushed them to the switches:
+
+  ```bash
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ansible-playbook playbooks/atd-fabric-provision-eapi.yml
+  ```
+
+- Run the following command to validate the network state:
+
+  ```bash
+  ansible-playbook playbooks/atd-validate-state.yml
+  ```
+
+- The validate role has some limitations that are quite critical when building a CI pipeline. But there is some work in progress. For example, check [ANTA library](https://github.com/arista-netdevops-community/anta) for an alternative solution.
+
+---
+
+# End of Section 1
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
+
+> - To-be-continued
