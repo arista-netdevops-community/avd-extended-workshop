@@ -675,6 +675,21 @@ ul {font-size: 12px;}
 
 ---
 
+# AVD Collection Structure
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/avd_roles_dark.svg)
+
+- Ansible AVD consists of the following key roles:
+  - `eos_designs` - an set of modules to produce low level variables from abstracted input data using sophisticated fabric logic
+  - `eos_cli_config_gen` - generate Arista EOS cli configuration from a set of templates and variables produced by `eos_designs` role
+  - `eos_validate_state` - validate operational state of Arista EOS devices
+  - `cvp_configlet_upload` - upload configlets to CloudVision Portal
+  - `eos_configlet_deploy_cvp` - deploy configlets to Arista EOS devices via CloudVision Portal
+
+---
+
 # Run Ansible AVD Playbooks
 
 <style scoped>section {font-size: 20px;}</style>
