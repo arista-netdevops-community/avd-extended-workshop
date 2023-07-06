@@ -1124,6 +1124,16 @@ test.yaml
 # JSON vs YAML for Ansible
 
 - Ansible can accept variables in JSON format as well.
-- Convert a group var file to JSON with `yq`: `yq --prettyPrint -o=json avd_inventory/group_vars/ATD_SERVERS.yml > avd_inventory/group_vars/ATD_SERVERS.json`
-- Delete the YAML file and run the build playbook: `ansible-playbook playbooks/atd-fabric-build.yml`
+- Convert a group var file to JSON with `yq`
+
+  ```bash
+  yq --prettyPrint -o=json avd_inventory/group_vars/ATD_SERVERS.yml > avd_inventory/group_vars/ATD_SERVERS.json
+  ```
+
+- Delete the YAML file and run the build playbook:
+
+  ```bash
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ```
+
 - New configs will be generated successfully. JSON is faster, YAML is still easier to read and edit at scale.
