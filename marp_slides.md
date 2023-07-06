@@ -947,3 +947,151 @@ ul {font-size: 12px;}
 `Questions?`
 
 > - To-be-continued
+
+---
+
+# YAML
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.1`
+
+> - What is YAML?
+
+---
+
+# What is YAML?
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 10px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML is a data serialization language.
+- It is not the only one. There are many others: JSON, XML, TOML, INI, CSV etc.
+- Purpose:
+  > convert data to a machine-readable format that can be stored or transmitted.
+- YAML is generally considered to be a human-readable format. Well, kind of. 🤓 But at least it's possible to add comments, which is not possible in JSON.
+- YAML is the default format to write Ansible playbooks, inventory files and group/host variables.
+
+</div>
+<div>
+
+The playbook used to generate configs for this workshop in YAML format:
+
+```yaml
+
+```yaml
+---
+- name: Manage Arista EOS EVPN/VXLAN Configuration
+  hosts: ATD_FABRIC
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  vars:
+    fabric_dir_name: "{{fabric_name}}"
+    execute_tasks: false
+  tasks:
+
+    - name: Generate intended variables
+      import_role:
+        name: eos_designs
+
+    - name: Generate device intended config and documentation
+      import_role:
+        name: eos_cli_config_gen
+```
+
+</div>
+</div>
+
+---
+
+# JSON and XML Examples
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 10px;}</style>
+
+<div class="columns">
+<div>
+
+ATD KVM virtual machine specification in XML:
+
+```xml
+arista@devbox:~$ sudo virsh dumpxml cvp1
+setlocale: No such file or directory
+<domain type='kvm' id='1'>
+  <name>cvp1</name>
+  <uuid>4675315f-0b93-4798-8598-37d876666df9</uuid>
+  <memory unit='KiB'>33554432</memory>
+  <currentMemory unit='KiB'>33554432</currentMemory>
+  <vcpu placement='static'>24</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-rhel7.0.0'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+...
+```
+
+> Right code sample is not native JSON format!  
+  JSON is not allowing comments as it is only focused on machine readability.  
+  JSONC is a JSON with comments. It is not a standard, but it is supported by many tools.
+
+</div>
+<div>
+
+The devcontainer specification powering this workshop:
+
+```json
+{
+  "name": "avd_extended_workshop",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "_AVD_VERSION": "4.1.0",
+      "_CLAB_VERSION": "0.37.1"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:1": {
+      "version": "latest"
+    },
+    // add sshd to support gh cli codespace cp
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  // set minimum host requirements for cLab
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  }
+}
+```
+
+</div>
+</div>
+
+---
+
+# Every YAML Starts with `---`
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Absolutely every YAML file must start with `---` on the first line.
+- YAMLs without `---` are not valid, but will be accepted by many tools in fact.
+- Quote from [yaml.org](https://yaml.org/spec/1.2.2/):
+  > YAML uses three dashes (“---”) to separate directives from document content. This also serves to signal the start of a document if no directives are present. Three dots ( “...”) indicate the end of a document without starting a new one, for use in communication channels.
+- Another `---` in the same yaml file would indicate the start of a new document. It is not used in Ansible data structures normally.
+- Every YAML file must end with an empty line.
