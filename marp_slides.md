@@ -1085,6 +1085,27 @@ The devcontainer specification powering this workshop:
 
 ---
 
+# YAML Linter
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `Linter` is a tool that checks the code/document for errors, bugs, style violations etc.
+- Install YAML-linter on your machine: `pip install --user yamllint`
+- Create a minimalistic YAML file: `echo -n "key: value" > test.yaml`
+- Run the linter to check errors:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ yamllint test.yaml
+test.yaml
+1:1       warning  missing document start "---"  (document-start)
+1:11      error    no new line character at the end of file  (new-line-at-end-of-file)
+```
+
+- Congrats! 🎉 We have two errors in a single line YAML. :upside_down_face:
+- Linters are helpful! Always check your YAMLs with a CLI linter or VSCode/other IDE extension.
+
+---
+
 # Every YAML Starts with `---`
 
 <style scoped>section {font-size: 20px;}</style>
@@ -1095,3 +1116,14 @@ The devcontainer specification powering this workshop:
   > YAML uses three dashes (“---”) to separate directives from document content. This also serves to signal the start of a document if no directives are present. Three dots ( “...”) indicate the end of a document without starting a new one, for use in communication channels.
 - Another `---` in the same yaml file would indicate the start of a new document. It is not used in Ansible data structures normally.
 - Every YAML file must end with an empty line.
+
+  > There are many more rules in YAML that are rarely in use, but must be 💯% respected.
+
+---
+
+# JSON vs YAML for Ansible
+
+- Ansible can accept variables in JSON format as well.
+- Convert a group var file to JSON with `yq`: `yq --prettyPrint -o=json avd_inventory/group_vars/ATD_SERVERS.yml > avd_inventory/group_vars/ATD_SERVERS.json`
+- Delete the YAML file and run the build playbook: `ansible-playbook playbooks/atd-fabric-build.yml`
+- New configs will be generated successfully. JSON is faster, YAML is still easier to read and edit at scale.
