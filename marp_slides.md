@@ -1275,12 +1275,7 @@ string_with_new_lines: |
 string_without_new_lines: >
   This is a string     
   without new lines
-  and trailing spaces
-unquoted_scalar:
-  This is a single
-  line of text
-quoted_scalar: "This is first line\nThis is second line\n
-This is third line\n"
+  and with trailing spaces
 ```
 
 Result:
@@ -1288,9 +1283,7 @@ Result:
 ```json
 {
   "string_with_new_lines": "This is a string    \nwith new lines\nand trailing spaces",
-  "string_without_new_lines": "This is a string      without new lines and trailing spaces",
-  "unquoted_scalar": "This is a single line of text",
-  "quoted_scalar": "This is first line\nThis is second line\n This is third line\n"
+  "string_without_new_lines": "This is a string      without new lines and with trailing spaces",
 }
 ```
 
