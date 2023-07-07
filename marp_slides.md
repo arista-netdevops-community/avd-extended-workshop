@@ -1185,7 +1185,7 @@ test.yaml
     - item3
     ```
 
-- Sequences can be defined in a single line as well:
+- Sequences can be defined in a single line as well and used in conjunction with mappings:
 
   ```yaml
   values: [ value1, value2, value3 ]
@@ -1193,3 +1193,16 @@ test.yaml
 
 </div>
 </div>
+
+---
+
+# Quote All The Strings
+
+- A wisdom from the unknown source:
+  > Experienced YAML users quote all the strings.
+- YAML is flexible and not forcing you to quote strings. But that is often causing weird problems.
+- If not certain, quote the string!
+
+```yaml
+
+```
