@@ -1123,6 +1123,8 @@ test.yaml
 
 # JSON vs YAML for Ansible
 
+<style scoped>section {font-size: 24px;}</style>
+
 - Ansible can accept variables in JSON format as well.
 - Convert a group var file to JSON with `yq`
 
@@ -1137,3 +1139,57 @@ test.yaml
   ```
 
 - New configs will be generated successfully. JSON is faster, YAML is still easier to read and edit at scale.
+- Rollback the change once you test it.
+
+---
+
+# YAML Scalars, Mappings and Sequences
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML allows writing comments after `#`. Always add comments!
+- YAML smallest building block is called `scalar`. That can be integer, string, boolean etc.
+
+  ```yaml
+  #     
+  key: "value"
+  #     ^
+  # this is a scalar   
+  ```
+
+  - Mappings (aka dictionaries):
+
+    
+
+</div>
+<div>
+
+- The data can be defined in YAML as `mappings` (aka dictionaries)
+
+  ```yaml
+  a_key: a_value
+  another_key: another_value
+  nested:
+    sub_key: sub_value
+  ```
+
+- Or `sequences` (aka lists):
+
+    ```yaml
+    - item1
+    - item2
+    - item3
+    ```
+
+- Sequences can be defined in a single line as well:
+
+  ```yaml
+  values: [ value1, value2, value3 ]
+  ```
+
+</div>
+</div>
