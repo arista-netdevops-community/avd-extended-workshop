@@ -1161,10 +1161,6 @@ test.yaml
   # this is a scalar   
   ```
 
-  - Mappings (aka dictionaries):
-
-    
-
 </div>
 <div>
 
@@ -1198,11 +1194,105 @@ test.yaml
 
 # Quote All The Strings
 
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
 - A wisdom from the unknown source:
   > Experienced YAML users quote all the strings.
 - YAML is flexible and not forcing you to quote strings. But that is often causing weird problems.
 - If not certain, quote the string!
+- That is especially important when working with Ansible. As Ansible has it's own way of interpreting certain YAML values.
+- Use following to check yourself:
+
+  ```bash
+  yq --prettyPrint -o=json <name-of-your-yaml-file>
+  ```
+
+</div>
+<div>
+
+Is this YAML correct?
 
 ```yaml
-
+port_channel:
+  mode: on
 ```
+
+Yes, but it will break Ansible playbook execution as `on` and `yes` are converted to `True` by Ansible.
+
+```text
+ERROR! [leaf1]: 'Validation Error: servers[0].adapters[0].port_channel.mode': True is not of type 'str'
+ERROR! [leaf1]: 'Validation Error: servers[0].adapters[0].port_channel.mode': 'True' is not one of ['active', 'passive', 'on']
+```
+
+Fun with YAML
+
+```yaml
+string: "just a string"
+integer: 1234
+and_that_is_an_integer_too: 0xABCD
+float: 12.34
+version: "1.0" # is a string
+boolean: true
+# that's super weird, don't do that
+but_that_is_a_string: !!str True
+# there is a special `null` value for this case
+and_this_is_not_empty:
+a_better_null: ~
+```
+
+</div>
+</div>
+
+---
+
+# YAML Advanced Features
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML has some advanced features. Try to avoid the unless it is absolutely necessary.
+- Example: anchors and aliases.
+- Check [YAML specification](https://yaml.org/spec/1.2.2/) for details if interested.
+- In AVD one advanced feature is used quite often. Multiline strings.
+
+</div>
+<div>
+
+```yaml
+#  a string with new lines and trailing spaces
+string_with_new_lines: |
+  This is a string    
+  with new lines
+  and trailing spaces
+# a string without new lines and with trailing spaces
+string_without_new_lines: >
+  This is a string     
+  without new lines
+  and trailing spaces
+unquoted_scalar:
+  This is a single
+  line of text
+quoted_scalar: "This is first line\nThis is second line\n
+This is third line\n"
+```
+
+Result:
+
+```json
+{
+  "string_with_new_lines": "This is a string    \nwith new lines\nand trailing spaces",
+  "string_without_new_lines": "This is a string      without new lines and trailing spaces",
+  "unquoted_scalar": "This is a single line of text",
+  "quoted_scalar": "This is first line\nThis is second line\n This is third line\n"
+}
+```
+
+</div>
+</div>

@@ -18,4 +18,4 @@ servers:
         profile: TENANT_A
         port_channel:
           description: PortChannel
-          mode: active
+          mode: on

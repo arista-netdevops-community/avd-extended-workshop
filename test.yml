@@ -1,0 +1,26 @@
+string: "just a string"
+integer: 1234
+and_that_is_an_integer_too: 0xABCD
+float: 12.34
+version: "1.0" # is a string
+boolean: true
+# that's super weird, don't do that
+but_that_is_a_string: !!str True
+# there is a special `null` value for this case
+and_this_is_not_empty:
+
+#  a string with new lines and trailing spaces
+string_with_new_lines: |
+  This is a string    
+  with new lines
+  and trailing spaces
+# a string without new lines and with trailing spaces
+string_without_new_lines: >
+  This is a string     
+  without new lines
+  and trailing spaces
+unquoted_scalar:
+  This is a single
+  line of text
+quoted_scalar: "This is first line\nThis is second line\n
+This is third line\n"
