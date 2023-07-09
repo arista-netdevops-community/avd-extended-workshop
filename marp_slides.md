@@ -1589,10 +1589,10 @@ yq -i ".ethernet_interfaces[0].description = \"from_part1.yml\"" avd_inventory/a
 yq -i ".ethernet_interfaces[1].name = \"Ethernet11/1\"" avd_inventory/all/part1.yml
 yq -i ".ethernet_interfaces[1].description = \"from_part1.yml\"" avd_inventory/all/part1.yml
 # set all > part2.yml
-yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part2.yml
-yq -i ".ethernet_interfaces[0].description = \"from_part2.yml\"" avd_inventory/all/part2.yml
-yq -i ".ethernet_interfaces[1].name = \"Ethernet12/1\"" avd_inventory/all/part2.yml
-yq -i ".ethernet_interfaces[1].description = \"from_part2.yml\"" avd_inventory/all/part2.yml
+yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part2.json
+yq -i ".ethernet_interfaces[0].description = \"from_part2.json\"" avd_inventory/all/part2.json
+yq -i ".ethernet_interfaces[1].name = \"Ethernet12/1\"" avd_inventory/all/part2.json
+yq -i ".ethernet_interfaces[1].description = \"from_part2.json\"" avd_inventory/all/part2.json
 # set group_vars > ATD_LAB.yml
 yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/group_vars/ATD_LAB.yml
 yq -i ".ethernet_interfaces[0].description = \"from_ATD_LAB.yml.yml\"" avd_inventory/group_vars/ATD_LAB.yml
