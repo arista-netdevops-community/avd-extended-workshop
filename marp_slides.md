@@ -1565,6 +1565,8 @@ leaf1 | SUCCESS => {
 
 # Let's Define Some Ansible Variables
 
+<style scoped>section {font-size: 12px;}</style>
+
 - Create following files if they do not exist yet:
 
   ```text
@@ -1581,5 +1583,24 @@ leaf1 | SUCCESS => {
 - Execute following commands to set some variables:
 
 ```bash
-
+# set all > part1.yml
+yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part1.yml
+yq -i ".ethernet_interfaces[0].description = \"from_part1.yml\"" avd_inventory/all/part1.yml
+yq -i ".ethernet_interfaces[1].name = \"Ethernet11/1\"" avd_inventory/all/part1.yml
+yq -i ".ethernet_interfaces[1].description = \"from_part1.yml\"" avd_inventory/all/part1.yml
+# set all > part2.yml
+yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part2.yml
+yq -i ".ethernet_interfaces[0].description = \"from_part2.yml\"" avd_inventory/all/part2.yml
+yq -i ".ethernet_interfaces[1].name = \"Ethernet12/1\"" avd_inventory/all/part2.yml
+yq -i ".ethernet_interfaces[1].description = \"from_part2.yml\"" avd_inventory/all/part2.yml
+# set group_vars > ATD_LAB.yml
+yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/group_vars/ATD_LAB.yml
+yq -i ".ethernet_interfaces[0].description = \"from_ATD_LAB.yml.yml\"" avd_inventory/group_vars/ATD_LAB.yml
+yq -i ".ethernet_interfaces[1].name = \"Ethernet13/1\"" avd_inventory/group_vars/ATD_LAB.yml
+yq -i ".ethernet_interfaces[1].description = \"from_ATD_LAB.yml.yml\"" avd_inventory/group_vars/ATD_LAB.yml
+# set host_vars
+yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/host_vars/leaf1.yml
+yq -i ".ethernet_interfaces[0].description = \"from_leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
+yq -i ".ethernet_interfaces[1].name = \"Ethernet14/1\"" avd_inventory/host_vars/leaf1.yml
+yq -i ".ethernet_interfaces[1].description = \"from_leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
 ```
