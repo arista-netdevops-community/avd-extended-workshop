@@ -1646,3 +1646,31 @@ ansible-inventory --yaml --host leaf2 | grep banner
   cd avd_inventory
   ansible-playbook playbooks/deploy_banner.yml --check --diff --limit leaf1 -vvv
   ```
+
+---
+
+# Git
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.3`
+
+> - Git for AVD users
+
+---
+
+# Recap
+
+<style scoped>section {font-size: 20px;}</style>
+
+- As we discussed before:
+
+  > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
+
+- We have already cloned the workshop repository and made some changes.
+- Let's take a closer look.
