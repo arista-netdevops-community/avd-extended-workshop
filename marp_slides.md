@@ -1622,3 +1622,24 @@ ansible-inventory --yaml --host leaf2 | grep banner
 
 </div>
 </div>
+
+---
+
+# Ansible Playbook Arguments
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `ansible-playbook` command has number of useful arguments that can be used to control the execution.
+- We'll highlight few of them:
+  - `--check` - run the playbook in check mode. No changes will be applied.
+  - `--diff` - show the diff of the changes that will be applied.
+  - `--limit` - limit the execution to specific hosts or groups.
+  - `--tags` - limit the execution to the tasks with specific tags.
+  - `--forks` - limit the number of parallel tasks, default is 5.
+  - `--verbose` - increase the verbosity level. Up to -vvvvvv. Helps to troubleshoot the playbook execution. But not a lot. 🥹
+- Now run the following command:
+
+  ```bash
+  cd avd_inventory
+  ansible-playbook playbooks/deploy_banner.yml --check --diff --limit leaf1 -vvv
+  ```
