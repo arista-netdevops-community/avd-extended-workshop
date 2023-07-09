@@ -1595,6 +1595,9 @@ ansible-inventory --yaml --host leaf2 | grep banner
 - `banner_login` is not the most useful module, but it's a good example to start with.
 - Create the playbook `avd_inventory/playbooks/deploy_banner.yml`
 - Do not run the playbook! We'll do that later.
+- Module behind the scenes:
+  - [arista.eos](https://github.com/ansible-collections/arista.eos)
+  - [arista.eos.eos_banner](https://github.com/ansible-collections/arista.eos/blob/main/plugins/modules/eos_banner.py)
 
 </div>
 <div>
