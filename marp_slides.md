@@ -1397,3 +1397,89 @@ cvprac==1.3.1
 - In some CI (Continuous Integration) and cloud environments `ANSIBLE_CONFIG` is the only way to force Ansible to accept the existing ansible.cfg due to default permissions:
 
   > If Ansible were to load ansible.cfg from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
+
+---
+
+# Ansible Inventory
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Every Ansible project must also have an inventory file.
+- Ansible inventory specifies how to reach hosts managed by Ansible.
+- Hosts can be divided into groups and subgroups.
+- `.ini` or YAML formats are accepted. We'll focus on YAML only as it's more flexible.
+- `ansible-inventory` command displays the inventory and all relevant variables for specific host or group of hosts:
+
+  ```bash
+  # try following commands
+  ansible-inventory --list
+  ansible-inventory --list --yaml
+  ansible-inventory --host <host>
+  ```
+
+</div>
+<div>
+
+```yaml
+---
+all:
+  # some variables can be define directly in the inventory file
+  # but in most cases it is preferable to use host_vars and group_vars
+  vars:
+    # set login credentials
+    # use Ansible vault, env vars, etc. for sensitive data instead
+    ansible_user: arista
+    ansible_password: arista
+    # set the default network OS for all hosts to find corresponding Ansible collection
+    ansible_network_os: arista.eos.eos
+    # configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # set Ansible connection parameters according to the collection documentation
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    # set Python interpreter to be used
+    ansible_python_interpreter: $(which python3)
+  
+  children:
+    # Ansible group name
+    ATD_LAB:  # <-- group_vars/ATD_LAB.yml will be applied to all hosts in this group
+      children:
+        # Ansible group name, child of ATD_LAB
+        ATD_FABRIC: # <-- group_vars/ATD_FABRIC.yml will be applied to all hosts in this group
+          children:
+            # Ansible group name, child of ATD_LAB and ATD_FABRIC
+            ATD_SPINES: # <-- apply group_vars/ATD_SPINES.yml
+              hosts:
+                spine1:
+                  ansible_host: 192.168.0.10
+                spine2:
+                  ansible_host: 192.168.0.11
+            # Ansible group name, child of ATD_LAB and ATD_FABRIC
+            ATD_LEAFS: # <-- apply group_vars/ATD_LEAFS.yml
+              children:
+                pod1:
+                  hosts:
+                    leaf1:
+                      ansible_host: 192.168.0.12
+                    leaf2:
+                      ansible_host: 192.168.0.13
+
+        # apply group_vars/ATD_TENANTS_NETWORKS.yml to all hosts in ATD_LEAFS group
+        ATD_TENANTS_NETWORKS:
+          children:
+            ATD_LEAFS:
+        # apply group_vars/ATD_SERVERS.yml to all hosts in ATD_LEAFS group
+        ATD_SERVERS:
+          children:
+            ATD_LEAFS:
+```
+
+</div>
+</div>
