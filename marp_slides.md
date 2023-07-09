@@ -1578,3 +1578,47 @@ yq -i ".banner_text = \"This banner came from host_vars/leaf1.yml\"" avd_invento
 ansible-inventory --yaml --host leaf1 | grep banner
 ansible-inventory --yaml --host leaf2 | grep banner
 ```
+
+---
+
+# Ansible Playbook
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Ansible playbook is a YAML file that defines a set of tasks to be executed on a set of hosts.
+- A playbook consists of one or more `plays`.
+- Every play consists of one or more `tasks` using specific `modules` with or without parameters.
+- `banner_login` is not the most useful module, but it's a good example to start with.
+- Create the playbook `avd_inventory/playbooks/deploy_banner.yml`
+- Do not run the playbook! We'll do that later.
+
+</div>
+<div>
+
+```yaml
+---
+# a playbook to configure banner on EOS switches
+- name: Configure banner on EOS switches  # <-- Play
+  hosts: ATD_FABRIC  # <-- Target hosts
+  tasks:
+    - name: Gather facts  # <-- Task
+      arista.eos.eos_facts:  # <-- Module
+        gather_subset: all  # <-- Module parameter
+      register: facts
+    - name: Check facts output
+      debug:
+        msg: {{ facts }}
+    - name: Configure login banner
+      arista.eos.eos_banner:
+        banner: motd
+        text: |
+          "{{ banner_text }}"
+        state: present
+```
+
+</div>
+</div>
