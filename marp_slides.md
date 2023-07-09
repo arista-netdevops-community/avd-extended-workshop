@@ -1565,42 +1565,16 @@ leaf1 | SUCCESS => {
 
 # Let's Define Some Ansible Variables
 
-<style scoped>section {font-size: 12px;}</style>
-
-- Create following files if they do not exist yet:
-
-  ```text
-  avd_inventory
-  |── all
-  |   ├── part1.yml
-  |   └── part2.json
-  ├── group_vars
-  │   └── ATD_LAB.yml
-  └── host_vars
-      └── leaf1.yml
-  ```
-
-- Execute following commands to set some variables:
+<style scoped>section {font-size: 20px;}</style>
 
 ```bash
-# set all > part1.yml
-yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part1.yml
-yq -i ".ethernet_interfaces[0].description = \"from_part1.yml\"" avd_inventory/all/part1.yml
-yq -i ".ethernet_interfaces[1].name = \"Ethernet11/1\"" avd_inventory/all/part1.yml
-yq -i ".ethernet_interfaces[1].description = \"from_part1.yml\"" avd_inventory/all/part1.yml
-# set all > part2.yml
-yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/all/part2.json
-yq -i ".ethernet_interfaces[0].description = \"from_part2.json\"" avd_inventory/all/part2.json
-yq -i ".ethernet_interfaces[1].name = \"Ethernet12/1\"" avd_inventory/all/part2.json
-yq -i ".ethernet_interfaces[1].description = \"from_part2.json\"" avd_inventory/all/part2.json
-# set group_vars > ATD_LAB.yml
-yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/group_vars/ATD_LAB.yml
-yq -i ".ethernet_interfaces[0].description = \"from_ATD_LAB.yml.yml\"" avd_inventory/group_vars/ATD_LAB.yml
-yq -i ".ethernet_interfaces[1].name = \"Ethernet13/1\"" avd_inventory/group_vars/ATD_LAB.yml
-yq -i ".ethernet_interfaces[1].description = \"from_ATD_LAB.yml.yml\"" avd_inventory/group_vars/ATD_LAB.yml
-# set host_vars
-yq -i ".ethernet_interfaces[0].name = \"Ethernet10/1\"" avd_inventory/host_vars/leaf1.yml
-yq -i ".ethernet_interfaces[0].description = \"from_leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
-yq -i ".ethernet_interfaces[1].name = \"Ethernet14/1\"" avd_inventory/host_vars/leaf1.yml
-yq -i ".ethernet_interfaces[1].description = \"from_leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
+# set banner for all switches
+yq -i ".banner_text = \"This banner came from group_vars/ATD_FABRIC.yml\"" avd_inventory/group_vars/ATD_FABRIC.yml
+# set banner for leaf1
+mkdir avd_inventory/host_vars/
+touch avd_inventory/host_vars/leaf1.yml
+yq -i ".banner_text = \"This banner came from host_vars/leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
+# confirm settings for leaf1 and leaf2
+ansible-inventory --yaml --host leaf1 | grep banner
+ansible-inventory --yaml --host leaf2 | grep banner
 ```
