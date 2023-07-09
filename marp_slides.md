@@ -1483,3 +1483,90 @@ all:
 
 </div>
 </div>
+
+---
+
+# Ansible Add-hoc Commands
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Once the inventory is ready, we can start using Ansible.
+- The most basic way to use Ansible is to run ad-hoc commands using `ansible` command to run specific module.
+- Let's test Ansible ping module:
+
+```bash
+# ping all hosts in the inventory
+ansible -m ping all
+#           ^- module name
+# ping all leaf switches
+ansible -m ping ATD_LEAFS
+#                ^- group name
+```
+
+- Ansible `ping` module is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
+- `ping` module can fail on machines that are reachable but have no Python interpreter installed by default.
+
+</div>
+<div>
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible all -m ping
+spine1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+cv_atd1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+spine2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible -m ping ATD_LEAFS
+leaf2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+</div>
+</div>
+
+---
+
+# Ansible Variables
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](images/../img/ansible_variables1.png)
+
+- Ansible variables can be defined in multiple places and can be used to build configurations, define what modules to run, etc.
+- The variable precedence is defined by [Ansible documentation](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
+- We'll focus on group_vars and host_vars.
+
+---
+
+# Let's Define Some Ansible Variables
+
+- Execute following commands to set some variables:
+
+```bash
+
+```
