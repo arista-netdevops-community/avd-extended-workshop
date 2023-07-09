@@ -961,7 +961,7 @@ ul {font-size: 12px;}
 
 `Section 2.1`
 
-> - What is YAML?
+> - A few words about YAML
 
 ---
 
@@ -1289,3 +1289,111 @@ Result:
 
 </div>
 </div>
+
+---
+
+# Ansible
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.2`
+
+> - Quick intro into essential Ansible concepts
+
+---
+
+# What is Ansible?
+
+- Ansible is an open-source framework for automation and more.
+- Ansible is agentless. That means it is not required to install any agent software on the target device. Some Ansible modules may still have dependencies that must be installed on the target device first.
+- The most important Ansible components are:
+  - Ansible Core - the core framework
+  - Ansible Collections - a set of modules, plugins, roles and playbooks
+  - Ansible Automation Controller (previously known as Ansible Tower) - a commercial product with a web UI and more
+
+---
+
+# Ansible Installation
+
+<style scoped>section {font-size: 18px;}</style>
+
+- The minimum Ansible installation was covered in the previous section.
+- Confirm that installation is correct by using following command:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ ansible --version
+ansible [core 2.13.10]
+  config file = /workspaces/avd-extended-workshop/avd_inventory/ansible.cfg
+  configured module search path = ['/home/vscode/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/vscode/.local/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/vscode/.ansible/collections/ansible_collections
+  executable location = /home/vscode/.local/bin/ansible
+  python version = 3.9.16 (main, Jan 23 2023, 23:35:25) [GCC 10.2.1 20210110]
+  jinja version = 3.1.2
+  libyaml = True
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ ansible-galaxy collection list
+
+# /home/vscode/.ansible/collections/ansible_collections
+Collection        Version
+----------------- -------
+ansible.netcommon 5.1.1  
+ansible.utils     2.10.3 
+arista.avd        4.1.0  
+arista.cvp        3.6.1  
+arista.eos        6.0.1
+```
+
+- Check versions, the path to collections, modules and executables, search path and ansible configuration file location.
+
+---
+
+# Ansible and Python
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Ansible is a Python-based framework.
+- Make sure that you have correct Python version installed on your machine and all dependencies are in place.
+- If you have multiple Python versions installed on your machine, make sure that you are using the correct one. Ideally use virtual environment or container.
+- Few useful commands to check Python installation:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ which python3
+/usr/local/bin/python3
+vscode ➜ /workspaces/avd-extended-workshop (main) $ python3 --version
+Python 3.9.16
+vscode ➜ /workspaces/avd-extended-workshop (main) $ pip3 freeze
+ansible-core==2.13.10
+attrs==23.1.0
+bcrypt==4.0.1
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer==3.1.0
+cryptography==41.0.1
+cvprac==1.3.1
+...
+```
+
+---
+
+# Few Words about ansible.cfg
+
+<style scoped>section {font-size: 18px;}</style>
+
+- `ansible.cfg` is required to configure Ansible correctly by defining following key parameters:
+  - `inventory` - the path to the inventory file
+  - `collections_paths` - the path to the collections
+  - `interpreter_python` - the path to the Python interpreter
+- Make sure that Ansible binary is able to find the path to the `ansible.cfg` file. There are multiple ways to achieve that:
+  - `ANSIBLE_CONFIG` environment variable
+  - `ansible.cfg` file in the current directory
+  - `~/.ansible.cfg` file in the user's home directory
+  - `/etc/ansible/ansible.cfg` file
+- Check the corresponding [documentation for details](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
+- In some CI (Continuous Integration) and cloud environments `ANSIBLE_CONFIG` is the only way to force Ansible to accept the existing ansible.cfg due to default permissions:
+
+  > If Ansible were to load ansible.cfg from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
