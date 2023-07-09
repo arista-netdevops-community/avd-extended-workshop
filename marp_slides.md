@@ -1565,6 +1565,19 @@ leaf1 | SUCCESS => {
 
 # Let's Define Some Ansible Variables
 
+- Create following files if they do not exist yet:
+
+  ```text
+  avd_inventory
+  |── all
+  |   ├── part1.yml
+  |   └── part2.json
+  ├── group_vars
+  │   └── ATD_LAB.yml
+  └── host_vars
+      └── leaf1.yml
+  ```
+
 - Execute following commands to set some variables:
 
 ```bash
