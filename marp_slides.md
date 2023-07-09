@@ -1611,7 +1611,7 @@ ansible-inventory --yaml --host leaf2 | grep banner
       register: facts
     - name: Check facts output
       debug:
-        msg: {{ facts }}
+        msg: "{{ facts }}"
     - name: Configure login banner
       arista.eos.eos_banner:
         banner: motd
