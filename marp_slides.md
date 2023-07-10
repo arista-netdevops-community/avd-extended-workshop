@@ -1672,7 +1672,7 @@ ul {font-size: 12px;}
 
   > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
 
-- We have already cloned the workshop repository and made some changes.
+- We have already cloned the workshop repository and made some changes. Delete it and clone it again to start fresh:
 
   ```bash
   cd labfiles
@@ -1680,13 +1680,14 @@ ul {font-size: 12px;}
   git checkout main
   ```
 
-- Let's take a closer look.
+- On Codespaces it's enough to delete the old codespace and create a new one.
+- Get you Git Cheat Sheet copy [here](https://education.github.com/git-cheat-sheet-education.pdf).
 
 ---
 
 # Setup Git
 
-<style scoped>section {font-size: 18px;}</style>
+<style scoped>section {font-size: 20px;}</style>
 
 - Git is already pre-installed in the container.
 - Setup your name and email address:
@@ -1694,13 +1695,6 @@ ul {font-size: 12px;}
   ```bash
   git config --global user.name "<first-and-2nd-name>"
   git config --global user.email "<your-email>"
-  ```
-
-- To change the default branch name `main`:
-
-  ```bash
-  # usually not required and `master` is just fine
-  git config --global init.defaultBranch main
   ```
 
 - Check the current configuration:
@@ -1715,3 +1709,199 @@ ul {font-size: 12px;}
   # usually the config file is located in ~/.gitconfig
   git config --global --edit
   ```
+
+---
+
+# Git Status and origin/main
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `git status` provides some info about the current state of the repository.
+
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ git status
+  On branch main
+  Your branch is ahead of 'origin/main' by 1 commit.
+    (use "git push" to publish your local commits)
+
+  nothing to commit, working tree clean
+  ```
+
+- `Origin` is the default name for the remote repository from where the local copy was cloned. `origin/main` is the remote twin of our main branch.
+
+---
+
+# Git Branches
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Branch is technically a pointer to a specific commit.
+- Branching allows to work on multiple features in parallel without other branches being affected.
+- `git branch` command lists all branches in the repository.
+- You can switch between branches with `git checkout <branch-name>` when there are no uncommitted changes.
+- `Trunk` is another name for the default branch (also called `Master` or `Main`). If required you can change the default branch name.
+
+  ```bash
+  # change the default branch name to main
+  git config --global init.defaultBranch main
+  ```
+
+---
+
+# Branch Naming Convention
+
+<style scoped>section {font-size: 18px;}</style>
+
+- You can name your branches in any way. But it's better to have a naming convention from the start.
+- Branch naming convention is a set of rules that describes how branches should be named.
+- This simplifies collaboration, reviews and CI pipelines.
+- Some common branch naming prefixes are listed below:
+  - `feature/` - a branch that is used to work on some new features or changes
+  - `fix/` - a branch that is used to fix a bug or implement a workaround. Normally it corresponds to an issue. This can be further divided into 
+    - `bugfix/` - planned bug fixes
+    - `hotfix/` - urgent bug fixes, may lack planning
+    - `docsfix/` - fixes in the documentation
+  - `refactor/` - a branch that is used to refactor/optimize the code
+  - `docs/` - for documentation changes
+  - `test/` - a temporary branch uses for testing only and normally not merged anywhere
+  - `release/` - a special branch that is used to prepare a release
+- The full branch name normally looks like `<prefix>/<description>` or `prefix_description`.
+- Use any convention that works, but be consistent!
+
+---
+
+# Git Branching Strategy
+
+<style scoped>section {font-size: 20px;}</style>
+
+- A branching strategy is a convention that describes when and how branches are created, merged and deleted.
+- It's essential to keep stable and predictable Git repository state.
+- There are many branching strategies:
+  - [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+  - [Trunk-based development](https://trunkbaseddevelopment.com/)
+  - [GitHub flow](https://guides.github.com/introduction/flow/)
+  - [GitLab flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html)
+  - [Feature Branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
+  - etc.
+- We'll talk about branching strategy later.
+
+---
+
+# Create New Branch
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Create a new branch and build switch configs:
+
+  ```bash
+  # create a new branch
+  git branch feat/init_network
+  # switch to the new branch
+  git checkout feat/init_network
+  # build switch configuration files with AVD
+  cd avd_inventory/ && ansible-playbook playbooks/atd-fabric-build.yml
+  # check the status
+  git status
+  ```
+
+- There will be some untracked and uncommitted files.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
+          documentation/
+          intended/
+
+  nothing added to commit but untracked files present (use "git add" to track)
+  ```
+
+---
+
+# Add New Files to Git
+
+<style scoped>section {font-size: 20px;}</style>
+
+- To add files to Git use `git add <file-name>` or `git add .` to add all files in the current directory.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git add .
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  Changes to be committed:
+    (use "git restore --staged <file>..." to unstage)
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+          new file:   documentation/devices/leaf1.md
+          new file:   documentation/devices/leaf2.md
+          new file:   documentation/devices/spine1.md
+          new file:   documentation/devices/spine2.md
+          new file:   intended/configs/leaf1.cfg
+          new file:   intended/configs/leaf2.cfg
+          new file:   intended/configs/spine1.cfg
+          new file:   intended/configs/spine2.cfg
+          new file:   intended/structured_configs/leaf1.yml
+          new file:   intended/structured_configs/leaf2.yml
+          new file:   intended/structured_configs/spine1.yml
+          new file:   intended/structured_configs/spine2.yml
+  ```
+
+- If you are using VScode GUI, you can configure VSCode to add new files automatically.
+
+---
+
+# Git Diff
+
+- The files we added are now `staged` according to Git terminology.
+- Before you commit the changes, check the diff:
+
+  ```bash
+  git diff --staged
+  ```
+
+- If we are not happy with the changes for some reason, we can discard them:
+
+  ```bash
+  git reset --hard
+  # or
+  # reset and delete files and directories
+  git reset
+  git clean -fd
+  ```
+
+---
+
+# Git Commit
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Commit the changes:
+
+  ```bash
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git commit -m "feat: init network configuration"
+  [feat/init_network b44caea] init network configuration
+  15 files changed, 4240 insertions(+)
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+  create mode 100644 avd_inventory/documentation/devices/leaf1.md
+  create mode 100644 avd_inventory/documentation/devices/leaf2.md
+  create mode 100644 avd_inventory/documentation/devices/spine1.md
+  create mode 100644 avd_inventory/documentation/devices/spine2.md
+  create mode 100644 avd_inventory/intended/configs/leaf1.cfg
+  create mode 100644 avd_inventory/intended/configs/leaf2.cfg
+  create mode 100644 avd_inventory/intended/configs/spine1.cfg
+  create mode 100644 avd_inventory/intended/configs/spine2.cfg
+  create mode 100644 avd_inventory/intended/structured_configs/leaf1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/leaf2.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine2.yml
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  nothing to commit, working tree clean
+  ```
+
+- It's also possible to run `git commit` to write commit message in the editor.
+- Always write meaningful commit messages. Write multiple lines if required.
