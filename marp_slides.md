@@ -954,7 +954,7 @@ ul {font-size: 12px;}
 
 `Questions?`
 
-> - To-be-continued
+> - Start section 2 when ready
 
 ---
 
@@ -1780,7 +1780,7 @@ ul {font-size: 12px;}
 
 # Git Branching Strategy
 
-<style scoped>section {font-size: 20px;}</style>
+<style scoped>section {font-size: 18px;}</style>
 
 - A branching strategy is a convention that describes when and how branches are created, merged and deleted.
 - It's essential to keep stable and predictable Git repository state.
@@ -1791,7 +1791,14 @@ ul {font-size: 12px;}
   - [GitLab flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html)
   - [Feature Branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
   - etc.
-- We'll talk about branching strategy later.
+- Our strategy in this workshop will be extremely simple:
+  - Pull the latest changes from the origin.
+  - Create a new feature branch named `feat/<description>`.
+  - Make changes and commit them.
+  - Push the changes to the origin.
+  - Create a pull request to merge the changes to the main branch.
+  - Delete the feature branch after the pull request is merged.
+  - (Optional): Create release branch and deploy the change in the lab.
 
 ---
 
@@ -2057,3 +2064,101 @@ ul {font-size: 12px;}
 ![bg right fit](img/github-delete-branch.png)
 
 - When PR is merged, you can delete the feature branch to keep the repository clean and small.
+
+---
+
+# Switch Back to Main and Pull
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Switch back to `main` branch and pull the changes:
+
+  ```bash
+  git checkout main
+  git pull
+  ```
+
+  ```zsh
+  @ankudinov ➜ /workspaces/temp-workshop-copy/avd_inventory (feat/init_network) $ git checkout main
+  Switched to branch 'main'
+  Your branch is up to date with 'origin/main'.
+  @ankudinov ➜ /workspaces/temp-workshop-copy/avd_inventory (main) $ git pull
+  remote: Enumerating objects: 1, done.
+  remote: Counting objects: 100% (1/1), done.
+  remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+  Unpacking objects: 100% (1/1), 639 bytes | 639.00 KiB/s, done.
+  From https://github.com/ankudinov/temp-workshop-copy
+    367f621..207e1ce  main       -> origin/main
+  Updating 367f621..207e1ce
+  Fast-forward
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md |  86 ++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv    |   5 +++
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv     |  17 +++++++++
+  avd_inventory/documentation/devices/leaf1.md                       | 791 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/leaf2.md                       | 791 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/spine1.md                      | 433 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/spine2.md                      | 433 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/leaf1.cfg                           | 256 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/leaf2.cfg                           | 256 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/spine1.cfg                          | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/spine2.cfg                          | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/leaf1.yml                | 346 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/leaf2.yml                | 346 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/spine1.yml               | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/spine2.yml               | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  15 files changed, 4240 insertions(+)
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+  create mode 100644 avd_inventory/documentation/devices/leaf1.md
+  create mode 100644 avd_inventory/documentation/devices/leaf2.md
+  create mode 100644 avd_inventory/documentation/devices/spine1.md
+  create mode 100644 avd_inventory/documentation/devices/spine2.md
+  create mode 100644 avd_inventory/intended/configs/leaf1.cfg
+  create mode 100644 avd_inventory/intended/configs/leaf2.cfg
+  create mode 100644 avd_inventory/intended/configs/spine1.cfg
+  create mode 100644 avd_inventory/intended/configs/spine2.cfg
+  create mode 100644 avd_inventory/intended/structured_configs/leaf1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/leaf2.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine2.yml
+  ```
+
+- This will bring your local repository in sync with the remote again.
+
+---
+
+# When Things Go Wrong
+
+<style scoped>section {font-size: 20px;}</style>
+
+- If the PR was broken and reviewer have not noticed that, there are few options:
+  - Switch back to the last stable branch.
+  - Create a fix and open a new PR.
+  - Inspect `git log` and use `git revert -m 1 <commit-id>` to revert the commit.
+  - [Replace your branch with another one](https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch).
+
+  ```bash
+  # replacing main with a different branch to fix the trunk
+  git checkout main
+  git pull
+  git checkout <last-stable-branch>
+  git merge -s ours main
+  git checkout main
+  git merge <last-stable-branch>
+  ```
+
+---
+
+# End of Section 2
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
+
+> - to-be-continued
