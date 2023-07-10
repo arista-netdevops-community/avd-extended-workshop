@@ -1961,3 +1961,27 @@ ul {font-size: 12px;}
 
   feat: init network config
   ```
+
+---
+
+# Back In Time
+
+- You can check the diff between any 2 commits:
+
+  ```bash
+  git diff a49eab9630c90a99fcde3eff0f2e37a450e81d33 74e80fb401498ae628626f9b2d42fa3db1871ded
+  ```
+
+- To check the diff between the current commit and the previous one:
+
+  ```bash
+  git diff HEAD^ HEAD
+  ```
+
+- To rollback the changes `before you push` them to the remote:
+
+  ```bash
+  git reset --hard HEAD^
+  ```
+
+- Or simply use a commit ID.
