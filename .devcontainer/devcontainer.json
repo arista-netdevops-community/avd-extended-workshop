@@ -19,7 +19,7 @@
             "version": "latest"
         }
     },
-    // increase host requirements to match cLab size
+    // set minimum host requirements for cLab
     "hostRequirements": {
         "cpus": 4,
         "memory": "8gb",

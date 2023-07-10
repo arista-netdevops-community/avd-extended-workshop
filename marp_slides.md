@@ -128,6 +128,14 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
 
 ---
 
+# Additional Arista Workshops
+
+- Check following workshops for additional information:
+  - [ATD-AVD Workshop](https://github.com/arista-netdevops-community/atd-avd)
+  - [Arista CI Workshops](https://aristanetworks.github.io/avd-workshops/)
+
+---
+
 # Introducing The Tools
 
 <style scoped>
@@ -679,8 +687,6 @@ ul {font-size: 12px;}
 
 <style scoped>section {font-size: 20px;}</style>
 
-![bg right fit](img/avd_roles_dark.svg)
-
 - Ansible AVD consists of the following key roles:
   - `eos_designs` - an set of modules to produce low level variables from abstracted input data using sophisticated fabric logic
   - `eos_cli_config_gen` - generate Arista EOS cli configuration from a set of templates and variables produced by `eos_designs` role
@@ -948,4 +954,1211 @@ ul {font-size: 12px;}
 
 `Questions?`
 
-> - To-be-continued
+> - Start section 2 when ready
+
+---
+
+# YAML
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.1`
+
+> - A few words about YAML
+
+---
+
+# What is YAML?
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 10px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML is a data serialization language.
+- It is not the only one. There are many others: JSON, XML, TOML, INI, CSV etc.
+- Purpose:
+  > convert data to a machine-readable format that can be stored or transmitted.
+- YAML is generally considered to be a human-readable format. Well, kind of. 🤓 But at least it's possible to add comments, which is not possible in JSON.
+- YAML is the default format to write Ansible playbooks, inventory files and group/host variables.
+
+</div>
+<div>
+
+The playbook used to generate configs for this workshop in YAML format:
+
+```yaml
+
+```yaml
+---
+- name: Manage Arista EOS EVPN/VXLAN Configuration
+  hosts: ATD_FABRIC
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  vars:
+    fabric_dir_name: "{{fabric_name}}"
+    execute_tasks: false
+  tasks:
+
+    - name: Generate intended variables
+      import_role:
+        name: eos_designs
+
+    - name: Generate device intended config and documentation
+      import_role:
+        name: eos_cli_config_gen
+```
+
+</div>
+</div>
+
+---
+
+# JSON and XML Examples
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 10px;}</style>
+
+<div class="columns">
+<div>
+
+ATD KVM virtual machine specification in XML:
+
+```xml
+arista@devbox:~$ sudo virsh dumpxml cvp1
+setlocale: No such file or directory
+<domain type='kvm' id='1'>
+  <name>cvp1</name>
+  <uuid>4675315f-0b93-4798-8598-37d876666df9</uuid>
+  <memory unit='KiB'>33554432</memory>
+  <currentMemory unit='KiB'>33554432</currentMemory>
+  <vcpu placement='static'>24</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-rhel7.0.0'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+...
+```
+
+> Right code sample is not native JSON format!  
+  JSON is not allowing comments as it is only focused on machine readability.  
+  JSONC is a JSON with comments. It is not a standard, but it is supported by many tools.
+
+</div>
+<div>
+
+The devcontainer specification powering this workshop:
+
+```json
+{
+  "name": "avd_extended_workshop",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "_AVD_VERSION": "4.1.0",
+      "_CLAB_VERSION": "0.37.1"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:1": {
+      "version": "latest"
+    },
+    // add sshd to support gh cli codespace cp
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  // set minimum host requirements for cLab
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  }
+}
+```
+
+</div>
+</div>
+
+---
+
+# YAML Linter
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `Linter` is a tool that checks the code/document for errors, bugs, style violations etc.
+- Install YAML-linter on your machine: `pip install --user yamllint`
+- Create a minimalistic YAML file: `echo -n "key: value" > test.yaml`
+- Run the linter to check errors:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ yamllint test.yaml
+test.yaml
+1:1       warning  missing document start "---"  (document-start)
+1:11      error    no new line character at the end of file  (new-line-at-end-of-file)
+```
+
+- Congrats! 🎉 We have two errors in a single line YAML. :upside_down_face:
+- Linters are helpful! Always check your YAMLs with a CLI linter or VSCode/other IDE extension.
+
+---
+
+# Every YAML Starts with `---`
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Absolutely every YAML file must start with `---` on the first line.
+- YAMLs without `---` are not valid, but will be accepted by many tools in fact.
+- Quote from [yaml.org](https://yaml.org/spec/1.2.2/):
+  > YAML uses three dashes (“---”) to separate directives from document content. This also serves to signal the start of a document if no directives are present. Three dots ( “...”) indicate the end of a document without starting a new one, for use in communication channels.
+- Another `---` in the same yaml file would indicate the start of a new document. It is not used in Ansible data structures normally.
+- Every YAML file must end with an empty line.
+
+  > There are many more rules in YAML that are rarely in use, but must be 💯% respected.
+
+---
+
+# JSON vs YAML for Ansible
+
+<style scoped>section {font-size: 24px;}</style>
+
+- Ansible can accept variables in JSON format as well.
+- Convert a group var file to JSON with `yq`
+
+  ```bash
+  yq --prettyPrint -o=json avd_inventory/group_vars/ATD_SERVERS.yml > avd_inventory/group_vars/ATD_SERVERS.json
+  ```
+
+- Delete the YAML file and run the build playbook:
+
+  ```bash
+  ansible-playbook playbooks/atd-fabric-build.yml
+  ```
+
+- New configs will be generated successfully. JSON is faster, YAML is still easier to read and edit at scale.
+- Rollback the change once you test it.
+
+---
+
+# YAML Scalars, Mappings and Sequences
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML allows writing comments after `#`. Always add comments!
+- YAML smallest building block is called `scalar`. That can be integer, string, boolean etc.
+
+  ```yaml
+  #     
+  key: "value"
+  #     ^
+  # this is a scalar   
+  ```
+
+</div>
+<div>
+
+- The data can be defined in YAML as `mappings` (aka dictionaries)
+
+  ```yaml
+  a_key: a_value
+  another_key: another_value
+  nested:
+    sub_key: sub_value
+  ```
+
+- Or `sequences` (aka lists):
+
+    ```yaml
+    - item1
+    - item2
+    - item3
+    ```
+
+- Sequences can be defined in a single line as well and used in conjunction with mappings:
+
+  ```yaml
+  values: [ value1, value2, value3 ]
+  ```
+
+</div>
+</div>
+
+---
+
+# Quote All The Strings
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- A wisdom from the unknown source:
+  > Experienced YAML users quote all the strings.
+- YAML is flexible and not forcing you to quote strings. But that is often causing weird problems.
+- If not certain, quote the string!
+- That is especially important when working with Ansible. As Ansible has it's own way of interpreting certain YAML values.
+- Use following to check yourself:
+
+  ```bash
+  yq --prettyPrint -o=json <name-of-your-yaml-file>
+  ```
+
+</div>
+<div>
+
+Is this YAML correct?
+
+```yaml
+port_channel:
+  mode: on
+```
+
+Yes, but it will break Ansible playbook execution as `on` and `yes` are converted to `True` by Ansible.
+
+```text
+ERROR! [leaf1]: 'Validation Error: servers[0].adapters[0].port_channel.mode': True is not of type 'str'
+ERROR! [leaf1]: 'Validation Error: servers[0].adapters[0].port_channel.mode': 'True' is not one of ['active', 'passive', 'on']
+```
+
+Fun with YAML
+
+```yaml
+string: "just a string"
+integer: 1234
+and_that_is_an_integer_too: 0xABCD
+float: 12.34
+version: "1.0" # is a string
+boolean: true
+# that's super weird, don't do that
+but_that_is_a_string: !!str True
+# there is a special `null` value for this case
+and_this_is_not_empty:
+a_better_null: ~
+```
+
+</div>
+</div>
+
+---
+
+# YAML Advanced Features
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- YAML has some advanced features. Try to avoid the unless it is absolutely necessary.
+- Example: anchors and aliases.
+- Check [YAML specification](https://yaml.org/spec/1.2.2/) for details if interested.
+- In AVD one advanced feature is used quite often. Multiline strings.
+
+</div>
+<div>
+
+```yaml
+#  a string with new lines and trailing spaces
+string_with_new_lines: |
+  This is a string    
+  with new lines
+  and trailing spaces
+# a string without new lines and with trailing spaces
+string_without_new_lines: >
+  This is a string     
+  without new lines
+  and with trailing spaces
+```
+
+Result:
+
+```json
+{
+  "string_with_new_lines": "This is a string    \nwith new lines\nand trailing spaces",
+  "string_without_new_lines": "This is a string      without new lines and with trailing spaces",
+}
+```
+
+</div>
+</div>
+
+---
+
+# Ansible
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.2`
+
+> - Quick intro into essential Ansible concepts
+
+---
+
+# What is Ansible?
+
+- Ansible is an open-source framework for automation and more.
+- Ansible is agentless. That means it is not required to install any agent software on the target device. Some Ansible modules may still have dependencies that must be installed on the target device first.
+- The most important Ansible components are:
+  - Ansible Core - the core framework
+  - Ansible Collections - a set of modules, plugins, roles and playbooks
+  - Ansible Automation Controller (previously known as Ansible Tower) - a commercial product with a web UI and more
+
+---
+
+# Ansible Installation
+
+<style scoped>section {font-size: 18px;}</style>
+
+- The minimum Ansible installation was covered in the previous section.
+- Confirm that installation is correct by using following command:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ ansible --version
+ansible [core 2.13.10]
+  config file = /workspaces/avd-extended-workshop/avd_inventory/ansible.cfg
+  configured module search path = ['/home/vscode/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/vscode/.local/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/vscode/.ansible/collections/ansible_collections
+  executable location = /home/vscode/.local/bin/ansible
+  python version = 3.9.16 (main, Jan 23 2023, 23:35:25) [GCC 10.2.1 20210110]
+  jinja version = 3.1.2
+  libyaml = True
+vscode ➜ /workspaces/avd-extended-workshop/avd_inventory (main) $ ansible-galaxy collection list
+
+# /home/vscode/.ansible/collections/ansible_collections
+Collection        Version
+----------------- -------
+ansible.netcommon 5.1.1  
+ansible.utils     2.10.3 
+arista.avd        4.1.0  
+arista.cvp        3.6.1  
+arista.eos        6.0.1
+```
+
+- Check versions, the path to collections, modules and executables, search path and ansible configuration file location.
+
+---
+
+# Ansible and Python
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Ansible is a Python-based framework.
+- Make sure that you have correct Python version installed on your machine and all dependencies are in place.
+- If you have multiple Python versions installed on your machine, make sure that you are using the correct one. Ideally use virtual environment or container.
+- Few useful commands to check Python installation:
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ which python3
+/usr/local/bin/python3
+vscode ➜ /workspaces/avd-extended-workshop (main) $ python3 --version
+Python 3.9.16
+vscode ➜ /workspaces/avd-extended-workshop (main) $ pip3 freeze
+ansible-core==2.13.10
+attrs==23.1.0
+bcrypt==4.0.1
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer==3.1.0
+cryptography==41.0.1
+cvprac==1.3.1
+...
+```
+
+---
+
+# Few Words about ansible.cfg
+
+<style scoped>section {font-size: 18px;}</style>
+
+- `ansible.cfg` is required to configure Ansible correctly by defining following key parameters:
+  - `inventory` - the path to the inventory file
+  - `collections_paths` - the path to the collections
+  - `interpreter_python` - the path to the Python interpreter
+- Make sure that Ansible binary is able to find the path to the `ansible.cfg` file. There are multiple ways to achieve that:
+  - `ANSIBLE_CONFIG` environment variable
+  - `ansible.cfg` file in the current directory
+  - `~/.ansible.cfg` file in the user's home directory
+  - `/etc/ansible/ansible.cfg` file
+- Check the corresponding [documentation for details](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
+- In some CI (Continuous Integration) and cloud environments `ANSIBLE_CONFIG` is the only way to force Ansible to accept the existing ansible.cfg due to default permissions:
+
+  > If Ansible were to load ansible.cfg from a world-writable current working directory, it would create a serious security risk. Another user could place their own config file there, designed to make Ansible run malicious code both locally and remotely, possibly with elevated privileges. For this reason, Ansible will not automatically load a config file from the current working directory if the directory is world-writable.
+
+---
+
+# Ansible Inventory
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Every Ansible project must also have an inventory file.
+- Ansible inventory specifies how to reach hosts managed by Ansible.
+- Hosts can be divided into groups and subgroups.
+- `.ini` or YAML formats are accepted. We'll focus on YAML only as it's more flexible.
+- `ansible-inventory` command displays the inventory and all relevant variables for specific host or group of hosts:
+
+  ```bash
+  # try following commands
+  ansible-inventory --list
+  ansible-inventory --list --yaml
+  ansible-inventory --host <host>
+  ```
+
+</div>
+<div>
+
+```yaml
+---
+all:
+  # some variables can be define directly in the inventory file
+  # but in most cases it is preferable to use host_vars and group_vars
+  vars:
+    # set login credentials
+    # use Ansible vault, env vars, etc. for sensitive data instead
+    ansible_user: arista
+    ansible_password: arista
+    # set the default network OS for all hosts to find corresponding Ansible collection
+    ansible_network_os: arista.eos.eos
+    # configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # set Ansible connection parameters according to the collection documentation
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    # set Python interpreter to be used
+    ansible_python_interpreter: $(which python3)
+  
+  children:
+    # Ansible group name
+    ATD_LAB:  # <-- group_vars/ATD_LAB.yml will be applied to all hosts in this group
+      children:
+        # Ansible group name, child of ATD_LAB
+        ATD_FABRIC: # <-- group_vars/ATD_FABRIC.yml will be applied to all hosts in this group
+          children:
+            # Ansible group name, child of ATD_LAB and ATD_FABRIC
+            ATD_SPINES: # <-- apply group_vars/ATD_SPINES.yml
+              hosts:
+                spine1:
+                  ansible_host: 192.168.0.10
+                spine2:
+                  ansible_host: 192.168.0.11
+            # Ansible group name, child of ATD_LAB and ATD_FABRIC
+            ATD_LEAFS: # <-- apply group_vars/ATD_LEAFS.yml
+              children:
+                pod1:
+                  hosts:
+                    leaf1:
+                      ansible_host: 192.168.0.12
+                    leaf2:
+                      ansible_host: 192.168.0.13
+
+        # apply group_vars/ATD_TENANTS_NETWORKS.yml to all hosts in ATD_LEAFS group
+        ATD_TENANTS_NETWORKS:
+          children:
+            ATD_LEAFS:
+        # apply group_vars/ATD_SERVERS.yml to all hosts in ATD_LEAFS group
+        ATD_SERVERS:
+          children:
+            ATD_LEAFS:
+```
+
+</div>
+</div>
+
+---
+
+# Ansible Add-hoc Commands
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Once the inventory is ready, we can start using Ansible.
+- The most basic way to use Ansible is to run ad-hoc commands using `ansible` command to run specific module.
+- Let's test Ansible ping module:
+
+```bash
+# ping all hosts in the inventory
+ansible -m ping all
+#           ^- module name
+# ping all leaf switches
+ansible -m ping ATD_LEAFS
+#                ^- group name
+```
+
+- Ansible `ping` module is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
+- `ping` module can fail on machines that are reachable but have no Python interpreter installed by default.
+
+</div>
+<div>
+
+```bash
+vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible all -m ping
+spine1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+cv_atd1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+spine2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible -m ping ATD_LEAFS
+leaf2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+leaf1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+</div>
+</div>
+
+---
+
+# Ansible Variables
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](images/../img/ansible_variables1.png)
+
+- Ansible variables can be defined in multiple places and can be used to build configurations, define what modules to run, etc.
+- The variable precedence is defined by [Ansible documentation](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
+- We'll focus on group_vars and host_vars.
+
+---
+
+# Let's Define Some Ansible Variables
+
+<style scoped>section {font-size: 20px;}</style>
+
+```bash
+# set banner for all switches
+yq -i ".banner_text = \"This banner came from group_vars/ATD_FABRIC.yml\"" avd_inventory/group_vars/ATD_FABRIC.yml
+# set banner for leaf1
+mkdir avd_inventory/host_vars/
+touch avd_inventory/host_vars/leaf1.yml
+yq -i ".banner_text = \"This banner came from host_vars/leaf1.yml\"" avd_inventory/host_vars/leaf1.yml
+# confirm settings for leaf1 and leaf2
+ansible-inventory --yaml --host leaf1 | grep banner
+ansible-inventory --yaml --host leaf2 | grep banner
+```
+
+---
+
+# Ansible Playbook
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+- Ansible playbook is a YAML file that defines a set of tasks to be executed on a set of hosts.
+- A playbook consists of one or more `plays`.
+- Every play consists of one or more `tasks` using specific `modules` with or without parameters.
+- `banner_login` is not the most useful module, but it's a good example to start with.
+- Create the playbook `avd_inventory/playbooks/deploy_banner.yml`
+- Do not run the playbook! We'll do that later.
+- Module behind the scenes:
+  - [arista.eos](https://github.com/ansible-collections/arista.eos)
+  - [arista.eos.eos_banner](https://github.com/ansible-collections/arista.eos/blob/main/plugins/modules/eos_banner.py)
+
+</div>
+<div>
+
+```yaml
+---
+# a playbook to configure banner on EOS switches
+- name: Configure banner on EOS switches  # <-- Play
+  hosts: ATD_FABRIC  # <-- Target hosts
+  tasks:
+    - name: Gather facts  # <-- Task
+      arista.eos.eos_facts:  # <-- Module
+        gather_subset: all  # <-- Module parameter
+      register: facts
+    - name: Check facts output
+      debug:
+        msg: "{{ facts }}"
+    - name: Configure login banner
+      arista.eos.eos_banner:
+        banner: motd
+        text: |
+          "{{ banner_text }}"
+        state: present
+```
+
+</div>
+</div>
+
+---
+
+# Ansible Playbook Arguments
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `ansible-playbook` command has number of useful arguments that can be used to control the execution.
+- We'll highlight few of them:
+  - `--check` - run the playbook in check mode. No changes will be applied.
+  - `--diff` - show the diff of the changes that will be applied.
+  - `--limit` - limit the execution to specific hosts or groups.
+  - `--tags` - limit the execution to the tasks with specific tags.
+  - `--forks` - limit the number of parallel tasks, default is 5.
+  - `--verbose` - increase the verbosity level. Up to -vvvvvv. Helps to troubleshoot the playbook execution. But not a lot. 🥹
+- Now run the following command:
+
+  ```bash
+  cd avd_inventory
+  ansible-playbook playbooks/deploy_banner.yml --check --diff --limit leaf1 -vvv
+  ```
+
+---
+
+# Git
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 2.3`
+
+> - Git for AVD users
+
+---
+
+# Recap
+
+<style scoped>section {font-size: 20px;}</style>
+
+- As we discussed before:
+
+  > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
+
+- We have already cloned the workshop repository and made some changes. Delete it and clone it again to start fresh:
+
+  ```bash
+  cd labfiles
+  git clone https://github.com/<gh-handle>/<your-copy-of-this-repository>.git avd-extended-workshop
+  git checkout main
+  ```
+
+- On Codespaces it's enough to delete the old codespace and create a new one.
+- Get you Git Cheat Sheet copy [here](https://education.github.com/git-cheat-sheet-education.pdf).
+
+---
+
+# Setup Git
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Git is already pre-installed in the container.
+- Setup your name and email address:
+
+  ```bash
+  git config --global user.name "<first-and-2nd-name>"
+  git config --global user.email "<your-email>"
+  ```
+
+- Check the current configuration:
+
+  ```bash
+  git config --list
+  ```
+
+- To edit the configuration file:
+
+  ```bash
+  # usually the config file is located in ~/.gitconfig
+  git config --global --edit
+  ```
+
+---
+
+# Git Status and origin/main
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `git status` provides some info about the current state of the repository.
+
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ git status
+  On branch main
+  Your branch is ahead of 'origin/main' by 1 commit.
+    (use "git push" to publish your local commits)
+
+  nothing to commit, working tree clean
+  ```
+
+- `Origin` is the default name for the remote repository from where the local copy was cloned. `origin/main` is the remote twin of our main branch.
+
+---
+
+# Git Branches
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Branch is technically a pointer to a specific commit.
+- Branching allows to work on multiple features in parallel without other branches being affected.
+- `git branch` command lists all branches in the repository.
+- You can switch between branches with `git checkout <branch-name>` when there are no uncommitted changes.
+- `Trunk` is another name for the default branch (also called `Master` or `Main`). If required you can change the default branch name.
+
+  ```bash
+  # change the default branch name to main
+  git config --global init.defaultBranch main
+  ```
+
+---
+
+# Branch Naming Convention
+
+<style scoped>section {font-size: 18px;}</style>
+
+- You can name your branches in any way. But it's better to have a naming convention from the start.
+- Branch naming convention is a set of rules that describes how branches should be named.
+- This simplifies collaboration, reviews and CI pipelines.
+- Some common branch naming prefixes are listed below:
+  - `feature/` - a branch that is used to work on some new features or changes
+  - `fix/` - a branch that is used to fix a bug or implement a workaround. Normally it corresponds to an issue. This can be further divided into 
+    - `bugfix/` - planned bug fixes
+    - `hotfix/` - urgent bug fixes, may lack planning
+    - `docsfix/` - fixes in the documentation
+  - `refactor/` - a branch that is used to refactor/optimize the code
+  - `docs/` - for documentation changes
+  - `test/` - a temporary branch uses for testing only and normally not merged anywhere
+  - `release/` - a special branch that is used to prepare a release
+- The full branch name normally looks like `<prefix>/<description>` or `prefix_description`.
+- Use any convention that works, but be consistent!
+
+---
+
+# Git Branching Strategy
+
+<style scoped>section {font-size: 18px;}</style>
+
+- A branching strategy is a convention that describes when and how branches are created, merged and deleted.
+- It's essential to keep stable and predictable Git repository state.
+- There are many branching strategies:
+  - [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+  - [Trunk-based development](https://trunkbaseddevelopment.com/)
+  - [GitHub flow](https://guides.github.com/introduction/flow/)
+  - [GitLab flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html)
+  - [Feature Branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
+  - etc.
+- Our strategy in this workshop will be extremely simple:
+  - Pull the latest changes from the origin.
+  - Create a new feature branch named `feat/<description>`.
+  - Make changes and commit them.
+  - Push the changes to the origin.
+  - Create a pull request to merge the changes to the main branch.
+  - Delete the feature branch after the pull request is merged.
+  - (Optional): Create release branch and deploy the change in the lab.
+
+---
+
+# Create New Branch
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Create a new branch and build switch configs:
+
+  ```bash
+  # create a new branch
+  git branch feat/init_network
+  # switch to the new branch
+  git checkout feat/init_network
+  # build switch configuration files with AVD
+  cd avd_inventory/ && ansible-playbook playbooks/atd-fabric-build.yml
+  # check the status
+  git status
+  ```
+
+- There will be some untracked and uncommitted files.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
+          documentation/
+          intended/
+
+  nothing added to commit but untracked files present (use "git add" to track)
+  ```
+
+---
+
+# Add New Files to Git
+
+<style scoped>section {font-size: 20px;}</style>
+
+- To add files to Git use `git add <file-name>` or `git add .` to add all files in the current directory.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git add .
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  Changes to be committed:
+    (use "git restore --staged <file>..." to unstage)
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+          new file:   documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+          new file:   documentation/devices/leaf1.md
+          new file:   documentation/devices/leaf2.md
+          new file:   documentation/devices/spine1.md
+          new file:   documentation/devices/spine2.md
+          new file:   intended/configs/leaf1.cfg
+          new file:   intended/configs/leaf2.cfg
+          new file:   intended/configs/spine1.cfg
+          new file:   intended/configs/spine2.cfg
+          new file:   intended/structured_configs/leaf1.yml
+          new file:   intended/structured_configs/leaf2.yml
+          new file:   intended/structured_configs/spine1.yml
+          new file:   intended/structured_configs/spine2.yml
+  ```
+
+- If you are using VScode GUI, you can configure VSCode to add new files automatically.
+
+---
+
+# Git Diff
+
+- The files we added are now `staged` according to Git terminology.
+- Before you commit the changes, check the diff:
+
+  ```bash
+  git diff --staged
+  ```
+
+- If we are not happy with the changes for some reason, we can discard them:
+
+  ```bash
+  git reset --hard
+  # or
+  # reset and delete files and directories
+  git reset
+  git clean -fd
+  ```
+
+---
+
+# Git Commit
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Commit the changes:
+
+  ```bash
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git commit -m "feat: init network configuration"
+  [feat/init_network b44caea] init network configuration
+  15 files changed, 4240 insertions(+)
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+  create mode 100644 avd_inventory/documentation/devices/leaf1.md
+  create mode 100644 avd_inventory/documentation/devices/leaf2.md
+  create mode 100644 avd_inventory/documentation/devices/spine1.md
+  create mode 100644 avd_inventory/documentation/devices/spine2.md
+  create mode 100644 avd_inventory/intended/configs/leaf1.cfg
+  create mode 100644 avd_inventory/intended/configs/leaf2.cfg
+  create mode 100644 avd_inventory/intended/configs/spine1.cfg
+  create mode 100644 avd_inventory/intended/configs/spine2.cfg
+  create mode 100644 avd_inventory/intended/structured_configs/leaf1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/leaf2.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine2.yml
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git status
+  On branch feat/init_network
+  nothing to commit, working tree clean
+  ```
+
+- It's also possible to run `git commit` to write commit message in the editor.
+- Always write meaningful commit messages. Write multiple lines if required.
+
+---
+
+# Git Log
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Git Log allows to check the history of commits:
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git log
+  commit 61b80a9df7d10335f23b47eb1a48ea6cb7080734 (HEAD -> feat/init_network)
+  Author: Petr Ankudinov <ankudinov@users.noreply.github.com>
+  Date:   Mon Jul 10 09:29:48 2023 +0000
+
+      feat: init network config
+
+  commit 4a95a28ab4202a7e94c7f6e36fe768d38c560c6a (origin/main, origin/HEAD, main)
+  Merge: 4125ccc fbb9fd9
+  Author: Petr Ankudinov <ankudinov@users.noreply.github.com>
+  Date:   Mon Jul 3 14:35:00 2023 +0200
+
+      Merge pull request #4 from ankudinov/main
+      
+      add additional slides from ankudinov/main
+
+  ...
+  ```
+
+- You can see forking in action here. `feat/init_network` is ahead of `origin/main` by 1 commit.
+- `HEAD` is pointer to the most recent commit in the branch.
+
+---
+
+# Git Is A Hash Map
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Inspect the commit IDs. Git is a hashmap. The commit ID is a hash of the commit content.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ ls -la .git/objects/61/
+  total 12
+  drwxrwxrwx+  2 vscode vscode 4096 Jul 10 09:30 .
+  drwxrwxrwx+ 29 vscode root   4096 Jul 10 09:30 ..
+  -r--r--r--   1 vscode vscode  187 Jul 10 09:30 b80a9df7d10335f23b47eb1a48ea6cb7080734
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ git cat-file -t 61b80a9df7d10335f23b47eb1a48ea6cb7080734
+  commit
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ git cat-file -p 61b80a9df7d10335f23b47eb1a48ea6cb7080734
+  tree f32d7696c08925fc9d040efa7223932788475cf6
+  parent 4a95a28ab4202a7e94c7f6e36fe768d38c560c6a
+  author Petr Ankudinov <ankudinov@users.noreply.github.com> 1688981388 +0000
+  committer Petr Ankudinov <ankudinov@users.noreply.github.com> 1688981388 +0000
+
+  feat: init network config
+  ```
+
+---
+
+# Back In Time
+
+- You can check the diff between any 2 commits:
+
+  ```bash
+  git diff a49eab9630c90a99fcde3eff0f2e37a450e81d33 74e80fb401498ae628626f9b2d42fa3db1871ded
+  ```
+
+- To check the diff between the current commit and the previous one:
+
+  ```bash
+  git diff HEAD^ HEAD
+  ```
+
+- To rollback the changes `before you push` them to the remote:
+
+  ```bash
+  git reset --hard HEAD^
+  ```
+
+- Or simply use a commit ID.
+
+---
+
+# Push the Changes to the Remote
+
+<style scoped>section {font-size: 20px;}</style>
+
+- To push the new branch to the remote, execute following command:
+
+  ```bash
+  git push --set-upstream origin feat/init_network
+  ```
+
+- `--set-upstream` is required to set the remote branch as the default branch for the local branch. VSCode will set it automatically.
+- At this point, if you are using ATD or your own machine, you may be asked to authenticate. Please follow the steps documented in the [Arista CI workshop](https://aristanetworks.github.io/avd-workshops/git/#github) to create a token and authenticate.
+-If the push was successful, the `Compare and Pull` button must be present on top of your Github repository web page. Click it.
+
+![bg right fit](img/github-compare-and-pull.png)
+
+---
+
+# Open Pull Request
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/github-open-a-pull-request.png)
+
+- `Open a pull request` window will appear.
+- Add a meaningful message to help reviewers understand the purpose of the PR.
+- Assign a reviewer if you have any. Talk to you workshop peers.
+- Click `Create pull request` button.
+
+---
+
+# PR Review
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/github-review-files-changed.png)
+
+- Click `Files Changed` tab and review the configs generated by AVD and other files.
+- When ready, switch back to `Conversation`
+
+---
+
+# Merge PR
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/github-merge-pr.png)
+
+- Leave any comments if required. `LGTM` is very common and has higher frequency if PR is too big. 😄
+- Keep you PR scope small and focused to simplify the review process.
+- Click `Merge pull request` button.
+
+---
+
+# Delete Feature Branch
+
+<style scoped>section {font-size: 20px;}</style>
+
+![bg right fit](img/github-delete-branch.png)
+
+- When PR is merged, you can delete the feature branch to keep the repository clean and small.
+
+---
+
+# Switch Back to Main and Pull
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Switch back to `main` branch and pull the changes:
+
+  ```bash
+  git checkout main
+  git pull
+  ```
+
+  ```zsh
+  @ankudinov ➜ /workspaces/temp-workshop-copy/avd_inventory (feat/init_network) $ git checkout main
+  Switched to branch 'main'
+  Your branch is up to date with 'origin/main'.
+  @ankudinov ➜ /workspaces/temp-workshop-copy/avd_inventory (main) $ git pull
+  remote: Enumerating objects: 1, done.
+  remote: Counting objects: 100% (1/1), done.
+  remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+  Unpacking objects: 100% (1/1), 639 bytes | 639.00 KiB/s, done.
+  From https://github.com/ankudinov/temp-workshop-copy
+    367f621..207e1ce  main       -> origin/main
+  Updating 367f621..207e1ce
+  Fast-forward
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md |  86 ++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv    |   5 +++
+  avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv     |  17 +++++++++
+  avd_inventory/documentation/devices/leaf1.md                       | 791 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/leaf2.md                       | 791 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/spine1.md                      | 433 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/documentation/devices/spine2.md                      | 433 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/leaf1.cfg                           | 256 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/leaf2.cfg                           | 256 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/spine1.cfg                          | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/configs/spine2.cfg                          | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/leaf1.yml                | 346 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/leaf2.yml                | 346 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/spine1.yml               | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  avd_inventory/intended/structured_configs/spine2.yml               | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  15 files changed, 4240 insertions(+)
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-documentation.md
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-p2p-links.csv
+  create mode 100644 avd_inventory/documentation/ATD_FABRIC/ATD_FABRIC-topology.csv
+  create mode 100644 avd_inventory/documentation/devices/leaf1.md
+  create mode 100644 avd_inventory/documentation/devices/leaf2.md
+  create mode 100644 avd_inventory/documentation/devices/spine1.md
+  create mode 100644 avd_inventory/documentation/devices/spine2.md
+  create mode 100644 avd_inventory/intended/configs/leaf1.cfg
+  create mode 100644 avd_inventory/intended/configs/leaf2.cfg
+  create mode 100644 avd_inventory/intended/configs/spine1.cfg
+  create mode 100644 avd_inventory/intended/configs/spine2.cfg
+  create mode 100644 avd_inventory/intended/structured_configs/leaf1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/leaf2.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine1.yml
+  create mode 100644 avd_inventory/intended/structured_configs/spine2.yml
+  ```
+
+- This will bring your local repository in sync with the remote again.
+
+---
+
+# When Things Go Wrong
+
+<style scoped>section {font-size: 20px;}</style>
+
+- If the PR was broken and reviewer have not noticed that, there are few options:
+  - Switch back to the last stable branch.
+  - Create a fix and open a new PR.
+  - Inspect `git log` and use `git revert -m 1 <commit-id>` to revert the commit.
+  - [Replace your branch with another one](https://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch).
+
+  ```bash
+  # replacing main with a different branch to fix the trunk
+  git checkout main
+  git pull
+  git checkout <last-stable-branch>
+  git merge -s ours main
+  git checkout main
+  git merge <last-stable-branch>
+  ```
+
+---
+
+# End of Section 2
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
+
+> - to-be-continued
