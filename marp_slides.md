@@ -1905,3 +1905,59 @@ ul {font-size: 12px;}
 
 - It's also possible to run `git commit` to write commit message in the editor.
 - Always write meaningful commit messages. Write multiple lines if required.
+
+---
+
+# Git Log
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Git Log allows to check the history of commits:
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop/avd_inventory (feat/init_network) $ git log
+  commit 61b80a9df7d10335f23b47eb1a48ea6cb7080734 (HEAD -> feat/init_network)
+  Author: Petr Ankudinov <ankudinov@users.noreply.github.com>
+  Date:   Mon Jul 10 09:29:48 2023 +0000
+
+      feat: init network config
+
+  commit 4a95a28ab4202a7e94c7f6e36fe768d38c560c6a (origin/main, origin/HEAD, main)
+  Merge: 4125ccc fbb9fd9
+  Author: Petr Ankudinov <ankudinov@users.noreply.github.com>
+  Date:   Mon Jul 3 14:35:00 2023 +0200
+
+      Merge pull request #4 from ankudinov/main
+      
+      add additional slides from ankudinov/main
+
+  ...
+  ```
+
+- You can see forking in action here. `feat/init_network` is ahead of `origin/main` by 1 commit.
+- `HEAD` is pointer to the most recent commit in the branch.
+
+---
+
+# Git Is A Hash Map
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Inspect the commit IDs. Git is a hashmap. The commit ID is a hash of the commit content.
+
+  ```zsh
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ ls -la .git/objects/61/
+  total 12
+  drwxrwxrwx+  2 vscode vscode 4096 Jul 10 09:30 .
+  drwxrwxrwx+ 29 vscode root   4096 Jul 10 09:30 ..
+  -r--r--r--   1 vscode vscode  187 Jul 10 09:30 b80a9df7d10335f23b47eb1a48ea6cb7080734
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ git cat-file -t 61b80a9df7d10335f23b47eb1a48ea6cb7080734
+  commit
+  @ankudinov ➜ /workspaces/avd-extended-workshop (feat/init_network) $ git cat-file -p 61b80a9df7d10335f23b47eb1a48ea6cb7080734
+  tree f32d7696c08925fc9d040efa7223932788475cf6
+  parent 4a95a28ab4202a7e94c7f6e36fe768d38c560c6a
+  author Petr Ankudinov <ankudinov@users.noreply.github.com> 1688981388 +0000
+  committer Petr Ankudinov <ankudinov@users.noreply.github.com> 1688981388 +0000
+
+  feat: init network config
+  ```
