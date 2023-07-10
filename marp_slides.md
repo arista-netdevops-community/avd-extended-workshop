@@ -1673,4 +1673,45 @@ ul {font-size: 12px;}
   > Git is a distributed version control system that tracks changes to a set of files and enables collaborative work.
 
 - We have already cloned the workshop repository and made some changes.
+
+  ```bash
+  cd labfiles
+  git clone https://github.com/<gh-handle>/<your-copy-of-this-repository>.git avd-extended-workshop
+  git checkout main
+  ```
+
 - Let's take a closer look.
+
+---
+
+# Setup Git
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Git is already pre-installed in the container.
+- Setup your name and email address:
+
+  ```bash
+  git config --global user.name "<first-and-2nd-name>"
+  git config --global user.email "<your-email>"
+  ```
+
+- To change the default branch name `main`:
+
+  ```bash
+  # usually not required and `master` is just fine
+  git config --global init.defaultBranch main
+  ```
+
+- Check the current configuration:
+
+  ```bash
+  git config --list
+  ```
+
+- To edit the configuration file:
+
+  ```bash
+  # usually the config file is located in ~/.gitconfig
+  git config --global --edit
+  ```
