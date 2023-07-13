@@ -30,12 +30,6 @@
             "extensions": [
                 // install Marp extension for VScode to build slides
                 "marp-team.marp-vscode",
-                // Github Copilot
-                "github.copilot",
-                // python
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-python.isort",
                 // git essentials
                 "piotrpalarz.vscode-gitignore-generator",
                 "mhutchie.git-graph",
@@ -44,23 +38,16 @@
                 // spell checker
                 "streetsidesoftware.code-spell-checker",
                 // errors and highlighters
-                "IgorSbitnev.error-gutters",
-                "fabiospampinato.vscode-highlight",
                 "mechatroner.rainbow-csv",
                 // excalidraw
                 "pomdtr.excalidraw-editor",
                 // markdown
                 "yzhang.markdown-all-in-one",
                 "bierner.markdown-checkbox",
-                "telesoho.vscode-markdown-paste-image",
-                "yzane.markdown-pdf",
-                "bierner.markdown-mermaid",
-                "AlanWalk.markdown-toc",
                 "DavidAnson.vscode-markdownlint",
                 // various tools
                 "tuxtina.json2yaml",
                 "vscode-icons-team.vscode-icons",
-                "tomoki1207.pdf",
                 "mutantdino.resourcemonitor"
             ]
         }
