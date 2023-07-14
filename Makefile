@@ -12,6 +12,14 @@ start: ## Deploy ceos lab
 stop: ## Destroy ceos lab
 	sudo containerlab destroy --debug --topo $(CURRENT_DIR)/clab/topology.clab.yml --cleanup
 
-.PHONY: deploy
-deploy: ## Deploy AVD configs
-	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/deploy.yml
+.PHONY: avd_build
+avd_build: ## Generate AVD configs
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/atd-fabric-build.yml
+
+.PHONY: avd_provision_eapi
+avd_provision_eapi: ## Deploy AVD configs using eAPI
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/atd-fabric-provision-eapi.yml
+
+.PHONY: avd_diff
+avd_diff: ## Show the diff between running config and designed config
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook --diff --check playbooks/atd-fabric-provision-eapi.yml

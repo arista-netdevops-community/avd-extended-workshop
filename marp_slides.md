@@ -70,10 +70,8 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
   >   - Prepare Github Codespaces Environment
   >   - Run AVD Playbooks
   >   - Make Some Changes in AVD Repository
-  > - Section 2 - Ansible and Git 101:
-  >   - `Under construction`
-  > - Section 3 - Common AVD provisioning cases:
-  >   - `Under construction`
+  > - Section 2 - Ansible and Git 101
+  > - Section 3 - Common AVD provisioning cases
 
 - Make a break when you see a slide with a coffee cup ☕️
 - Ask questions at any time!
@@ -2120,3 +2118,74 @@ ul {font-size: 12px;}
 `Questions?`
 
 > - to-be-continued
+
+---
+
+# Section 3
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Common AVD Provisioning Cases`
+
+> - How to use your AVD repository efficiently
+
+---
+
+# A Few Words About Makefile and Containers
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.1`
+
+> - Makefile
+> - How to use containers with AVD
+
+---
+
+# Makefile
+
+- If you need a deeper dive into Makefile syntax and use case - the [makefiletutorial.com](https://makefiletutorial.com/) is the best place to start. You'll be an expert in making Makefiles when you finish. :sunglasses:
+- Originally Makefiles were used by C/C++ developers to compile the code.
+- Makefiles have a few advantages that make them useful for other use cases:
+  - They are simple.
+  - They allow assigning a simple shortcut to complex actions.
+  - They are available by default on most Linux distributions.
+- We are simply going to use Makefile to create shortcuts to simplify AVD operations.
+
+---
+
+# Using Makefile Shortcuts
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Check that you are in the main workshop directory `avd-extended-workshop` where the Makefile is located:
+  
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ ls -la | grep Make
+  -rw-r--r--  1 vscode vscode  1026 Jul 14 10:06 Makefile
+  ```
+
+- Inspect the Makefile syntax. Note the ident after a command. It's a tab, not spaces. Makefile is sensitive to that.
+- Run `make help` command.
+
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ make help
+  avd_build                      Generate AVD configs
+  avd_diff                       Show the diff between running config and designed config
+  avd_provision_eapi             Deploy AVD configs using eAPI
+  help                           Display help message
+  start                          Deploy ceos lab
+  stop                           Destroy ceos lab
+  ```
+
+- Test some shortcuts from the list. Makefile can simplify even more complex actions by hiding them behind a shortcut.
