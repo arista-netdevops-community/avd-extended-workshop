@@ -103,6 +103,7 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
 
 - You **MUST** have a Github account❗
   Register [here](https://github.com/join).
+- You **MUST** have an [arista.com account](https://www.arista.com/en/login) to download cEOS-lab image for Codespaces.
 
 ![bg left](img/pexels-towfiqu-barbhuiya-11412596.jpg)
 
@@ -2197,3 +2198,153 @@ ul {font-size: 12px;}
   make avd_provision_eapi  # deploy the configs
   make stop  # stop the lab
   ```
+
+---
+
+# Docker
+
+- This is not a Docker training and we are only going to cover containerized AVD use case.
+- For additional information check [Introduction to Docker and Containers](https://container.training/intro-selfpaced.yml.html). It's great!
+- Do not get confused by low level technical details if you are not familiar with Docker. Focus on higher level user experience.
+- All examples from this workshop will work on Codespaces, but not ATD. Use [Play with Docker](https://labs.play-with-docker.com/), your own machine with Docker or just follow the slides if you are not using Codespaces option.
+
+---
+
+# Why Containers for AVD?
+
+- Building a stable AVD environment looks simple, but often much harder in reality as every system is very different.
+- It's even harder to clone the same environment and experience for multiple users.
+- Containers make it simple!
+
+---
+
+# Run cAVD
+
+Running containerized AVD is simple.
+
+```bash
+# make a basic test to confirm docker functionality
+docker run hello-world
+# pull AVD container
+# avd-all-in-one is a community repository and may be suboptimal in certain case
+# you can always build your own image using Dockerfile based on the example from the repository
+docker pull ghcr.io/arista-netdevops-community/avd-all-in-one-container/avd-all-in-one:latest
+# run the container
+make run  # <-- this hides quite a bit of Docker complexity, but easy to use
+#               check the Makefile if you really want to know what happens behind the scenes
+```
+
+---
+
+# AVD Container Warnings
+
+- Do NOT run AVD container as root! That breaks all permissions and can create serious issues with your Git repository.
+- Some RHEL-based distribution require exact match of UID inside and outside of the container. That requires a special intermediate image that will re-map the user ID or a sophisticated entrypoint. That is a dark magic and will not be covered in this workshop.
+- Devcontainers make it even easier by solving the listed problems out of the box.
+
+---
+
+# Why Devcontainers?
+
+<style scoped>section {font-size: 24px;}</style>
+
+- Every project has dependencies.
+- Managing dependencies is hard. Possible issues include, but not limited to: conflicting installations, system path, incorrect versions, etc.
+- venv/pyenv and similar tools are often very specialized, provide limited isolation and do not cover all possible dependency issues. For ex. venv/pyenv cover Python only and can be easily broken.
+- Containers provide a better way to build a stable environment, but learning barrier is higher.
+- Devcontainers provide all advantages of containerized environments with additional advantages:
+  - easy to build
+  - easy to use
+  - very portable
+- Disadvantage: Devcontainers are a VSCode feature.
+
+![bg fit opacity:.3](img/why_devcontainers.png)
+
+---
+
+# Is It Hard to Build a Good Container?
+
+<style scoped>section {font-size: 22px;}</style>
+
+- To build a reasonable container the following steps are usually required:
+  - Craft a base Docker file with some essentials
+  - Add non-root user, as root can break permissions in certain scenarios
+  - The non-root user ID may not match user ID outside of the container. On some operating systems (for ex. RHEL and the family) that can be a serious problem. Find a way to map UID inside the container to the original UID. [Not a trivial task](https://github.com/arista-netdevops-community/avd-quickstart-containerlab/blob/master/.devcontainer/updateUID.Dockerfile)
+  - Create an [entrypoint](https://docs.docker.com/engine/reference/builder/#entrypoint). I'm certain everyone has a perfect understanding of this concept. :slightly_smiling_face: Here is a relatively simple [example](https://github.com/arista-netdevops-community/avd-all-in-one-container/blob/master/entrypoint.sh)
+  - Take care of transferring your Git credentials, keys, etc. into the container if it was created as interactive
+  - Think about security and something else that you'll certainly forget or never have time to start
+  - ... and it has to be multi-platform
+- Devcontainers are taking care of most of the points mentioned above out of the box 👍 📦
+
+---
+
+# What is VScode Devcontainer?
+
+A picture worth a thousand words. [Source](https://code.visualstudio.com/docs/devcontainers/containers).
+
+![devcontainer architecture](img/architecture-containers.png)
+
+---
+
+# devcontainer.json
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `devcontainer.json` contains the specification for your devcontainer
+- if `.devcontainer/devcontainer.json` is present in the directory, the VSCode will suggest to open the folder in the devcontainer automatically
+- You can still use following commands when required:
+  - Dev Containers: Open Folder in Container
+  - Dev Containers: Rebuild Container
+  - Dev Containers: Rebuild Container Without Cache
+- A very short devcontainer specification can look like:
+
+```json
+{
+  "name": "Python 3",
+  // it is possible to use `build` instead of image and provide Dockerfile
+  // pre-build image provides consistent results, but Dockerfile is easy to adjust for specific environment
+  "image": "mcr.microsoft.com/devcontainers/python:0-3.9"
+}
+```
+
+> Check full devcontainer.json [reference here](https://containers.dev/implementors/json_reference/).
+
+---
+
+# Codespace is a Devcontainer
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Github Codespace for this workshop is based on a devcontainer feature.
+- Inspect the [devcontainer.json](https://github.com/ankudinov/avd-extended-workshop/blob/main/.devcontainer/devcontainer.json) and [Dockefile](https://github.com/ankudinov/avd-extended-workshop/blob/main/.devcontainer/Dockerfile) for details. All required dependencies like AVD and Containerlab are already part of the workshop container.
+- Check `features` field in the `devcontainer.json`. That is a very effiecient way to add Docker-in-Docker and SSHD to the container without touching a single line in the Dockerfile.
+
+```json
+"features": {
+  "ghcr.io/devcontainers/features/docker-in-docker:1": {
+      "version": "latest"
+  },
+  // add sshd to support gh cli codespace cp
+  "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+  }
+}
+```
+
+---
+
+# What is Devcontainer Feature
+
+<style scoped>section {font-size: 24px;}</style>
+
+> Development container "Features" are self-contained, shareable units of installation code and dev container configuration. The name comes from the idea that referencing one of them allows you to quickly and easily add more tooling, runtime, or library "Features" into your development container for use by you or your collaborators.
+
+- Short version: it's a script with a description doing some extra configuration when devcontainer is created
+- You can create [your own features](https://github.com/devcontainers/feature-starter) using following structure:
+
+```text
++-- feature
+|    +-- devcontainer-feature.json
+|    +-- install.sh
+|    +-- (other files)
+```
