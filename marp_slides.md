@@ -2166,7 +2166,7 @@ ul {font-size: 12px;}
 
 # Using Makefile Shortcuts
 
-<style scoped>section {font-size: 20px;}</style>
+<style scoped>section {font-size: 18px;}</style>
 
 - Check that you are in the main workshop directory `avd-extended-workshop` where the Makefile is located:
   
@@ -2189,3 +2189,11 @@ ul {font-size: 12px;}
   ```
 
 - Test some shortcuts from the list. Makefile can simplify even more complex actions by hiding them behind a shortcut.
+
+  ```bash
+  make run  # start the lab
+  make avd_build  # build AVD configs
+  make avd_diff  # check if the change is valid
+  make avd_provision_eapi  # deploy the configs
+  make stop  # stop the lab
+  ```
