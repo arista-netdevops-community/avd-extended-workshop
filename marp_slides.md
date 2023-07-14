@@ -1496,66 +1496,24 @@ all:
 
 # Ansible Add-hoc Commands
 
-<style scoped>section {font-size: 20px;}</style>
-<style scoped>code {font-size: 20px;}</style>
-
-<div class="columns">
-<div>
-
 - Once the inventory is ready, we can start using Ansible.
 - The most basic way to use Ansible is to run ad-hoc commands using `ansible` command to run specific module.
-- Let's test Ansible ping module:
 
-```bash
-# ping all hosts in the inventory
-ansible -m ping all
-#           ^- module name
-# ping all leaf switches
-ansible -m ping ATD_LEAFS
-#                ^- group name
-```
+  ```bash
+  #  check memory
+  ansible all -m shell -a "free -m"
+  #              ^- module name
+  ansible ATD_LEAFS -m shell -a "free -m"
+  #       ^- group name
+  ```
 
-- Ansible `ping` module is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
+---
+
+# Beware of Ping Module
+
+- Ansible [`ansible.builtin.ping` module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ping_module.html) is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
 - `ping` module can fail on machines that are reachable but have no Python interpreter installed by default.
-
-</div>
-<div>
-
-```bash
-vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible all -m ping
-spine1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-cv_atd1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-spine2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible -m ping ATD_LEAFS
-leaf2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-```
-
-</div>
-</div>
+- `ping` module isn't working correctly with all connection methods. In particular it will not work with `ansible_network_os: arista.eos.eos` and `ansible_connection: httpapi`. The module will report success without errors even if the switches are not reachable.
 
 ---
 
