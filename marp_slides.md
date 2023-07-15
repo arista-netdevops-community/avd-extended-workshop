@@ -2137,7 +2137,7 @@ ul {font-size: 12px;}
 
 ---
 
-# A Few Words About Makefile and Containers
+# Makefile and Containers
 
 <style scoped>
 section {background: linear-gradient(to bottom, #000000, #434343);}
@@ -2148,7 +2148,7 @@ ul {font-size: 12px;}
 
 `Section 3.1`
 
-> - Makefile
+> - A Few Words About Makefile
 > - How to use containers with AVD
 
 ---
@@ -2348,3 +2348,18 @@ A picture worth a thousand words. [Source](https://code.visualstudio.com/docs/de
 |    +-- install.sh
 |    +-- (other files)
 ```
+
+---
+
+# Working with AVD Inventory
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.2`
+
+> - How to work with AVD inventory efficiently and useful tricks
