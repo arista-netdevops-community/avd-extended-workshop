@@ -2533,6 +2533,12 @@ Multiple Repositories Advantages
 
 ---
 
+# eos_cli
+
+tbd
+
+---
+
 # Get a Lab
 
 <style scoped>
