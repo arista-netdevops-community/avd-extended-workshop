@@ -2569,6 +2569,19 @@ Multiple Repositories Advantages
 
 ---
 
+# Use Search When Working With AVD
+
+<style scoped>section {font-size: 24px;}</style>
+
+![bg right](img/vscode-search.png)
+
+- AVD provides a lot of data about your network.
+- Use search functions to inspect this data when you are troubleshooting or simply looking for a specific variable value.
+- An example on the right shows how you can quickly find the switches with a specific loopback IP and corrsponding configuration in VSCode.
+- This becomes more powerful at scale.
+
+---
+
 # Get a Lab
 
 <style scoped>
