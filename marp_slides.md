@@ -2497,3 +2497,157 @@ Multiple Repositories Advantages
   # update ATD_SERVERS.yml with an additional server
   yq ea --inplace '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_SERVERS.yml test.yml
   ```
+
+---
+
+# Using `yq` to Add New Switches
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Now let's use `yq` tool to add new switches to ATD_FABRIC.yml
+- Normally there is no need to do that as the corresponding data structure is simple. But it's a good example.
+- Create `add_new_leaves.yml` with the following content:
+  
+  ```yaml
+  ---
+  l3leaf:
+    node_groups:
+      - group: pod2
+        bgp_as: 65102
+        nodes:
+          - name: leaf3
+            id: 3  # <-- yq will not number that automatically
+            mgmt_ip: 192.168.0.14/24
+            uplink_switch_interfaces: [Ethernet4, Ethernet4]
+          - name: leaf4
+            id: 4  # <-- yq will not number that automatically
+            mgmt_ip: 192.168.0.15/24
+            uplink_switch_interfaces: [Ethernet5, Ethernet5]
+  ```
+
+- Add data to `ATD_FABRIC.yml` and add switches to the `inventory.yml` manually or using `yq`:
+
+  ```bash
+  yq ea --inplace '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_FABRIC.yml add_new_leaves.yml
+  ```
+
+---
+
+# Get a Lab!
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.3`
+
+> - A few words on lab options that you can use to test AVD
+
+---
+
+# Build A Lab for AVD Testing
+
+<style scoped>section {font-size: 24px;}</style>
+
+> Once upon a time in ancient Egypt a man was building a datacenter. But virtual labs did not exist back then. He failed and was cursed by gods … 𓀨𓁛𓀏 <-- ancient server rack on the left
+
+- You must have a lab!
+- Have different instances of the lab that you can use for testing, learning, CI.
+- Available options:
+  - Physical - best, but costly and therefore hard to scale
+  - Virtual - VMWare, KVM, EVE-NG, GNS, etc.
+  - Containers - Containerlab, KNE, etc.
+
+---
+
+# Requirements for The Lab
+
+<style scoped>section {font-size: 24px;}</style>
+
+- Must:
+
+  - Automation / orchestration capabilities are critical
+  - Functional
+  - Multivendor
+  - Free and open source
+  - Can support your CI pipeline (if you go that far)
+
+- Not critical:
+  - GUI is overrated
+
+- That is only an opinion. Your mileage may vary.
+- Still no standard tool for the industry.
+
+---
+
+# Some Lab Options
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `Hardware`
+  limited availability and normally used to test hardware based features only
+- `VMWare`
+  OK for basic testing, but not really a lab solution and limited automation capabilities in certain cases due to licensing restrictions
+- `EVE-NG`
+  Great way to start, big community. But you can do better. 🙂
+- `KVM`
+  Multipurpose, easy to manage and automate. Reasonable VM footprint with KSM. Good choice.
+- `Containerlab`
+  Very polished and easy to use. Great orchestration tools. If cEOS is sufficient for testing - use it.
+- `KNE`
+  potentially useful for distributed large scale lab, but entry barrier is much higher comparing to cLab
+- `Netsim`
+  whatever it is, the list is already too long. 🙂
+
+---
+
+# EVE-NG History
+
+- Originally EVE-NG is KVM with custom kernel and GUI
+- As EVE-NG is closed, not clear how big is the difference right now
+- EVE-NG claims support for some interesting features, like UKSM
+  - UKSM (Ultra Kernel Same-page Merging) development on original public Github is stale
+  - Have not seen any contribution from EVE-NG back to the community
+  - KSM works just fine
+
+---
+
+# KVM as a Virtual Lab
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Very robust solution, but with some complexity:
+  - "Slow protocols" (STP, LACP, LLDP, etc.) require custom kernel or Open vSwitch
+- No reasonable orchestration for virtual lab:
+  - KVM is perfect for automation. But there is no solution available to automate virtual lab deployment without writing custom code/scripts
+  - For that reason managing full scale virtual lab in KVM can be complex:
+    - [Migrating from KVM to EVE-NG](https://basimaly.wordpress.com/2022/02/01/migrating-from-kvm-to-eve-ng/)
+- KVM is perfect for a few VMs + cLab on the same host
+- Examples of automated KVM deployment in the lab (or prod):
+  - [CVP KVM Deployer](https://github.com/arista-netdevops-community/cvp-kvm-deployer)
+  - ISO-based provisioning script (ask your SE)
+
+---
+
+# Containerlab
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Big appreciation to every cLab contributor for making the world a better place
+- cLab is the best option to start with:
+  - it's free, it's open-source, it is multi-vendor
+  - very light footprint and very easy to use (even without advanced Docker skills)
+  - portable (your lab is a Git repository)
+  - perfect lab orchestration
+- Reasons not to use cLab:
+  - no container available for the OS of your choice
+  - some required features are not available in the container ( cEOS: MPLS, multicast, etc.)
+  - platform limitations (for ex., cEOS on ARM)
+  - failover testing (do not try to emulate software upgrade or phy link failure using cLab!)
+  - it's getting better every day!
+- Containerlab has growing and active community. Start here:
+  - [cLab quickstart](https://containerlab.dev/quickstart/)
+  - [cLab workshop for Arista cEOS-lab](https://github.com/arista-netdevops-community/emea-ambassadors-containerlab-aug-2022)
