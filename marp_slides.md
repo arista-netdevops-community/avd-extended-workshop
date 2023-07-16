@@ -2549,6 +2549,26 @@ Multiple Repositories Advantages
 
 ---
 
+# Custom Structured Configuration
+
+<style scoped>section {font-size: 20px;}</style>
+
+- As we discussed earlier, AVD is using different roles to produce EOS configuration from the input data.
+- `eos_designs` is responsible of building low level data structures called `intended configs` from group and host vars.
+- Intended configs are then used by `eos_cli_config_gen` to parse Jinja2 templates and produce configs
+- That also means that if `eos_designs` overrides some key in group or host vars, `eos_cli_config_gen` will not be able to use them directly.
+- If there is a need to override some keys, `custom_structured_configuration_` prefix can be used.
+- Please check the [AVD Documentation](https://avd.arista.com/4.1/roles/eos_designs/docs/how-to/custom-structured-configuration.html) for details.
+- One weird example of using custom structured is configuring Ethernet breakouts starting with /4  with /1 configuration missing. Yes, that happens! 😃 In that case AVD will produce the configuration that will not result in a valid EOS config. We have to add some low level tweaks to make it work:
+
+  ```yaml
+  custom_structured_configuration_ethernet_interfaces:
+    Ethernet12/1:
+      speed: forced 25gfull
+  ```
+
+---
+
 # Get a Lab
 
 <style scoped>
