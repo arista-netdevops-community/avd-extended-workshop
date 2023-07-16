@@ -2363,3 +2363,105 @@ ul {font-size: 12px;}
 `Section 3.2`
 
 > - How to work with AVD inventory efficiently and useful tricks
+
+---
+
+<style scoped>section {font-size: 20px;}</style>
+
+# Ansible Inventory for Multiple Networks
+
+- Very often there is a need to build multiple networks with AVD. For example, multiple DCs or L3LS EVPN and L2LS management network.
+- There are 2 possible options:
+  - Create a dedicated repository for each network
+  - Create a single repository for multiple networks
+- Ansible repository is flexible and allows both options
+- Both options are valid. Pick any according to your priorities.
+- If a single inventory is used for multiple networks, create a dedicated Ansible group for each network segment and adjust playbooks accordingly.
+
+  ```yaml
+  ---
+  # playbooks/avd-build-dc2.yml
+  - name: Build configs for DC2
+  hosts: DC2_FABRIC
+  ...
+  ```
+
+---
+
+# Single vs Multiple Repositories
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+Single Repository
+
+- Advantages
+  - Single source of truth to store all data
+  - Allows sharing variables
+  - Simple to maintain due to single point of control
+  - No need to duplicate CIs, playbooks, Makefiles, etc.
+  - "One ring to rule them all" concept. :ring:
+- Disadvantages
+  - Mistakes can have higher impact.
+  - If the ring is burned, everything is gone. 🌋
+
+</div>
+<div>
+
+Multiple Repositories Advantages
+
+- Some structures are duplicated and overall can be more complex to maintain
+- Mistakes are isolated and have lower impact
+- Changes in one environnement can not affect another environment directly
+
+</div>
+</div>
+
+---
+
+# Working with Big Data Structures in AVD
+
+- Some data structures in AVD can be huge. Best example is port provisioning `servers:` can grow really fast in production.
+- YAML with let's say 20K lines is not very human friendly.
+- To simplify provisioning new servers, you can:
+  - Split the port provisioning YAML into multiple files
+  - Use some helper script/tools to work with complex data structures
+
+---
+
+# How to Split AVD Servers into Multiple Files
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Ansible allows splitting group vars into multiple files. For example ATD_SERVERS group vars could be a directory:
+
+  ```bash
+  ATD_SERVERS
+  |- main.yml
+  |- leaf1-servers.yml
+  |- leaf2-servers.yml
+  # ... etc
+  ```
+
+- The problem with this approach is that when Ansible will encounter the same key in different YAMLs, it will overwrite the value. That means if `server:` is defined everywhere only the last occurence wins.
+- AVD allows to define [`connected_endpoints_keys:`](https://avd.arista.com/4.1/roles/eos_designs/docs/input-variables.html?h=connected_endpoints_keys#connected-endpoints-keys-settings) that can be used to solve the problem above.
+
+  ```yaml
+  # avd_inventory/group_vars/ATD_SERVERS/main.yml
+  connected_endpoints_keys:
+    leaf1-servers:
+      type: server
+    leaf2-servers:
+      type: server
+  ```
+
+  ```yaml
+  # avd_inventory/group_vars/ATD_SERVERS/leaf1-servers.yml
+  leaf1-servers:
+    - name: host1
+      <etc.>
+  ```
+
