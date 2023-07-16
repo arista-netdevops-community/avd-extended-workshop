@@ -2533,7 +2533,7 @@ Multiple Repositories Advantages
 
 ---
 
-# Get a Lab!
+# Get a Lab
 
 <style scoped>
 section {background: linear-gradient(to bottom, #000000, #434343);}
@@ -2651,3 +2651,16 @@ ul {font-size: 12px;}
 - Containerlab has growing and active community. Start here:
   - [cLab quickstart](https://containerlab.dev/quickstart/)
   - [cLab workshop for Arista cEOS-lab](https://github.com/arista-netdevops-community/emea-ambassadors-containerlab-aug-2022)
+
+---
+
+# The End of The Workshop
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
