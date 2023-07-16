@@ -2465,3 +2465,35 @@ Multiple Repositories Advantages
       <etc.>
   ```
 
+---
+
+# Use Script/Tools to Work with Complex Data
+
+<style scoped>section {font-size: 18px;}</style>
+
+- We are only going to cover the most basic case here. In reality, there is no limit to custom code you can build on top of AVD.
+- When building sophisticated tools, be sure you know how to support them in future.
+- JSON usually is usually a better data format as an output for this option. But input data format can be anything.
+- Let's do some basic tests with `yq` tool.
+  - 1st, create following YAML file called `test.yml`:
+
+  ```yaml
+  ---
+  servers:
+  - name: host2
+    rack: pod1
+    adapters:
+      - switch_ports: [Eth12, Eth12]
+        switches: [leaf1, leaf2]
+        profile: TENANT_A
+        port_channel:
+          description: PortChannel
+          mode: active
+  ```
+  
+  ```bash
+  # inspect the result of merging 2 files
+  yq ea '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_SERVERS.yml test.yml
+  # update ATD_SERVERS.yml with an additional server
+  yq ea --inplace '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_SERVERS.yml test.yml
+  ```
