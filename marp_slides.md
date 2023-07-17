@@ -2382,7 +2382,7 @@ ul {font-size: 12px;}
   ---
   # playbooks/avd-build-dc2.yml
   - name: Build configs for DC2
-  hosts: DC2_FABRIC
+    hosts: DC2_FABRIC
   ...
   ```
 
