@@ -1,4 +1,5 @@
 CURRENT_DIR := $(shell pwd)
+AVD_CONTAINER_IMAGE := ghcr.io/arista-netdevops-community/avd-all-in-one-container/avd-all-in-one:latest
 
 .PHONY: help
 help: ## Display help message
@@ -12,6 +13,25 @@ start: ## Deploy ceos lab
 stop: ## Destroy ceos lab
 	sudo containerlab destroy --debug --topo $(CURRENT_DIR)/clab/topology.clab.yml --cleanup
 
-.PHONY: deploy
-deploy: ## Deploy AVD configs
-	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/deploy.yml
+.PHONY: avd_build
+avd_build: ## Generate AVD configs
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/atd-fabric-build.yml
+
+.PHONY: avd_provision_eapi
+avd_provision_eapi: ## Deploy AVD configs using eAPI
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook playbooks/atd-fabric-provision-eapi.yml
+
+.PHONY: avd_diff
+avd_diff: ## Show the diff between running config and designed config
+	cd $(CURRENT_DIR)/avd_inventory; ansible-playbook --diff --check playbooks/atd-fabric-provision-eapi.yml
+
+.PHONY: run
+run: ## Run AVD container
+	docker run --rm -it \
+			--network host \
+			--pid="host" \
+			-w $(CURRENT_DIR) \
+			-v $(CURRENT_DIR):$(CURRENT_DIR) \
+			-e AVD_GIT_USER="$(shell git config --get user.name)" \
+			-e AVD_GIT_EMAIL="$(shell git config --get user.email)" \
+			$(AVD_CONTAINER_IMAGE) || true ;

@@ -70,10 +70,8 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
   >   - Prepare Github Codespaces Environment
   >   - Run AVD Playbooks
   >   - Make Some Changes in AVD Repository
-  > - Section 2 - Ansible and Git 101:
-  >   - `Under construction`
-  > - Section 3 - Common AVD provisioning cases:
-  >   - `Under construction`
+  > - Section 2 - Ansible and Git 101
+  > - Section 3 - Common AVD provisioning cases
 
 - Make a break when you see a slide with a coffee cup ☕️
 - Ask questions at any time!
@@ -105,6 +103,7 @@ footer: 'Arista Ansible AVD Extended Workshop, 2023'
 
 - You **MUST** have a Github account❗
   Register [here](https://github.com/join).
+- You **MUST** have an [arista.com account](https://www.arista.com/en/login) to download cEOS-lab image for Codespaces.
 
 ![bg left](img/pexels-towfiqu-barbhuiya-11412596.jpg)
 
@@ -1496,66 +1495,24 @@ all:
 
 # Ansible Add-hoc Commands
 
-<style scoped>section {font-size: 20px;}</style>
-<style scoped>code {font-size: 20px;}</style>
-
-<div class="columns">
-<div>
-
 - Once the inventory is ready, we can start using Ansible.
 - The most basic way to use Ansible is to run ad-hoc commands using `ansible` command to run specific module.
-- Let's test Ansible ping module:
 
-```bash
-# ping all hosts in the inventory
-ansible -m ping all
-#           ^- module name
-# ping all leaf switches
-ansible -m ping ATD_LEAFS
-#                ^- group name
-```
+  ```bash
+  #  check memory
+  ansible all -m shell -a "free -m"
+  #              ^- module name
+  ansible ATD_LEAFS -m shell -a "free -m"
+  #       ^- group name
+  ```
 
-- Ansible `ping` module is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
+---
+
+# Beware of Ping Module
+
+- Ansible [`ansible.builtin.ping` module](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ping_module.html) is not a real ICMP ping. 😄 It attempts to connect to the host and confirms that Python interpreter is available.
 - `ping` module can fail on machines that are reachable but have no Python interpreter installed by default.
-
-</div>
-<div>
-
-```bash
-vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible all -m ping
-spine1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-cv_atd1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-spine2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-vscode ➜ /workspaces/avd-extended-workshop (main) $ ansible -m ping ATD_LEAFS
-leaf2 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-leaf1 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-```
-
-</div>
-</div>
+- `ping` module isn't working correctly with all connection methods. In particular it will not work with `ansible_network_os: arista.eos.eos` and `ansible_connection: httpapi`. The module will report success without errors even if the switches are not reachable.
 
 ---
 
@@ -2162,3 +2119,597 @@ ul {font-size: 12px;}
 `Questions?`
 
 > - to-be-continued
+
+---
+
+# Section 3
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Common AVD Provisioning Cases`
+
+> - How to use your AVD repository efficiently
+
+---
+
+# Makefile and Containers
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.1`
+
+> - A Few Words About Makefile
+> - How to use containers with AVD
+
+---
+
+# Makefile
+
+- If you need a deeper dive into Makefile syntax and use case - the [makefiletutorial.com](https://makefiletutorial.com/) is the best place to start. You'll be an expert in making Makefiles when you finish. :sunglasses:
+- Originally Makefiles were used by C/C++ developers to compile the code.
+- Makefiles have a few advantages that make them useful for other use cases:
+  - They are simple.
+  - They allow assigning a simple shortcut to complex actions.
+  - They are available by default on most Linux distributions.
+- We are simply going to use Makefile to create shortcuts to simplify AVD operations.
+
+---
+
+# Using Makefile Shortcuts
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Check that you are in the main workshop directory `avd-extended-workshop` where the Makefile is located:
+  
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ ls -la | grep Make
+  -rw-r--r--  1 vscode vscode  1026 Jul 14 10:06 Makefile
+  ```
+
+- Inspect the Makefile syntax. Note the ident after a command. It's a tab, not spaces. Makefile is sensitive to that.
+- Run `make help` command.
+
+  ```bash
+  vscode ➜ /workspaces/avd-extended-workshop (main) $ make help
+  avd_build                      Generate AVD configs
+  avd_diff                       Show the diff between running config and designed config
+  avd_provision_eapi             Deploy AVD configs using eAPI
+  help                           Display help message
+  start                          Deploy ceos lab
+  stop                           Destroy ceos lab
+  ```
+
+- Test some shortcuts from the list. Makefile can simplify even more complex actions by hiding them behind a shortcut.
+
+  ```bash
+  make run  # start the lab
+  make avd_build  # build AVD configs
+  make avd_diff  # check if the change is valid
+  make avd_provision_eapi  # deploy the configs
+  make stop  # stop the lab
+  ```
+
+---
+
+# Docker
+
+- This is not a Docker training and we are only going to cover containerized AVD use case.
+- For additional information check [Introduction to Docker and Containers](https://container.training/intro-selfpaced.yml.html). It's great!
+- Do not get confused by low level technical details if you are not familiar with Docker. Focus on higher level user experience.
+- All examples from this workshop will work on Codespaces, but not ATD. Use [Play with Docker](https://labs.play-with-docker.com/), your own machine with Docker or just follow the slides if you are not using Codespaces option.
+
+---
+
+# Why Containers for AVD?
+
+- Building a stable AVD environment looks simple, but often much harder in reality as every system is very different.
+- It's even harder to clone the same environment and experience for multiple users.
+- Containers make it simple!
+
+---
+
+# Run cAVD
+
+Running containerized AVD is simple.
+
+```bash
+# make a basic test to confirm docker functionality
+docker run hello-world
+# pull AVD container
+# avd-all-in-one is a community repository and may be suboptimal in certain case
+# you can always build your own image using Dockerfile based on the example from the repository
+docker pull ghcr.io/arista-netdevops-community/avd-all-in-one-container/avd-all-in-one:latest
+# run the container
+make run  # <-- this hides quite a bit of Docker complexity, but easy to use
+#               check the Makefile if you really want to know what happens behind the scenes
+```
+
+---
+
+# AVD Container Warnings
+
+- Do NOT run AVD container as root! That breaks all permissions and can create serious issues with your Git repository.
+- Some RHEL-based distribution require exact match of UID inside and outside of the container. That requires a special intermediate image that will re-map the user ID or a sophisticated entrypoint. That is a dark magic and will not be covered in this workshop.
+- Devcontainers make it even easier by solving the listed problems out of the box.
+
+---
+
+# Why Devcontainers?
+
+<style scoped>section {font-size: 24px;}</style>
+
+- Every project has dependencies.
+- Managing dependencies is hard. Possible issues include, but not limited to: conflicting installations, system path, incorrect versions, etc.
+- venv/pyenv and similar tools are often very specialized, provide limited isolation and do not cover all possible dependency issues. For ex. venv/pyenv cover Python only and can be easily broken.
+- Containers provide a better way to build a stable environment, but learning barrier is higher.
+- Devcontainers provide all advantages of containerized environments with additional advantages:
+  - easy to build
+  - easy to use
+  - very portable
+- Disadvantage: Devcontainers are a VSCode feature.
+
+![bg fit opacity:.3](img/why_devcontainers.png)
+
+---
+
+# Is It Hard to Build a Good Container?
+
+<style scoped>section {font-size: 22px;}</style>
+
+- To build a reasonable container the following steps are usually required:
+  - Craft a base Docker file with some essentials
+  - Add non-root user, as root can break permissions in certain scenarios
+  - The non-root user ID may not match user ID outside of the container. On some operating systems (for ex. RHEL and the family) that can be a serious problem. Find a way to map UID inside the container to the original UID. [Not a trivial task](https://github.com/arista-netdevops-community/avd-quickstart-containerlab/blob/master/.devcontainer/updateUID.Dockerfile)
+  - Create an [entrypoint](https://docs.docker.com/engine/reference/builder/#entrypoint). I'm certain everyone has a perfect understanding of this concept. :slightly_smiling_face: Here is a relatively simple [example](https://github.com/arista-netdevops-community/avd-all-in-one-container/blob/master/entrypoint.sh)
+  - Take care of transferring your Git credentials, keys, etc. into the container if it was created as interactive
+  - Think about security and something else that you'll certainly forget or never have time to start
+  - ... and it has to be multi-platform
+- Devcontainers are taking care of most of the points mentioned above out of the box 👍 📦
+
+---
+
+# What is VScode Devcontainer?
+
+A picture worth a thousand words. [Source](https://code.visualstudio.com/docs/devcontainers/containers).
+
+![devcontainer architecture](img/architecture-containers.png)
+
+---
+
+# devcontainer.json
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `devcontainer.json` contains the specification for your devcontainer
+- if `.devcontainer/devcontainer.json` is present in the directory, the VSCode will suggest to open the folder in the devcontainer automatically
+- You can still use following commands when required:
+  - Dev Containers: Open Folder in Container
+  - Dev Containers: Rebuild Container
+  - Dev Containers: Rebuild Container Without Cache
+- A very short devcontainer specification can look like:
+
+```json
+{
+  "name": "Python 3",
+  // it is possible to use `build` instead of image and provide Dockerfile
+  // pre-build image provides consistent results, but Dockerfile is easy to adjust for specific environment
+  "image": "mcr.microsoft.com/devcontainers/python:0-3.9"
+}
+```
+
+> Check full devcontainer.json [reference here](https://containers.dev/implementors/json_reference/).
+
+---
+
+# Codespace is a Devcontainer
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Github Codespace for this workshop is based on a devcontainer feature.
+- Inspect the [devcontainer.json](https://github.com/ankudinov/avd-extended-workshop/blob/main/.devcontainer/devcontainer.json) and [Dockefile](https://github.com/ankudinov/avd-extended-workshop/blob/main/.devcontainer/Dockerfile) for details. All required dependencies like AVD and Containerlab are already part of the workshop container.
+- Check `features` field in the `devcontainer.json`. That is a very effiecient way to add Docker-in-Docker and SSHD to the container without touching a single line in the Dockerfile.
+
+```json
+"features": {
+  "ghcr.io/devcontainers/features/docker-in-docker:1": {
+      "version": "latest"
+  },
+  // add sshd to support gh cli codespace cp
+  "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+  }
+}
+```
+
+---
+
+# What is Devcontainer Feature
+
+<style scoped>section {font-size: 24px;}</style>
+
+> Development container "Features" are self-contained, shareable units of installation code and dev container configuration. The name comes from the idea that referencing one of them allows you to quickly and easily add more tooling, runtime, or library "Features" into your development container for use by you or your collaborators.
+
+- Short version: it's a script with a description doing some extra configuration when devcontainer is created
+- You can create [your own features](https://github.com/devcontainers/feature-starter) using following structure:
+
+```text
++-- feature
+|    +-- devcontainer-feature.json
+|    +-- install.sh
+|    +-- (other files)
+```
+
+---
+
+# Working with AVD Inventory
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.2`
+
+> - How to work with AVD inventory efficiently and useful tricks
+
+---
+
+<style scoped>section {font-size: 20px;}</style>
+
+# Ansible Inventory for Multiple Networks
+
+- Very often there is a need to build multiple networks with AVD. For example, multiple DCs or L3LS EVPN and L2LS management network.
+- There are 2 possible options:
+  - Create a dedicated repository for each network
+  - Create a single repository for multiple networks
+- Ansible repository is flexible and allows both options
+- Both options are valid. Pick any according to your priorities.
+- If a single inventory is used for multiple networks, create a dedicated Ansible group for each network segment and adjust playbooks accordingly.
+
+  ```yaml
+  ---
+  # playbooks/avd-build-dc2.yml
+  - name: Build configs for DC2
+  hosts: DC2_FABRIC
+  ...
+  ```
+
+---
+
+# Single vs Multiple Repositories
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>code {font-size: 20px;}</style>
+
+<div class="columns">
+<div>
+
+Single Repository
+
+- Advantages
+  - Single source of truth to store all data
+  - Allows sharing variables
+  - Simple to maintain due to single point of control
+  - No need to duplicate CIs, playbooks, Makefiles, etc.
+  - "One ring to rule them all" concept. :ring:
+- Disadvantages
+  - Mistakes can have higher impact.
+  - If the ring is burned, everything is gone. 🌋
+
+</div>
+<div>
+
+Multiple Repositories Advantages
+
+- Some structures are duplicated and overall can be more complex to maintain
+- Mistakes are isolated and have lower impact
+- Changes in one environnement can not affect another environment directly
+
+</div>
+</div>
+
+---
+
+# Working with Big Data Structures in AVD
+
+- Some data structures in AVD can be huge. Best example is port provisioning `servers:` can grow really fast in production.
+- YAML with let's say 20K lines is not very human friendly.
+- To simplify provisioning new servers, you can:
+  - Split the port provisioning YAML into multiple files
+  - Use some helper script/tools to work with complex data structures
+
+---
+
+# How to Split AVD Servers into Multiple Files
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Ansible allows splitting group vars into multiple files. For example ATD_SERVERS group vars could be a directory:
+
+  ```bash
+  ATD_SERVERS
+  |- main.yml
+  |- leaf1-servers.yml
+  |- leaf2-servers.yml
+  # ... etc
+  ```
+
+- The problem with this approach is that when Ansible will encounter the same key in different YAMLs, it will overwrite the value. That means if `server:` is defined everywhere only the last occurence wins.
+- AVD allows to define [`connected_endpoints_keys:`](https://avd.arista.com/4.1/roles/eos_designs/docs/input-variables.html?h=connected_endpoints_keys#connected-endpoints-keys-settings) that can be used to solve the problem above.
+
+  ```yaml
+  # avd_inventory/group_vars/ATD_SERVERS/main.yml
+  connected_endpoints_keys:
+    leaf1-servers:
+      type: server
+    leaf2-servers:
+      type: server
+  ```
+
+  ```yaml
+  # avd_inventory/group_vars/ATD_SERVERS/leaf1-servers.yml
+  leaf1-servers:
+    - name: host1
+      <etc.>
+  ```
+
+---
+
+# Use Script/Tools to Work with Complex Data
+
+<style scoped>section {font-size: 18px;}</style>
+
+- We are only going to cover the most basic case here. In reality, there is no limit to custom code you can build on top of AVD.
+- When building sophisticated tools, be sure you know how to support them in future.
+- JSON usually is usually a better data format as an output for this option. But input data format can be anything.
+- Let's do some basic tests with `yq` tool.
+  - 1st, create following YAML file called `test.yml`:
+
+  ```yaml
+  ---
+  servers:
+  - name: host2
+    rack: pod1
+    adapters:
+      - switch_ports: [Eth12, Eth12]
+        switches: [leaf1, leaf2]
+        profile: TENANT_A
+        port_channel:
+          description: PortChannel
+          mode: active
+  ```
+  
+  ```bash
+  # inspect the result of merging 2 files
+  yq ea '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_SERVERS.yml test.yml
+  # update ATD_SERVERS.yml with an additional server
+  yq ea --inplace '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_SERVERS.yml test.yml
+  ```
+
+---
+
+# Using `yq` to Add New Switches
+
+<style scoped>section {font-size: 18px;}</style>
+
+- Now let's use `yq` tool to add new switches to ATD_FABRIC.yml
+- Normally there is no need to do that as the corresponding data structure is simple. But it's a good example.
+- Create `add_new_leaves.yml` with the following content:
+  
+  ```yaml
+  ---
+  l3leaf:
+    node_groups:
+      - group: pod2
+        bgp_as: 65102
+        nodes:
+          - name: leaf3
+            id: 3  # <-- yq will not number that automatically
+            mgmt_ip: 192.168.0.14/24
+            uplink_switch_interfaces: [Ethernet4, Ethernet4]
+          - name: leaf4
+            id: 4  # <-- yq will not number that automatically
+            mgmt_ip: 192.168.0.15/24
+            uplink_switch_interfaces: [Ethernet5, Ethernet5]
+  ```
+
+- Add data to `ATD_FABRIC.yml` and add switches to the `inventory.yml` manually or using `yq`:
+
+  ```bash
+  yq ea --inplace '. as $item ireduce ({}; . *+ $item )' avd_inventory/group_vars/ATD_FABRIC.yml add_new_leaves.yml
+  ```
+
+---
+
+# eos_cli
+
+- Sometimes there is a need to add plain text config to the configuration generated by AVD as a temporary workaround or to overcome some AVD limitations.
+- `eos_cli` key can be used to accomplish that.
+- Inspect `ATD_LAB.yml`. You'll find the following line of text:
+
+  ```yaml
+  eos_cli: |-
+  username arista privilege 15 role network-admin secret {{ ansible_password }}
+  ```
+
+- Note the use of Ansible variable `ansible_password` inside the string.
+- Very often plain text configuration is unique to a device and therefore defined in host_vars.
+
+---
+
+# Custom Structured Configuration
+
+<style scoped>section {font-size: 20px;}</style>
+
+- As we discussed earlier, AVD is using different roles to produce EOS configuration from the input data.
+- `eos_designs` is responsible of building low level data structures called `intended configs` from group and host vars.
+- Intended configs are then used by `eos_cli_config_gen` to parse Jinja2 templates and produce configs
+- That also means that if `eos_designs` overrides some key in group or host vars, `eos_cli_config_gen` will not be able to use them directly.
+- If there is a need to override some keys, `custom_structured_configuration_` prefix can be used.
+- Please check the [AVD Documentation](https://avd.arista.com/4.1/roles/eos_designs/docs/how-to/custom-structured-configuration.html) for details.
+- One weird example of using custom structured is configuring Ethernet breakouts starting with /4  with /1 configuration missing. Yes, that happens! 😃 In that case AVD will produce the configuration that will not result in a valid EOS config. We have to add some low level tweaks to make it work:
+
+  ```yaml
+  custom_structured_configuration_ethernet_interfaces:
+    Ethernet12/1:
+      speed: forced 25gfull
+  ```
+
+---
+
+# Use Search When Working With AVD
+
+<style scoped>section {font-size: 24px;}</style>
+
+![bg right](img/vscode-search.png)
+
+- AVD provides a lot of data about your network.
+- Use search functions to inspect this data when you are troubleshooting or simply looking for a specific variable value.
+- An example on the right shows how you can quickly find the switches with a specific loopback IP and corrsponding configuration in VSCode.
+- This becomes more powerful at scale.
+
+---
+
+# Get a Lab
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-pixabay-159591.jpg)
+
+`Section 3.3`
+
+> - A few words on lab options that you can use to test AVD
+
+---
+
+# Build A Lab for AVD Testing
+
+<style scoped>section {font-size: 24px;}</style>
+
+> Once upon a time in ancient Egypt a man was building a datacenter. But virtual labs did not exist back then. He failed and was cursed by gods … 𓀨𓁛𓀏 <-- ancient server rack on the left
+
+- You must have a lab!
+- Have different instances of the lab that you can use for testing, learning, CI.
+- Available options:
+  - Physical - best, but costly and therefore hard to scale
+  - Virtual - VMWare, KVM, EVE-NG, GNS, etc.
+  - Containers - Containerlab, KNE, etc.
+
+---
+
+# Requirements for The Lab
+
+<style scoped>section {font-size: 24px;}</style>
+
+- Must:
+
+  - Automation / orchestration capabilities are critical
+  - Functional
+  - Multivendor
+  - Free and open source
+  - Can support your CI pipeline (if you go that far)
+
+- Not critical:
+  - GUI is overrated
+
+- That is only an opinion. Your mileage may vary.
+- Still no standard tool for the industry.
+
+---
+
+# Some Lab Options
+
+<style scoped>section {font-size: 20px;}</style>
+
+- `Hardware`
+  limited availability and normally used to test hardware based features only
+- `VMWare`
+  OK for basic testing, but not really a lab solution and limited automation capabilities in certain cases due to licensing restrictions
+- `EVE-NG`
+  Great way to start, big community. But you can do better. 🙂
+- `KVM`
+  Multipurpose, easy to manage and automate. Reasonable VM footprint with KSM. Good choice.
+- `Containerlab`
+  Very polished and easy to use. Great orchestration tools. If cEOS is sufficient for testing - use it.
+- `KNE`
+  potentially useful for distributed large scale lab, but entry barrier is much higher comparing to cLab
+- `Netsim`
+  whatever it is, the list is already too long. 🙂
+
+---
+
+# EVE-NG History
+
+- Originally EVE-NG is KVM with custom kernel and GUI
+- As EVE-NG is closed, not clear how big is the difference right now
+- EVE-NG claims support for some interesting features, like UKSM
+  - UKSM (Ultra Kernel Same-page Merging) development on original public Github is stale
+  - Have not seen any contribution from EVE-NG back to the community
+  - KSM works just fine
+
+---
+
+# KVM as a Virtual Lab
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Very robust solution, but with some complexity:
+  - "Slow protocols" (STP, LACP, LLDP, etc.) require custom kernel or Open vSwitch
+- No reasonable orchestration for virtual lab:
+  - KVM is perfect for automation. But there is no solution available to automate virtual lab deployment without writing custom code/scripts
+  - For that reason managing full scale virtual lab in KVM can be complex:
+    - [Migrating from KVM to EVE-NG](https://basimaly.wordpress.com/2022/02/01/migrating-from-kvm-to-eve-ng/)
+- KVM is perfect for a few VMs + cLab on the same host
+- Examples of automated KVM deployment in the lab (or prod):
+  - [CVP KVM Deployer](https://github.com/arista-netdevops-community/cvp-kvm-deployer)
+  - ISO-based provisioning script (ask your SE)
+
+---
+
+# Containerlab
+
+<style scoped>section {font-size: 20px;}</style>
+
+- Big appreciation to every cLab contributor for making the world a better place
+- cLab is the best option to start with:
+  - it's free, it's open-source, it is multi-vendor
+  - very light footprint and very easy to use (even without advanced Docker skills)
+  - portable (your lab is a Git repository)
+  - perfect lab orchestration
+- Reasons not to use cLab:
+  - no container available for the OS of your choice
+  - some required features are not available in the container ( cEOS: MPLS, multicast, etc.)
+  - platform limitations (for ex., cEOS on ARM)
+  - failover testing (do not try to emulate software upgrade or phy link failure using cLab!)
+  - it's getting better every day!
+- Containerlab has growing and active community. Start here:
+  - [cLab quickstart](https://containerlab.dev/quickstart/)
+  - [cLab workshop for Arista cEOS-lab](https://github.com/arista-netdevops-community/emea-ambassadors-containerlab-aug-2022)
+
+---
+
+# The End of The Workshop
+
+<style scoped>
+section {background: linear-gradient(to bottom, #000000, #434343);}
+ul {font-size: 12px;}
+</style>
+
+![bg left](img/pexels-ann-h-7186206.jpg)
+
+`Questions?`
