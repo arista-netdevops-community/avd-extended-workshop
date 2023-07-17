@@ -2161,7 +2161,7 @@ ul {font-size: 12px;}
   - They are simple.
   - They allow assigning a simple shortcut to complex actions.
   - They are available by default on most Linux distributions.
-- We are simply going to use Makefile to create shortcuts to simplify AVD operations.
+- We are going to use Makefile to create shortcuts to simplify AVD operations.
 
 ---
 
@@ -2382,7 +2382,7 @@ ul {font-size: 12px;}
   ---
   # playbooks/avd-build-dc2.yml
   - name: Build configs for DC2
-  hosts: DC2_FABRIC
+    hosts: DC2_FABRIC
   ...
   ```
 
