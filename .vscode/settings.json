@@ -18,6 +18,9 @@
             ]
         }
     },
+    "markdown.copyFiles.destination": {
+        "*": "img/${documentBaseName}/"
+    },
     "markdown.marp.enableHtml": true,
     "yaml.schemas": {
         "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json": "file:///Users/pa/Documents/VSCode/github/simple-avd-repo/avd_inventory/playbooks/deploy.yml",

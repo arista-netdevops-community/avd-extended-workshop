@@ -4,14 +4,20 @@
 	"name": "avd_extended_workshop",
 	"build": {
         "dockerfile": "Dockerfile",
-	"args": {
-	    "_AVD_VERSION": "4.1.0",
-        "_CLAB_VERSION": "0.37.1"
-	}
+        "args": {
+            "_AVD_VERSION": "4.1.0",
+            "_CLAB_VERSION": "0.37.1",
+            "_RELEASE_DATE": "19.07.2023",
+            "_YQ_VERSION": "v4.34.1",
+            "_YQ_BINARY": "yq_linux_amd64",
+            "_AR_FILE_PATH": "/support/download/EOS-USA/Active Releases/4.29/EOS-4.29.3M/cEOS-lab/cEOS-lab-4.29.3M.tar.xz",
+            "_ARTOKEN": "${localEnv:ARTOKEN}"
+        }
     },
-    "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
+    // "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
+    "onCreateCommand": "docker import /home/vscode/tmp/ceos-lab-temp ceos-lab:latest; rm -rf /home/vscode/tmp/",
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:1": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2.2.0": {
             "version": "latest"
         },
         // add sshd to support gh cli codespace cp
@@ -29,7 +35,7 @@
         "vscode": {
             "extensions": [
                 // install Marp extension for VScode to build slides
-                "marp-team.marp-vscode",
+                // "marp-team.marp-vscode",
                 // git essentials
                 "piotrpalarz.vscode-gitignore-generator",
                 "mhutchie.git-graph",
