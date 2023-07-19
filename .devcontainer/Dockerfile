@@ -3,6 +3,9 @@ FROM mcr.microsoft.com/devcontainers/python:0-3.9-bullseye
 # change this for every release
 ARG _AVD_VERSION
 ARG _CLAB_VERSION
+ARG _RELEASE_DATE
+ARG _YQ_VERSION
+ARG _YQ_BINARY
 
 LABEL maintainer="Arista Ansible Team <ansible@arista.com>"
 LABEL com.example.version="0.1"
@@ -21,6 +24,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
+
+# install yq
+RUN wget https://github.com/mikefarah/yq/releases/download/${_YQ_VERSION}/${_YQ_BINARY} -O /usr/bin/yq \
+    && chmod +x /usr/bin/yq
 
 # switch user to vscode otherwise Ansible will be installed as root
 USER vscode

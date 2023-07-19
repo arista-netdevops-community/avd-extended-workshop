@@ -6,8 +6,11 @@
         "dockerfile": "Dockerfile",
 	"args": {
 	    "_AVD_VERSION": "4.1.0",
-        "_CLAB_VERSION": "0.37.1"
-	}
+        "_CLAB_VERSION": "0.37.1",
+        "_RELEASE_DATE": "19.07.2023",
+        "_YQ_VERSION": "v4.34.1",
+        "_YQ_BINARY": "yq_linux_amd64"
+    }
     },
     "onCreateCommand": "sudo apt-get update; sudo apt-get install -y chromium",
     "features": {
