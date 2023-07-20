@@ -2483,7 +2483,7 @@ Multiple Repositories Advantages
   - name: host2
     rack: pod1
     adapters:
-      - switch_ports: [Eth12, Eth12]
+      - switch_ports: [Ethernet12, Ethernet12]
         switches: [leaf1, leaf2]
         profile: TENANT_A
         port_channel:
@@ -2563,7 +2563,7 @@ Multiple Repositories Advantages
 
   ```yaml
   custom_structured_configuration_ethernet_interfaces:
-    Ethernet12/1:
+    - name: Ethernet12/1
       speed: forced 25gfull
   ```
 
