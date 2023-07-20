@@ -2563,7 +2563,7 @@ Multiple Repositories Advantages
 
   ```yaml
   custom_structured_configuration_ethernet_interfaces:
-    Ethernet12/1:
+    - name: Ethernet12/1
       speed: forced 25gfull
   ```
 
