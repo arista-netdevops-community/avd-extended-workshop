@@ -4,7 +4,7 @@ This workshop is introduction into DevOps for new and existing users of Arista A
 
 To access workshop material, please use following links:
 
-- [Interactive slides for presenting or reading in your web browser]((https://arista-netdevops-community.github.io/avd-extended-workshop/))
+- [Interactive slides for presenting or reading in your web browser]((https://arista-netdevops-community.github.io/avd-extended-workshop/)
 - [PDF copy of the slides for download](https://github.com/arista-netdevops-community/avd-extended-workshop/blob/gh-pages/avd_extended_workshop.pdf)
 
 > If you you have privileges to enable arista.com access token in `My Profile > Portal Access > Access Token`, please set ARTOKEN Codespaces secret BEFORE creating a codespace.  
